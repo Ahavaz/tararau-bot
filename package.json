@@ -1,0 +1,23 @@
+{
+  "name": "tararau-bot",
+  "version": "1.0.0",
+  "description": "A telegram chatbot capable of doing tararau stuff",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ahavaz/tararau-bot.git"
+  },
+  "keywords": [
+    "chatbot",
+    "tararau"
+  ],
+  "author": "Ahavaz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ahavaz/tararau-bot/issues"
+  },
+  "homepage": "https://github.com/Ahavaz/tararau-bot#readme"
+}
