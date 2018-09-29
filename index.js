@@ -1,7 +1,17 @@
 process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
-const token = process.env.TELEGRAM_CHATBOT_API_KEY || '689490724:AAGkfEPpeptNtBYVESJh_iO0b46dtOReNVo'
+const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
+
+const filterMsg = (userMsg, options) => 
+  options.filter(option => userMsg === option
+    || userMsg.startsWith(option + ' ')
+    || userMsg.startsWith(option + ',')
+    || userMsg.startsWith(option + '.')
+    || userMsg.startsWith(option + ';')
+    || userMsg.startsWith(option + ':')
+    || userMsg.startsWith(option + '!')
+    || userMsg.startsWith(option + '?'))
 
 bot.on('message', msg => {
   const userMsg = msg.text.toString().toLowerCase()
@@ -16,25 +26,9 @@ bot.on('message', msg => {
   const ow = ['ow', 'ei', 'psiu']
   const shit = ['tolete', 'merda', 'bosta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar']
 
-  const greetMatches = greetings.filter(message => 
-    userMsg === message 
-    || userMsg.startsWith(message + ' ')
-    || userMsg.startsWith(message + ',')
-    || userMsg.startsWith(message + '.')
-    || userMsg.startsWith(message + ';')
-    || userMsg.startsWith(message + ':')
-    || userMsg.startsWith(message + '!')
-    || userMsg.startsWith(message + '?'))
+  const greetMatches = filterMsg(userMsg, greetings)
 
-  const farewellMatches = farewells.filter(message =>
-    userMsg === message
-    || userMsg.startsWith(message + ' ')
-    || userMsg.startsWith(message + ',')
-    || userMsg.startsWith(message + '.')
-    || userMsg.startsWith(message + ';')
-    || userMsg.startsWith(message + ':')
-    || userMsg.startsWith(message + '!')
-    || userMsg.startsWith(message + '?'))
+  const farewellMatches = filterMsg(userMsg, farewells)
 
   const swearingsMatches = swearings.filter(message => userMsg.includes(message))
 
@@ -53,11 +47,11 @@ bot.on('message', msg => {
   } else if (veiMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, 'Diga')
   } else if (greetMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, 'E ae, Tararau!')
+    bot.sendMessage(msg.chat.id, `E ae, ${msg.from.first_name}!`)
   } else if (farewellMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, 'Vlw flw')
+    bot.sendMessage(msg.chat.id, `Flw, ${msg.from.first_name} o/`)
   } else if (swearingsMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, 'Mas que boca suja é essa?!')
+    bot.sendMessage(msg.chat.id, `Mas que boca suja é essa, ${msg.from.first_name}?!`)
   } else if (owMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, 'Hm')
   } else if (shitMatches.length !== 0) {
