@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/Ahavaz/tararau-bot/issues"
   },
-  "homepage": "https://github.com/Ahavaz/tararau-bot#readme"
+  "homepage": "https://github.com/Ahavaz/tararau-bot#readme",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.30.0"
+  }
 }
