@@ -6,21 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Ahavaz/tararau-bot.git"
-  },
   "keywords": [
     "chatbot",
+    "telegram",
     "tararau"
   ],
   "author": "Ahavaz",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Ahavaz/tararau-bot/issues"
-  },
-  "homepage": "https://github.com/Ahavaz/tararau-bot#readme",
   "dependencies": {
     "node-telegram-bot-api": "^0.30.0"
+  },
+  "engines": {
+    "node": "8.11.4"
   }
 }
