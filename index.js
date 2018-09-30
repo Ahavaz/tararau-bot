@@ -93,7 +93,7 @@ bot.on('message', msg => {
   } else if (greetMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.greetings))
   } else if (farewellMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.farewell))
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.farewells))
   } else if (shitMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.shit))
   }
