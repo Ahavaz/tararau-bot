@@ -52,17 +52,6 @@ bot.on('message', msg => {
   const userMsg = msg.text.toString().toLowerCase()
   const userName = msg.from.first_name
 
-  // const tararau = /ta+ra+ra+u+/
-  // const ayn = /a+y+n+/
-  // const laugh = /kk+/
-  // const top = /to+p*/
-  // const vei = ['vei', 'mano']
-  // const greetings = ['oi', 'oir', 'oie', 'oe', 'oer', 'olá', 'e ae', 'fala ae', 'falae', 'olar', 'hello', 'hey', 'hey there', 'hallo', 'hola', 'salut']
-  // const farewells = ['tchau', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'fui', 'até', 'ateh', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista']
-  // const swearings = [' da puta', 'fdp', 'se foder', 'te foder', 'se foderem', 'te foderem', 'vsf', ' no cu', 'tnc']
-  // const ow = ['ow', 'ei', 'psiu']
-  // const shit = ['tolete', 'merda', 'bosta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar']
-
   const greetMatches = filterMsg(userMsg, inputMsgs.greetings)
 
   const farewellMatches = filterMsg(userMsg, inputMsgs.farewells)
