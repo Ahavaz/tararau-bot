@@ -36,7 +36,7 @@ const outputMsgs = {
   top: ['Top', 'TOP', 'triceráTOPs', 'TOPázio', 'TOPizza', 'TOPeira', 'TOPster', 'TOPerson', 'TOPzera', 'TOPélio', 'TOPorens', 'TOPúlio', 'TOPorie', 'TOPucas', 'TOPinga', 'TOPleno', 'TOProfano', 'TOPrepotente', 'TOPolido', 'uTÓPico', 'isóTOPo', 'TOPada', 'TOPografia', 'TOPetada', 'TOPologia', 'orTOPedia', 'cenTOPeia', 'homoTOPia', 'ciTOPlasma', 'ecTOPlasma', 'onomaTOPeia', 'TOPovski'],
   greetings: ['E ae cutetu', 'E ae putetu', 'E ae cuzudu', 'E ae coroi', 'E ae tararau', 'Fala, cutetu', 'Fala, putetu', 'Fala, cuzudu', 'Fala, coroi', 'Fala, tararau'],
   farewells: ['Vlw flw', 'Vlw flws', 'Vlw cuteto', 'Vlws', 'Flw putetu', 'Flws', 'Xau tararau', 'Xaus', 'Hasta la vista, tararau', 'Até, cuzudu'],
-  swearings: ['Lava essa boca, tararau', 'Que boca suja é essa?!'],
+  swearings: ['Lava essa boca, tararau', 'Mas que boca suja é essa?!'],
   ow: ['Diga', 'Fale', 'Hm?'],
   shit: ['Caguei', 'Caguei!', 'CAGUEI', 'CAGUEI!', 'K-gay'],
   goodMorning: ['Bom dia seus poha!', 'Bom dia é o caralho', 'Bundinhaaa', 'Bom dia bbs', 'Bom dia nenês', 'Bom dia cutets', 'Bom dia putets', 'Bom dia cuzuds', 'Bom dia tararaus'],
@@ -106,12 +106,12 @@ bot.onText(/\/role/i, msg => {
     reply_to_message_id: msg.message_id,
     reply_markup: JSON.stringify({
       keyboard: [
-        [{ text: 'Hoje' }],
-        [{ text: 'Amanhã' }],
-        [{ text: 'Esse FDS'}]
+        ['Hoje'],
+        ['Amanhã'],
+        ['Esse FDS']
       ],
       resize_keyboard: true,
-      one_time_keyboard: true,
+      one_time_keyboard: false,
       selective: true
     })
   }
@@ -122,8 +122,10 @@ bot.onText(/\/role/i, msg => {
   //   console.log(msg.location.latitude)
   //   console.log(msg.location.longitude)
   // })
+
+  // bot.sendMessage(msg.chat.id, 'Que horas?', opts)
 })
 
 bot.onText(/\/help/i, msg => {
-  bot.sendMessage(msg.chat.id, 'Boa sorte, porque eu não vou te ajudar kakaka')
+  bot.sendMessage(msg.chat.id, 'Boa sorte, porque eu não vou te ajudar kakaka', {reply_to_message_id: msg.message_id})
 })
