@@ -3,6 +3,8 @@ const TelegramBot = require('node-telegram-bot-api')
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
 
+const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${GOOGLE_API_KEY}`
+
 const filterMsg = (userMsg, options) => 
   options.filter(option => userMsg === option
     || userMsg.startsWith(option + ' ')
@@ -16,7 +18,7 @@ const filterMsg = (userMsg, options) =>
 const inputMsgs = {
   tararau: /ta+ra+ra+u+/,
   ayn: /\b(a+(y|i)+n+)+\b/,
-  laugh: /(kk+)|(ha(ha)+)|(ah(ah)+)|(uhas(uhas)+)|(hue(hue)+)|(ahu(ahu)+)/,
+  laugh: /(kk+)|(ha(ha)+)|(ah(ah)+)|(uhas(uhas)+)|(hue(hue)+)|(ahu(ahu)+)|(hua(hua)+)/,
   top: /to+p/,
   greetings: ['oi', 'oir', 'oie', 'oe', 'oer', 'olá', 'e ae', 'fala ae', 'falae', 'olar', 'hello', 'hey', 'hallo', 'hola', 'salut'],
   farewells: ['tchau', 'tchaus', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'good bye', 'fuis', 'fuiz', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista', 'ciao'],
@@ -30,7 +32,7 @@ const inputMsgs = {
 const outputMsgs = {
   tararau: ['Tararau', 'TARARAU'],
   ayn: ['ayn', 'AYN'],
-  laugh: ['ha', 'ah', 'kk', 'uhas', 'hue', 'ahu'],
+  laugh: ['ha', 'ah', 'kk', 'uhas', 'hue', 'ahu', 'hua'],
   top: ['Top', 'TOP', 'triceráTOPs', 'TOPázio', 'TOPizza', 'TOPeira', 'TOPster', 'TOPerson', 'TOPzera', 'TOPélio', 'TOPorens', 'TOPúlio', 'TOPorie', 'TOPucas', 'TOPinga', 'TOPleno', 'TOProfano', 'TOPrepotente', 'TOPolido', 'uTÓPico', 'isóTOPo', 'TOPada', 'TOPografia', 'TOPetada', 'TOPologia', 'orTOPedia', 'cenTOPeia', 'homoTOPia', 'ciTOPlasma', 'ecTOPlasma', 'onomaTOPeia', 'TOPovski'],
   greetings: ['E ae cutetu', 'E ae putetu', 'E ae cuzudu', 'E ae coroi', 'E ae tararau', 'Fala, cutetu', 'Fala, putetu', 'Fala, cuzudu', 'Fala, coroi', 'Fala, tararau'],
   farewells: ['Vlw flw', 'Vlw flws', 'Vlw cuteto', 'Vlws', 'Flw putetu', 'Flws', 'Xau tararau', 'Xaus', 'Hasta la vista, tararau', 'Até, cuzudu'],
@@ -99,24 +101,29 @@ bot.on('message', msg => {
   }
 })
 
-bot.onText(/\/role/, msg => {
-  bot.sendMessage(msg.chat.id, 'Quando vocês querem meter o loko?')
+bot.onText(/\/role/i, msg => {
+  const opts = {
+    reply_to_message_id: msg.message_id,
+    reply_markup: JSON.stringify({
+      keyboard: [
+        [{ text: 'Hoje' }],
+        [{ text: 'Amanhã' }],
+        [{ text: 'Esse FDS'}]
+      ],
+      resize_keyboard: true,
+      one_time_keyboard: true,
+      selective: true
+    })
+  }
 
-  // const opts = {
-  //   reply_markup: JSON.stringify({
-  //     keyboard: [
-  //       [{ text: 'Location', request_location: true }],
-  //       [{ text: 'Contact', request_contact: true }],
-  //     ],
-  //     resize_keyboard: true,
-  //     one_time_keyboard: true,
-  //   })
-  // }
-
-  // bot.sendMessage(msg.chat.id, 'Contact and Location request', opts)
+  bot.sendMessage(msg.chat.id, 'Quando vocês querem meter o loko?', opts)
 
   // bot.on('location', msg => {
   //   console.log(msg.location.latitude)
   //   console.log(msg.location.longitude)
   // })
+})
+
+bot.onText(/\/help/i, msg => {
+  bot.sendMessage(msg.chat.id, 'Boa sorte, porque eu não vou te ajudar kakaka')
 })
