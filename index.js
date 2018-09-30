@@ -76,6 +76,10 @@ bot.on('message', msg => {
 
   if (swearingsMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.swearings))
+  } else if (goodMorningMatches.length !== 0) {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodMorning))
+  } else if (goodNightMatches.length !== 0) {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodNight))
   } else if (inputMsgs.ayn.test(userMsg)) {
     bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.ayn))
   } else if (inputMsgs.tararau.test(userMsg)) {
@@ -90,10 +94,6 @@ bot.on('message', msg => {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.greetings))
   } else if (farewellMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.farewell))
-  } else if (goodMorningMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodMorning))
-  } else if (goodNightMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodNight))
   } else if (shitMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.shit))
   }
