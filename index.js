@@ -15,28 +15,36 @@ const filterMsg = (userMsg, options) =>
 
 const inputMsgs = {
   tararau: /ta+ra+ra+u+/,
-  ayn: /^a+y+n+$/,
+  ayn: /\b(a+(y|i)+n+)+\b/,
   laugh: /(kk+)|(ha(ha)+)|(ah(ah)+)|(uhas(uhas)+)|(hue(hue)+)|(ahu(ahu)+)/,
   top: /to+p/,
-  vei: ['vei', 'mano'],
-  greetings: ['oi', 'oir', 'oie', 'oe', 'oer', 'olá', 'e ae', 'fala ae', 'falae', 'olar', 'hello', 'hey', 'hey there', 'hallo', 'hola', 'salut'],
-  farewells: ['tchau', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'fui', 'até', 'ateh', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista'],
+  greetings: ['oi', 'oir', 'oie', 'oe', 'oer', 'olá', 'e ae', 'fala ae', 'falae', 'olar', 'hello', 'hey', 'hallo', 'hola', 'salut'],
+  farewells: ['tchau', 'tchaus', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'good bye', 'fuis', 'fuiz', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista', 'ciao'],
   swearings: [' da puta', 'fdp', 'se foder', 'te foder', 'se foderem', 'te foderem', 'vsf', ' no cu', 'tnc'],
-  ow: ['ow', 'ei', 'psiu'],
-  shit: ['tolete', 'merda', 'bosta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar']
+  ow: ['ow', 'ei', 'psiu', 'vei', 'mano'],
+  shit: ['tolete', 'merda', 'bosta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar'],
+  goodMorning: ['bom dia', 'bomdia', 'bon dia', 'bondia', 'bun dia', 'bundia', 'bun dinha', 'bundinha', 'bou dia', 'boudia', 'good morning', 'morning', 'bonjour', 'buenos dias'],
+  goodNight: ['boa noit', 'boanoit', 'boua noit', 'bouanoit', 'boa night', 'boanight', 'boua night', 'bouanight', 'boa nait', 'boanait', 'boua nait', 'bouanait', 'good nait', 'goodnait', 'gud nait', 'gudnait', 'good night', 'goodnight', 'gud night', 'gudnight', 'buenas noches', 'buenasnoches']
 }
 
 const outputMsgs = {
+  tararau: ['Tararau', 'TARARAU'],
+  ayn: ['ayn', 'AYN'],
   laugh: ['ha', 'ah', 'kk', 'uhas', 'hue', 'ahu'],
   top: ['Top', 'TOP', 'triceráTOPs', 'TOPázio', 'TOPizza', 'TOPeira', 'TOPster', 'TOPerson', 'TOPzera', 'TOPélio', 'TOPorens', 'TOPúlio', 'TOPorie', 'TOPucas', 'TOPinga', 'TOPleno', 'TOProfano', 'TOPrepotente', 'TOPolido', 'uTÓPico', 'isóTOPo', 'TOPada', 'TOPografia', 'TOPetada', 'TOPologia', 'orTOPedia', 'cenTOPeia', 'homoTOPia', 'ciTOPlasma', 'ecTOPlasma', 'onomaTOPeia', 'TOPovski'],
-  ayn: ['ayn'],
-  tararau: ['Tararau', 'TARARAU']
+  greetings: ['E ae cutetu', 'E ae putetu', 'E ae cuzudu', 'E ae coroi', 'E ae tararau', 'Fala, cutetu', 'Fala, putetu', 'Fala, cuzudu', 'Fala, coroi', 'Fala, tararau'],
+  farewells: ['Vlw flw', 'Vlw flws', 'Vlw cuteto', 'Vlws', 'Flw putetu', 'Flws', 'Xau tararau', 'Xaus', 'Hasta la vista, tararau', 'Até, cuzudu'],
+  swearings: ['Lava essa boca, tararau', 'Que boca suja é essa?!'],
+  ow: ['Diga', 'Fale', 'Hm?'],
+  shit: ['Caguei', 'Caguei!', 'CAGUEI', 'CAGUEI!', 'K-gay'],
+  goodMorning: ['Bom dia seus poha!', 'Bom dia é o caralho', 'Bundinhaaa', 'Bom dia bbs', 'Bom dia nenês', 'Bom dia cutets', 'Bom dia putets', 'Bom dia cuzuds', 'Bom dia tararaus'],
+  goodNight: ['Boa noite cutetu', 'Boa noite putetu', 'Boa noite cuzudu', 'Boa noite tararau', 'Gudnait modafoca', 'Sonhe com as lhamas', 'Boa viagem astral']
 }
 
 const randomMsg = array =>
   array[Math.floor(Math.random() * array.length)]
 
-const getRandomInt = (min = 1, max = 5) =>
+const getRandomInt = (min = 2, max = 6) =>
   Math.floor(Math.random() * (max - min + 1)) + min
 
 const buildMsg = array => {
@@ -62,10 +70,12 @@ bot.on('message', msg => {
 
   const shitMatches = inputMsgs.shit.filter(message => userMsg.includes(message))
 
-  const veiMatches = inputMsgs.vei.filter(message => userMsg === message)
+  const goodMorningMatches = inputMsgs.goodMorning.filter(message => userMsg.startsWith(message))
+
+  const goodNightMatches = inputMsgs.goodNight.filter(message => userMsg.startsWith(message))
 
   if (swearingsMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, `Que boca suja é essa, ${userName}?!`)
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.swearings))
   } else if (inputMsgs.ayn.test(userMsg)) {
     bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.ayn))
   } else if (inputMsgs.tararau.test(userMsg)) {
@@ -74,16 +84,18 @@ bot.on('message', msg => {
     bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.laugh))
   } else if (inputMsgs.top.test(userMsg)) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.top))
-  } else if (veiMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, 'Diga')
-  } else if (greetMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, `E ae, ${userName}!`)
-  } else if (farewellMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, `Flw, ${userName} o/`)
   } else if (owMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, 'Hm')
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.ow))
+  } else if (greetMatches.length !== 0) {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.greetings))
+  } else if (farewellMatches.length !== 0) {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.farewell))
+  } else if (goodMorningMatches.length !== 0) {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodMorning))
+  } else if (goodNightMatches.length !== 0) {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodNight))
   } else if (shitMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, 'CAGUEI!')
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.shit))
   }
 })
 
