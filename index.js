@@ -2,8 +2,8 @@ process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
-const parameters = ''
-const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${GOOGLE_API_KEY}`
+
+// const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
 
 const filterMsg = (userMsg, options) => 
   options.filter(option => userMsg === option
