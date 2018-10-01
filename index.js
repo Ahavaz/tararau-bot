@@ -4,7 +4,7 @@ const moment = require('moment')
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
 
-// moment.locale('pt-br')
+moment.locale('pt-br')
 // const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
 
 const filterMsg = (userMsg, options) => 
@@ -65,7 +65,7 @@ const buildMsg = array => {
 const buildDayOptions = () =>
   [
     [`Hoje (${moment().format('D MMM')})`],
-    ['Buttons'],
+    [['Buttons'], [`Amanhã (${moment().add(1, 'days').format('D MMM')})`]],
     ['Layout']
   ]
   // const date = new Date()
