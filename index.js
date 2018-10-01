@@ -65,7 +65,7 @@ const buildMsg = array => {
 const buildDayOptions = () =>
   [
     [`Hoje (${moment().format('D MMM')})`],
-    [['Buttons'], [`Amanhã (${moment().add(1, 'days').format('D MMM')})`]],
+    ['Buttons', `Amanhã (${moment().add(1, 'days').format('D MMM')})`],
     ['Layout']
   ]
   // const date = new Date()
