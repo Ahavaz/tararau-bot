@@ -63,20 +63,20 @@ const buildMsg = array => {
 // moment("12-25-1995", "MM-DD-YYYY");
 
 const buildDayOptions = () =>
-  [
-    ['Testing'],
-    ['Buttons'],
-    ['Layout']
-  ]
+  // [
+  //   ['Testing'],
+  //   ['Buttons'],
+  //   ['Layout']
+  // ]
   // const date = new Date()
   // const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
   // const today = days[date.getDay()] // `date.getDate()/date.getMonth()`
-  // [
-  //   [[`Hoje (${moment().format('D MMM')})`], [`Amanhã (${moment().add(1, 'days').format('D MMM')})`]],
-  //   [[`${moment().add(2, 'days').format('dddd')} (${moment().add(2, 'days').format('D MMM')})`], [`${moment().add(3, 'days').format('dddd')} (${moment().add(3, 'days').format('D MMM')})`]],
-  //   [[`${moment().add(4, 'days').format('dddd')} (${moment().add(4, 'days').format('D MMM')})`], [`${moment().add(5, 'days').format('dddd')} (${moment().add(5, 'days').format('D MMM')})`]],
-  //   [[`${moment().add(6, 'days').format('dddd')} (${moment().add(6, 'days').format('D MMM')})`], [`Outra data`]],
-  // ]
+  [
+    [[`Hoje (${moment().format('D MMM')})`], [`Amanhã (${moment().add(1, 'days').format('D MMM')})`]],
+    [[`${moment().add(2, 'days').format('dddd')} (${moment().add(2, 'days').format('D MMM')})`], [`${moment().add(3, 'days').format('dddd')} (${moment().add(3, 'days').format('D MMM')})`]],
+    [[`${moment().add(4, 'days').format('dddd')} (${moment().add(4, 'days').format('D MMM')})`], [`${moment().add(5, 'days').format('dddd')} (${moment().add(5, 'days').format('D MMM')})`]],
+    [[`${moment().add(6, 'days').format('dddd')} (${moment().add(6, 'days').format('D MMM')})`], [`Outra data`]],
+  ]
 
 bot.on('message', msg => {
   const userMsg = msg.text.toString().toLowerCase()
@@ -132,13 +132,13 @@ bot.onText(/\/role/i, msg => {
     })
   })
 
-  bot.sendMessage(msg.chat.id, 'Partiu!', {
-    reply_to_message_id: msg.message_id,
-    reply_markup: {
-      remove_keyboard: true,
-      selective: true
-    }
-  })
+  // bot.sendMessage(msg.chat.id, 'Partiu!', {
+  //   reply_to_message_id: msg.message_id,
+  //   reply_markup: {
+  //     remove_keyboard: true,
+  //     selective: true
+  //   }
+  // })
 
     // console.log(msg.location.latitude)
     // console.log(msg.location.longitude)
