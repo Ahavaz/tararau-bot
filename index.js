@@ -63,15 +63,20 @@ const buildMsg = array => {
 // moment("12-25-1995", "MM-DD-YYYY");
 
 const buildDayOptions = () =>
+  [
+    ['Testing'],
+    ['Buttons'],
+    ['Layout']
+  ]
   // const date = new Date()
   // const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
   // const today = days[date.getDay()] // `date.getDate()/date.getMonth()`
-  [
-    [[`Hoje (${moment().format('D MMM')})`], [`Amanhã (${moment().add(1, 'days').format('D MMM')})`]],
-    [[`${moment().add(2, 'days').format('dddd')} (${moment().add(2, 'days').format('D MMM')})`], [`${moment().add(3, 'days').format('dddd')} (${moment().add(3, 'days').format('D MMM')})`]],
-    [[`${moment().add(4, 'days').format('dddd')} (${moment().add(4, 'days').format('D MMM')})`], [`${moment().add(5, 'days').format('dddd')} (${moment().add(5, 'days').format('D MMM')})`]],
-    [[`${moment().add(6, 'days').format('dddd')} (${moment().add(6, 'days').format('D MMM')})`], [`Outra data`]],
-  ]
+  // [
+  //   [[`Hoje (${moment().format('D MMM')})`], [`Amanhã (${moment().add(1, 'days').format('D MMM')})`]],
+  //   [[`${moment().add(2, 'days').format('dddd')} (${moment().add(2, 'days').format('D MMM')})`], [`${moment().add(3, 'days').format('dddd')} (${moment().add(3, 'days').format('D MMM')})`]],
+  //   [[`${moment().add(4, 'days').format('dddd')} (${moment().add(4, 'days').format('D MMM')})`], [`${moment().add(5, 'days').format('dddd')} (${moment().add(5, 'days').format('D MMM')})`]],
+  //   [[`${moment().add(6, 'days').format('dddd')} (${moment().add(6, 'days').format('D MMM')})`], [`Outra data`]],
+  // ]
 
 bot.on('message', msg => {
   const userMsg = msg.text.toString().toLowerCase()
