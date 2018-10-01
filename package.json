@@ -14,6 +14,7 @@
   "author": "Ahavaz",
   "license": "MIT",
   "dependencies": {
+    "moment": "^2.22.2",
     "node-telegram-bot-api": "^0.30.0"
   },
   "engines": {
