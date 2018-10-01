@@ -117,7 +117,7 @@ bot.on('message', msg => {
 })
 
 bot.onText(/\/role/i, msg => {
-  const opts = {
+  bot.sendMessage(msg.chat.id, 'Quando vocês querem meter o loko?', {
     reply_to_message_id: msg.message_id,
     reply_markup: JSON.stringify({
       keyboard: buildDayOptions(),
@@ -125,26 +125,18 @@ bot.onText(/\/role/i, msg => {
       one_time_keyboard: true,
       selective: true
     })
-  }
+  })
 
-  bot.sendMessage(msg.chat.id, 'Quando vocês querem meter o loko?', opts)
-
-  bot.on('message', msg => {
-    // const day = msg.text.toString().toLowerCase()
-    const opts = {
-      reply_to_message_id: msg.message_id,
-      reply_markup: {
-        remove_keyboard: true,
-        selective: true
-      }
+  bot.sendMessage(msg.chat.id, 'Partiu!', {
+    reply_to_message_id: msg.message_id,
+    reply_markup: {
+      remove_keyboard: true,
+      selective: true
     }
-
-    bot.sendMessage(msg.chat.id, 'Partiu!', opts)
-
+  })
 
     // console.log(msg.location.latitude)
     // console.log(msg.location.longitude)
-  })
 
   // bot.sendMessage(msg.chat.id, 'Que horas?', opts)
 })
