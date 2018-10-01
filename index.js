@@ -1,8 +1,10 @@
 process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
+const moment = require('moment')
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
 
+// moment.locale('pt-br')
 // const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
 
 const filterMsg = (userMsg, options) => 
@@ -58,6 +60,19 @@ const buildMsg = array => {
   return msg.repeat(getRandomInt())
 }
 
+// moment("12-25-1995", "MM-DD-YYYY");
+
+const buildDayOptions = () =>
+  // const date = new Date()
+  // const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+  // const today = days[date.getDay()] // `date.getDate()/date.getMonth()`
+  [
+    [[`Hoje (${moment().format('D MMM')})`], [`Amanhã (${moment().add(1, 'days').format('D MMM')})`]],
+    [[`${moment().add(2, 'days').format('dddd')} (${moment().add(2, 'days').format('D MMM')})`], [`${moment().add(3, 'days').format('dddd')} (${moment().add(3, 'days').format('D MMM')})`]],
+    [[`${moment().add(4, 'days').format('dddd')} (${moment().add(4, 'days').format('D MMM')})`], [`${moment().add(5, 'days').format('dddd')} (${moment().add(5, 'days').format('D MMM')})`]],
+    [[`${moment().add(6, 'days').format('dddd')} (${moment().add(6, 'days').format('D MMM')})`], [`Outra data`]],
+  ]
+
 bot.on('message', msg => {
   const userMsg = msg.text.toString().toLowerCase()
   const userName = msg.from.first_name
@@ -105,23 +120,31 @@ bot.onText(/\/role/i, msg => {
   const opts = {
     reply_to_message_id: msg.message_id,
     reply_markup: JSON.stringify({
-      keyboard: [
-        ['Hoje'],
-        ['Amanhã'],
-        ['Esse FDS']
-      ],
+      keyboard: buildDayOptions(),
       resize_keyboard: true,
-      one_time_keyboard: false,
+      one_time_keyboard: true,
       selective: true
     })
   }
 
   bot.sendMessage(msg.chat.id, 'Quando vocês querem meter o loko?', opts)
 
-  // bot.on('location', msg => {
-  //   console.log(msg.location.latitude)
-  //   console.log(msg.location.longitude)
-  // })
+  bot.on('message', msg => {
+    // const day = msg.text.toString().toLowerCase()
+    const opts = {
+      reply_to_message_id: msg.message_id,
+      reply_markup: {
+        remove_keyboard: true,
+        selective: true
+      }
+    }
+
+    bot.sendMessage(msg.chat.id, 'Partiu!', opts)
+
+
+    // console.log(msg.location.latitude)
+    // console.log(msg.location.longitude)
+  })
 
   // bot.sendMessage(msg.chat.id, 'Que horas?', opts)
 })
