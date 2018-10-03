@@ -1,13 +1,14 @@
 process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
 const moment = require('moment')
+const emoji = require('node-emoji')
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
 
 moment.locale('pt-br')
 // const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
 
-const filterMsg = (userMsg, options) => 
+const filterMsg = (userMsg, options) =>
   options.filter(option => userMsg === option
     || userMsg.startsWith(option + ' ')
     || userMsg.startsWith(option + ',')
@@ -26,7 +27,7 @@ const inputMsgs = {
   farewells: ['tchau', 'tchaus', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'good bye', 'fuis', 'fuiz', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista', 'ciao'],
   swearings: [' da puta', 'fdp', 'se foder', 'te foder', 'se foderem', 'te foderem', 'vsf', ' no cu', 'tnc'],
   ow: ['ow', 'ei', 'psiu', 'vei', 'véi', 'mano', 'cara', 'bicho'],
-  shit: ['tolete', 'merda', 'bosta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar'],
+  shit: ['tolete', 'merda', 'bosta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar', `${emoji.get('poop')}`],
   goodMorning: ['bom dia', 'bomdia', 'bon dia', 'bondia', 'bun dia', 'bundia', 'bun dinha', 'bundinha', 'bou dia', 'boudia', 'good morning', 'morning', 'bonjour', 'buenos dias'],
   goodNight: ['boa noit', 'boanoit', 'boua noit', 'bouanoit', 'boa night', 'boanight', 'boua night', 'bouanight', 'boa nait', 'boanait', 'boua nait', 'bouanait', 'good nait', 'goodnait', 'gud nait', 'gudnait', 'good night', 'goodnight', 'gud night', 'gudnight', 'buenas noches', 'buenasnoches']
 }
@@ -40,7 +41,7 @@ const outputMsgs = {
   farewells: ['Vlw flw', 'Vlw flws', 'Vlw cuteto', 'Vlws', 'Flw putetu', 'Flws', 'Xau tararau', 'Xaus', 'Hasta la vista, tararau', 'Até, cuzudu'],
   swearings: ['Lava essa boca, tararau', 'Mas que boca suja é essa?!'],
   ow: ['Diga', 'Fale', 'Hm?'],
-  shit: ['Caguei', 'Caguei!', 'CAGUEI', 'CAGUEI!', 'K-gay'],
+  shit: ['Caguei', 'Caguei!', 'CAGUEI', 'CAGUEI!', 'K-gay', `${emoji.get('poop')}`],
   goodMorning: ['Bom dia seus poha!', 'Bom dia é o caralho', 'Bundinhaaa', 'Bom dia bbs', 'Bom dia nenês', 'Bom dia cutets', 'Bom dia putets', 'Bom dia cuzuds', 'Bom dia tararaus'],
   goodNight: ['Boa noite cutetu', 'Boa noite putetu', 'Boa noite cuzudu', 'Boa noite tararau', 'Gudnait modafoca', 'Sonhe com as lhamas', 'Boa viagem astral']
 }
@@ -54,9 +55,9 @@ const getRandomInt = (min = 2, max = 6) =>
 const buildMsg = array => {
   let msg = randomMsg(array)
   if (array === outputMsgs.tararau)
-    return msg.slice(0,5) + msg.slice(5,6).repeat(getRandomInt()) + msg.slice(6)
+    return msg.slice(0, 5) + msg.slice(5, 6).repeat(getRandomInt()) + msg.slice(6)
   if (array === outputMsgs.ayn)
-    return msg.slice(0,1).repeat(getRandomInt()) + msg.slice(1)
+    return msg.slice(0, 1).repeat(getRandomInt()) + msg.slice(1)
   return msg.repeat(getRandomInt())
 }
 
@@ -117,6 +118,7 @@ bot.onText(/\/role/i, msg => {
   bot.sendMessage(msg.chat.id, 'Quando vocês querem meter o loko?', {
     reply_to_message_id: msg.message_id,
     reply_markup: {
+      force_reply: true,
       keyboard: buildDayOptions(),
       resize_keyboard: true,
       one_time_keyboard: true,
@@ -132,12 +134,12 @@ bot.onText(/\/role/i, msg => {
   //   }
   // })
 
-    // console.log(msg.location.latitude)
-    // console.log(msg.location.longitude)
+  // console.log(msg.location.latitude)
+  // console.log(msg.location.longitude)
 
   // bot.sendMessage(msg.chat.id, 'Que horas?', opts)
 })
 
 bot.onText(/\/help/i, msg => {
-  bot.sendMessage(msg.chat.id, 'Boa sorte, porque eu não vou te ajudar kakaka', {reply_to_message_id: msg.message_id})
+  bot.sendMessage(msg.chat.id, 'Boa sorte, porque eu não vou te ajudar kakaka', { reply_to_message_id: msg.message_id })
 })
