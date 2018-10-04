@@ -1,6 +1,5 @@
 process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
-// const moment = require('moment')
 const moment = require('moment-timezone')
 const emoji = require('node-emoji')
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
@@ -25,11 +24,11 @@ const inputMsgs = {
   ayn: /\b(a+(y|i)+n+)+\b/,
   laugh: /(kk+)|(ha(ha)+)|(ah(ah)+)|(uhas(uhas)+)|(hue(hue)+)|(ahu(ahu)+)|(hua(hua)+)/,
   top: /to+p/,
-  greetings: ['nhae', 'oi', 'oir', 'oie', 'oe', 'oer', 'olá', 'e ae', 'fala ae', 'falae', 'olar', 'hello', 'hey', 'hallo', 'hola', 'salut'],
-  farewells: ['tchau', 'tchaus', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'good bye', 'fuis', 'fuiz', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista', 'ciao'],
+  greeting: ['nhae', 'oi', 'oir', 'oie', 'oe', 'oer', 'olá', 'e ae', 'fala ae', 'falae', 'olar', 'hello', 'hey', 'hallo', 'hola', 'salut'],
+  farewell: ['tchau', 'tchaus', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'good bye', 'fuis', 'fuiz', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista', 'ciao'],
   swearings: [' da puta', 'fdp', 'se foder', 'te foder', 'se foderem', 'te foderem', 'vsf', ' no cu', ' seu cu', ' teu cu', 'tnc', 'tomanocu', 'tomanucu', ' te pariu', ' te paril', 'pqp'],
   ow: ['ow', 'ei', 'psiu', 'vei', 'véi', 'mano', 'cara', 'bicho'],
-  shit: ['tolete', 'merda', 'bosta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar', `${emoji.get('poop')}`],
+  shit: ['tolete', 'merda', 'bosta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar', emoji.emojify(':poop:')],
   goodMorning: ['bom dia', 'bomdia', 'bon dia', 'bondia', 'bun dia', 'bundia', 'bun dinha', 'bundinha', 'bou dia', 'boudia', 'good morning', 'morning', 'bonjour', 'buenos dias'],
   goodNight: ['boa noit', 'boanoit', 'boua noit', 'bouanoit', 'boa night', 'boanight', 'boua night', 'bouanight', 'boa nait', 'boanait', 'boua nait', 'bouanait', 'good nait', 'goodnait', 'gud nait', 'gudnait', 'good night', 'goodnight', 'gud night', 'gudnight', 'buenas noches', 'buenasnoches'],
   miou: /\bn((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\b|\b(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\b|^\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*$|^\s*(va+(y|i)+|vo+(u|w|y)*)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*$/
@@ -39,13 +38,13 @@ const outputMsgs = {
   tararau: ['Tararau', 'TARARAU'],
   ayn: ['ayn', 'AYN'],
   laugh: ['ha', 'ah', 'kk', 'uhas', 'hue', 'ahu', 'hua'],
-  top: [`Top ${emoji.get('ok_hand')}`, 'TOP', 'triceráTOPs', 'TOPázio', 'TOPizza', 'TOPeira', 'TOPster', 'TOPerson', 'TOPzera', 'TOPélio', 'TOPorens', 'TOPúlio', 'TOPorie', 'TOPucas', 'TOPinga', 'TOPleno', 'TOProfano', 'TOPrepotente', 'TOPolido', 'uTÓPico', 'isóTOPo', 'TOPada', 'TOPografia', 'TOPetada', 'TOPologia', 'orTOPedia', 'cenTOPeia', 'homoTOPia', 'ciTOPlasma', 'ecTOPlasma', 'onomaTOPeia', 'TOPovski'],
-  greetings: ['E ae cutetu', 'E ae putetu', 'E ae cuzudu', 'E ae coroi', 'E ae tararau', 'Fala, cutetu', 'Fala, putetu', 'Fala, cuzudu', 'Fala, coroi', 'Fala, tararau'],
-  farewells: ['Vlw flw', 'Vlw flws', 'Vlw cuteto', 'Vlws', 'Flw putetu', 'Flws', 'Xau tararau', 'Xaus', 'Hasta la vista, tararau', 'Até, cuzudu'],
-  swearings: ['Lava essa boca, tararau', 'Mas que boca suja é essa?!', 'Teu cu!', 'TEU CU', 'FowDaC', `Tu ${emoji.get('point_right')}${emoji.get('ok_hand')}`],
-  ow: [`Diga ${emoji.get('face_with_rolling_eyes')}`, 'Fale', 'Hm?', `Talk to the hand ${emoji.get('call_me_hand')}`],
-  shit: ['Caguei!', 'CAGUEI', 'K-gay', `${emoji.get('poop')}`],
-  goodMorning: [`Bom dia seus poha! ${emoji.get('angry')}`, `Bom dia é o caralho ${emoji.get('middle_finger')}`, `Bundinha seus troxa`, `Bom dia bbs ${emoji.get('high_brightness')}`, `Bom dia nenês ${emoji.get('sunny')}`, 'Bom dia cutets', 'Bom dia putets', 'Bom dia cuzuds', 'Bom dia tararaus'],
+  top: [emoji.emojify('Top :ok_hand:'), 'TOP', 'triceráTOPs', 'TOPázio', 'TOPizza', 'TOPeira', 'TOPster', 'TOPerson', 'TOPzera', 'TOPélio', 'TOPorens', 'TOPúlio', 'TOPorie', 'TOPucas', 'TOPinga', 'TOPleno', 'TOProfano', 'TOPrepotente', 'TOPolido', 'uTÓPico', 'isóTOPo', 'TOPada', 'TOPografia', 'TOPetada', 'TOPologia', 'orTOPedia', 'cenTOPeia', 'homoTOPia', 'ciTOPlasma', 'ecTOPlasma', 'onomaTOPeia', 'TOPovski'],
+  greeting: ['E ae cutetu', 'E ae putetu', 'E ae cuzudu', 'E ae coroi', 'E ae tararau', 'Fala, cutetu', 'Fala, putetu', 'Fala, cuzudu', 'Fala, coroi', 'Fala, tararau'],
+  farewell: ['Vlw flw', 'Vlw flws', 'Vlw cuteto', 'Vlws', 'Flw putetu', 'Flws', 'Xau tararau', 'Xaus', 'Hasta la vista, tararau', 'Até, cuzudu'],
+  swearings: ['Lava essa boca, tararau', 'Mas que boca suja é essa?!', 'Teu cu!', 'TEU CU', 'FowDaC', emoji.emojify(':point_up_2::point_right::ok_hand:')],
+  ow: [emoji.emojify('Diga :face_with_rolling_eyes:'), 'Fale', 'Hm?', emoji.emojify('Talk to the hand :call_me_hand:')],
+  shit: ['Caguei!', 'CAGUEI', 'K-gay', emoji.emojify(':poop:')],
+  goodMorning: [emoji.emojify('Bom dia seus poha! :angry:'), emoji.emojify('Bom dia é o caralho :middle_finger:'), 'Bundinha seus troxa', emoji.emojify('Bom dia bbs :high_brightness:'), emoji.emojify('Bom dia nenês :sunny:'), 'Bom dia cutets', 'Bom dia putets', 'Bom dia cuzuds', 'Bom dia tararaus'],
   goodNight: ['Boa noite cutetu', 'Boa noite putetu', 'Boa noite cuzudu', 'Boa noite tararau', 'Gudnait modafoca', 'Sonhe com as lhamas', 'Boa viagem astral'],
   miou: ['É um poha', 'Mas é um POHA', 'É um poha mesmo', 'Mas é um POHA mesmo', 'FoodaC', 'Nobody yes door'],
 }
@@ -77,20 +76,13 @@ const buildDayOptions = date => [
   [`${getNext(date)}`, `Outra data`]
 ]
 
-// const buildDayOptions = () => [
-//   [`Hoje (${moment().format('D MMM')})`, `Amanhã (${moment().add(1, 'days').format('D MMM')})`],
-//   [`${moment().add(2, 'days').format('dddd')} (${moment().add(2, 'days').format('D MMM')})`, `${moment().add(3, 'days').format('dddd')} (${moment().add(3, 'days').format('D MMM')})`],
-//   [`${moment().add(4, 'days').format('dddd')} (${moment().add(4, 'days').format('D MMM')})`, `${moment().add(5, 'days').format('dddd')} (${moment().add(5, 'days').format('D MMM')})`],
-//   [`${moment().add(6, 'days').format('dddd')} (${moment().add(6, 'days').format('D MMM')})`, `Outra data`]
-// ]
-
 bot.on('message', msg => {
   const userMsg = msg.text.toString().toLowerCase()
   // const userName = msg.from.first_name
 
-  const greetMatches = filterMsg(userMsg, inputMsgs.greetings)
+  const greetingMatches = filterMsg(userMsg, inputMsgs.greeting)
 
-  const farewellMatches = filterMsg(userMsg, inputMsgs.farewells)
+  const farewellMatches = filterMsg(userMsg, inputMsgs.farewell)
 
   const swearingsMatches = inputMsgs.swearings.filter(message => userMsg.includes(message))
 
@@ -103,11 +95,13 @@ bot.on('message', msg => {
   const goodNightMatches = inputMsgs.goodNight.filter(message => userMsg.startsWith(message))
 
   if (swearingsMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.swearings))
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.swearings), { reply_to_message_id: msg.message_id })
+  } else if (inputMsgs.miou.test(userMsg)) {
+    bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.miou), { reply_to_message_id: msg.message_id })
   } else if (goodMorningMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodMorning))
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodMorning), { reply_to_message_id: msg.message_id })
   } else if (goodNightMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodNight))
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodNight), { reply_to_message_id: msg.message_id })
   } else if (inputMsgs.ayn.test(userMsg)) {
     bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.ayn))
   } else if (inputMsgs.tararau.test(userMsg)) {
@@ -115,15 +109,15 @@ bot.on('message', msg => {
   } else if (inputMsgs.laugh.test(userMsg)) {
     bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.laugh))
   } else if (inputMsgs.top.test(userMsg)) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.top))
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.top), { reply_to_message_id: msg.message_id })
   } else if (owMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.ow))
-  } else if (greetMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.greetings))
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.ow), { reply_to_message_id: msg.message_id })
+  } else if (greetingMatches.length !== 0) {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.greeting), { reply_to_message_id: msg.message_id })
   } else if (farewellMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.farewells))
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.farewell), { reply_to_message_id: msg.message_id })
   } else if (shitMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.shit))
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.shit), { reply_to_message_id: msg.message_id })
   }
 })
 
@@ -138,19 +132,16 @@ bot.onText(/\/role/i, msg => {
       selective: true
     }
   })
+})
 
-  // bot.sendMessage(msg.chat.id, 'Partiu!', {
-  //   reply_to_message_id: msg.message_id,
-  //   reply_markup: {
-  //     remove_keyboard: true,
-  //     selective: true
-  //   }
-  // })
-
-  // console.log(msg.location.latitude)
-  // console.log(msg.location.longitude)
-
-  // bot.sendMessage(msg.chat.id, 'Que horas?', opts)
+bot.onText(/\/clear/i, msg => {
+  bot.sendMessage(msg.chat.id, emoji.emojify('Finalmente conseguiu se livrar desse teclado dos infernos hein :clap:'), {
+    reply_to_message_id: msg.message_id,
+    reply_markup: {
+      remove_keyboard: true,
+      selective: true
+    }
+  })
 })
 
 bot.onText(/\/help/i, msg => {
