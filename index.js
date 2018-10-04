@@ -97,7 +97,7 @@ bot.on('message', msg => {
   if (swearingsMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.swearings), { reply_to_message_id: msg.message_id })
   } else if (inputMsgs.miou.test(userMsg)) {
-    bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.miou), { reply_to_message_id: msg.message_id })
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.miou), { reply_to_message_id: msg.message_id })
   } else if (goodMorningMatches.length !== 0) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodMorning), { reply_to_message_id: msg.message_id })
   } else if (goodNightMatches.length !== 0) {
@@ -121,7 +121,7 @@ bot.on('message', msg => {
   }
 })
 
-bot.onText(/\/role/i, msg => {
+bot.onText(/^\/role/i, msg => {
   bot.sendMessage(msg.chat.id, 'Quando vocês querem meter o loko?', {
     reply_to_message_id: msg.message_id,
     reply_markup: {
@@ -134,7 +134,7 @@ bot.onText(/\/role/i, msg => {
   })
 })
 
-bot.onText(/\/clear/i, msg => {
+bot.onText(/^\/clear/i, msg => {
   bot.sendMessage(msg.chat.id, emoji.emojify('Finalmente conseguiu se livrar desse teclado dos infernos hein :clap:'), {
     reply_to_message_id: msg.message_id,
     reply_markup: {
@@ -144,6 +144,6 @@ bot.onText(/\/clear/i, msg => {
   })
 })
 
-bot.onText(/\/help/i, msg => {
+bot.onText(/^\/help/i, msg => {
   bot.sendMessage(msg.chat.id, 'Boa sorte, porque eu não vou te ajudar kakaka', { reply_to_message_id: msg.message_id })
 })
