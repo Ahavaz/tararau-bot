@@ -27,7 +27,7 @@ const inputMsgs = {
   amor: /\ba+m(a|o)+r+|ca+sa+(r+|me+n+to+)|re+la+(ci+o+na+me+n+to+|(c|ç)(a|ã)+o+)\s*s(e|é)+ri+(o|a)+|co+m+pro+(mi+ss+o+|me+ti+me+n+to+)\b/,
   greeting: ['nhae', 'oi', 'oir', 'oie', 'oe', 'oer', 'olá', 'e ae', 'fala ae', 'falae', 'olar', 'hello', 'hey', 'hallo', 'hola', 'salut'],
   farewell: ['tchau', 'tchaus', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'good bye', 'fuis', 'fuiz', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista', 'ciao'],
-  swearings: [' da puta', 'duma puta', 'fdp', 'se foder', 'te foder', 'se foderem', 'te foderem', 'se foda', 'te foda', 'vsf', ' no cu', 'seu cu', 'teu cu', 'tnc', 'tomanocu', 'tomanucu', 'te pariu', 'te paril', 'pqp', 'viado', 'veado', 'viadinho', 'veadinho', 'viadão', 'viadao', 'veadão', 'veadao', 'cuzao', 'cuzão', 'gay', 'baitola', 'bichona'],
+  swearings: [' da puta', 'duma puta', 'fdp', 'se foder', 'te foder', 'se foderem', 'te foderem', 'se foda', 'te foda', 'vsf', 'seu cu', 'teu cu', 'tnc', 'tomanocu', 'tomanucu', 'te pariu', 'te paril', 'pqp', 'viado', 'veado', 'viadinho', 'veadinho', 'viadão', 'viadao', 'veadão', 'veadao', 'cuzao', 'cuzão', 'gay', 'baitola', 'bichona'],
   ow: ['ow', 'ei', 'psiu', 'vei', 'véi', 'mano', 'cara', 'bicho'],
   shit: ['tolete', 'merda', 'mierda', 'bosta', 'boxta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar', emoji.emojify(':poop:'), 'bostinha', 'merdinha'],
   goodMorning: ['bom dia', 'bomdia', 'bon dia', 'bondia', 'bun dia', 'bundia', 'bun dinha', 'bundinha', 'bou dia', 'boudia', 'good morning', 'morning', 'bonjour', 'buenos dias'],
@@ -56,7 +56,7 @@ const outputMsgs = {
   love: [emoji.emojify(':black_heart:'), 'FooodaC', 'C-A-G-A-Y'],
   hate: [emoji.emojify(':broken_heart:'), 'FooodaC', 'C-A-G-A-Y'],
   enfia: ['Enfia no teu!', 'Me obrigue!'],
-  foda: ['Não tá fácil pra ninguém', 'Fica sussa, relaxa o ânus que DÁ tudo certo :ok_hand:']
+  foda: ['Não tá fácil pra ninguém', emoji.emojify('Fica sussa, relaxa o ânus que DÁ tudo certo :ok_hand:')]
 }
 
 const randomMsg = array =>
