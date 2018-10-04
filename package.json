@@ -1,24 +1,26 @@
 {
-  "name": "tararau-bot",
-  "version": "1.0.0",
-  "description": "A telegram chatbot capable of doing tararau stuff",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "chatbot",
-    "telegram",
-    "tararau"
-  ],
-  "author": "Ahavaz",
-  "license": "MIT",
-  "dependencies": {
-    "moment": "^2.22.2",
-    "node-telegram-bot-api": "^0.30.0"
-  },
-  "engines": {
-    "node": "8.11.4",
-    "npm": "6.4.1"
-  }
+	"name": "tararau-bot",
+	"version": "1.0.0",
+	"description": "A telegram chatbot capable of doing tararau stuff",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"chatbot",
+		"telegram",
+		"tararau"
+	],
+	"author": "Ahavaz",
+	"license": "MIT",
+	"dependencies": {
+		"moment": "^2.22.2",
+		"moment-timezone": "^0.5.21",
+		"node-emoji": "^1.8.1",
+		"node-telegram-bot-api": "^0.30.0"
+	},
+	"engines": {
+		"node": "8.12.0",
+		"npm": "6.4.1"
+	}
 }
