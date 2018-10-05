@@ -159,7 +159,7 @@ bot.onText(/^\/role/i, msg => {
     }
   }).then(() => {
     answerCallbacks[msg.chat.id] = answer => {
-      bot.sendMessage(msg.chat.id, `Você selecionou ${answer}`, {
+      bot.sendMessage(msg.chat.id, `Você selecionou ${answer.text}`, {
         reply_to_message_id: msg.message_id,
         reply_markup: {
           remove_keyboard: true,
