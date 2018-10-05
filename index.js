@@ -158,7 +158,7 @@ bot.onText(/^\/role/i, msg => {
       selective: true
     }
   }).then(() => {
-    answerCallbacks[chatId] = answer => {
+    answerCallbacks[msg.chat.id] = answer => {
       bot.sendMessage(msg.chat.id, `Você selecionou ${answer}`, {
         reply_to_message_id: msg.message_id,
         reply_markup: {
