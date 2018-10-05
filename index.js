@@ -173,7 +173,7 @@ bot.onText(/^\/role/i, msg => {
         }).then(() => {
           answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
             if (moment(answer.text, 'D/M/YY', 'pt-br', true).isValid()) {
-              bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text, 'D/M/YY').format('DD/MM/AA')}`, {
+              bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text, 'D/M/YY').format('DD/MM/YY')}`, {
                 reply_to_message_id: answer.message_id,
                 reply_markup: {
                   force_reply: true,
@@ -193,7 +193,7 @@ bot.onText(/^\/role/i, msg => {
           }
         })
       } else if (moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
-        bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY').format('DD/MM/AA')}`, {
+        bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY').format('DD/MM/YY')}`, {
           reply_to_message_id: answer.message_id,
           reply_markup: {
             remove_keyboard: true,
