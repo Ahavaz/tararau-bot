@@ -226,3 +226,7 @@ bot.onText(/^\/clear/i, msg => {
 bot.onText(/^\/help/i, msg => {
   bot.sendMessage(msg.chat.id, 'Boa sorte, porque eu não vou te ajudar kakaka', { reply_to_message_id: msg.message_id })
 })
+
+bot.onText(/^\/status/i, msg => {
+  bot.sendMessage(msg.chat.id, answerCallbacks, { reply_to_message_id: msg.message_id })
+})
