@@ -68,15 +68,15 @@ const getRandomInt = (min = 2, max = 6) =>
 const buildMsg = array => {
   let msg = randomMsg(array)
   if (array === outputMsgs.tararau)
-    return msg.slice(0, 5) + msg.slice(5, 6).repeat(getRandomInt()) + msg.slice(6)
+    return msg.slice(0, 5) + msg.slice(5, 6).repeat(getRandomInt(1, 5)) + msg.slice(6)
   if (array === outputMsgs.ayn)
-    return msg.slice(0, 1).repeat(getRandomInt()) + msg.slice(1)
+    return msg.split('').map(char => char.repeat(getRandomInt(1, 2))).join('')
   return msg.repeat(getRandomInt())
 }
 
 const getNext = date => {
   date.add(1, 'days')
-  return `${date.format('dddd')} (${date.format('D MMM')})`
+  return `${date.format('dddd')} (${date.format('D MMM YY')})`
 }
 
 const buildDayOptions = date => [
@@ -86,30 +86,28 @@ const buildDayOptions = date => [
   [`${getNext(date)}`, `Outra data`]
 ]
 
+const answerCallbacks = {}
+
 bot.on('message', msg => {
+  const callback = answerCallbacks[msg.chat.id]
+  if (callback) {
+    delete answerCallbacks[msg.chat.id]
+    return callback(msg)
+  }
+
   const userMsg = msg.text.toString().toLowerCase()
   // const userName = msg.from.first_name
 
   const greetingMatches = filterMsg(userMsg, inputMsgs.greeting)
-
   const farewellMatches = filterMsg(userMsg, inputMsgs.farewell)
-
   const swearingsMatches = inputMsgs.swearings.filter(message => userMsg.includes(message))
-
   const owMatches = inputMsgs.ow.filter(message => userMsg === message)
-
   const shitMatches = inputMsgs.shit.filter(message => userMsg.includes(message))
-
   const goodMorningMatches = inputMsgs.goodMorning.filter(message => userMsg.startsWith(message))
-
   const goodNightMatches = inputMsgs.goodNight.filter(message => userMsg.startsWith(message))
-
   const loveMatches = inputMsgs.love.filter(message => userMsg.includes(message))
-
   const hateMatches = inputMsgs.hate.filter(message => userMsg.includes(message))
-
   const enfiaMatches = inputMsgs.enfia.filter(message => userMsg.includes(message))
-
   const fodaMatches = inputMsgs.foda.filter(message => userMsg.includes(message))
 
   if (swearingsMatches.length !== 0) {
@@ -142,9 +140,9 @@ bot.on('message', msg => {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.shit), { reply_to_message_id: msg.message_id })
   } else if (inputMsgs.tararau.test(userMsg)) {
     bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.tararau))
-  } else if (inputMsgs.ayn.test(userMsg)) {
+  } else if (inputMsgs.ayn.test(userMsg) && getRandomInt(1, 2) === 1) {
     bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.ayn))
-  } else if (inputMsgs.laugh.test(userMsg)) {
+  } else if (inputMsgs.laugh.test(userMsg) && getRandomInt(1, 3) === 1) {
     bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.laugh))
   }
 })
@@ -158,6 +156,16 @@ bot.onText(/^\/role/i, msg => {
       resize_keyboard: true,
       one_time_keyboard: true,
       selective: true
+    }
+  }).then(() => {
+    answerCallbacks[chatId] = answer => {
+      bot.sendMessage(msg.chat.id, `Você selecionou ${answer}`, {
+        reply_to_message_id: msg.message_id,
+        reply_markup: {
+          remove_keyboard: true,
+          selective: true
+        }
+      })
     }
   })
 })
