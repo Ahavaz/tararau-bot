@@ -173,16 +173,15 @@ bot.onText(/^\/role/i, msg => {
         }).then(() => {
           answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
             if (moment(answer.text, 'D/M/YY', 'pt-br', true).isValid()) {
-              bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text, 'D/M/YY').format('DD/MM/YY')}`, {
+              return bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text, 'D/M/YY').format('DD/MM/YY')}`, {
                 reply_to_message_id: answer.message_id,
                 reply_markup: {
-                  force_reply: true,
                   remove_keyboard: true,
                   selective: true
                 }
               })
             } else {
-              bot.sendMessage(msg.chat.id, emoji.emojify('Data inválida, eu falei pra digitar no formato DD/MM/AA :facepalm:\nAgora repita todo processo, criatura'), {
+              return bot.sendMessage(msg.chat.id, emoji.emojify('Data inválida, preste atenção no formato :man-facepalming:\nAgora repita todo processo, criatura'), {
                 reply_to_message_id: answer.message_id,
                 reply_markup: {
                   remove_keyboard: true,
@@ -193,7 +192,7 @@ bot.onText(/^\/role/i, msg => {
           }
         })
       } else if (moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
-        bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY').format('DD/MM/YY')}`, {
+        return bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY').format('DD/MM/YY')}`, {
           reply_to_message_id: answer.message_id,
           reply_markup: {
             remove_keyboard: true,
@@ -201,7 +200,7 @@ bot.onText(/^\/role/i, msg => {
           }
         })
       } else {
-        bot.sendMessage(msg.chat.id, emoji.emojify('Use os botões, energúmeno :face_with_rolling_eyes:\nE faça tudo de novo pra deixar de ser besta'), {
+        return bot.sendMessage(msg.chat.id, emoji.emojify('Use os botões, energúmeno :face_with_rolling_eyes:\nE faça tudo de novo pra deixar de ser besta'), {
           reply_to_message_id: answer.message_id,
           reply_markup: {
             remove_keyboard: true,
