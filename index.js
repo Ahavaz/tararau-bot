@@ -228,5 +228,5 @@ bot.onText(/^\/help/i, msg => {
 })
 
 bot.onText(/^\/status/i, msg => {
-  bot.sendMessage(msg.chat.id, answerCallbacks, { reply_to_message_id: msg.message_id })
+  bot.sendMessage(msg.chat.id, `answerCallbacks: ${answerCallbacks}`, { reply_to_message_id: msg.message_id })
 })
