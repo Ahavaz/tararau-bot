@@ -86,17 +86,20 @@ const buildDayOptions = date => [
   [`${getNext(date)}`, `Outra data`]
 ]
 
+const roles = {}
+
 const answerCallbacks = {}
 
 bot.on('message', msg => {
-  const callback = answerCallbacks[msg.chat.id]
+  const callback = answerCallbacks[`${msg.chat.id}:${msg.from.id}`]
   if (callback) {
-    delete answerCallbacks[msg.chat.id]
+    delete answerCallbacks[`${msg.chat.id}:${msg.from.id}`]
     return callback(msg)
   }
 
   const userMsg = msg.text.toString().toLowerCase()
   // const userName = msg.from.first_name
+  // const userId = msg.from.id
 
   const greetingMatches = filterMsg(userMsg, inputMsgs.greeting)
   const farewellMatches = filterMsg(userMsg, inputMsgs.farewell)
@@ -158,14 +161,54 @@ bot.onText(/^\/role/i, msg => {
       selective: true
     }
   }).then(() => {
-    answerCallbacks[msg.chat.id] = answer => {
-      bot.sendMessage(msg.chat.id, `Você selecionou ${answer.text}`, {
-        reply_to_message_id: msg.message_id,
-        reply_markup: {
-          remove_keyboard: true,
-          selective: true
-        }
-      })
+    answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+      if (answer.text.toString().toLowerCase() === 'outra data') {
+        bot.sendMessage(msg.chat.id, 'Digite a data no formato DD/MM/AA', {
+          reply_to_message_id: answer.message_id,
+          reply_markup: {
+            force_reply: true,
+            remove_keyboard: true,
+            selective: true
+          }
+        }).then(() => {
+          answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+            if (moment(answer.text, 'D/M/YY', 'pt-br', true).isValid()) {
+              bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text, 'D/M/YY').format('DD/MM/AA')}`, {
+                reply_to_message_id: answer.message_id,
+                reply_markup: {
+                  force_reply: true,
+                  remove_keyboard: true,
+                  selective: true
+                }
+              })
+            } else {
+              bot.sendMessage(msg.chat.id, emoji.emojify('Data inválida, eu falei pra digitar no formato DD/MM/AA :facepalm:\nAgora repita todo processo, criatura'), {
+                reply_to_message_id: answer.message_id,
+                reply_markup: {
+                  remove_keyboard: true,
+                  selective: true
+                }
+              })
+            }
+          }
+        })
+      } else if (moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
+        bot.sendMessage(msg.chat.id, `Você escolheu ${moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY').format('DD/MM/AA')}`, {
+          reply_to_message_id: answer.message_id,
+          reply_markup: {
+            remove_keyboard: true,
+            selective: true
+          }
+        })
+      } else {
+        bot.sendMessage(msg.chat.id, emoji.emojify('Use os botões, energúmeno :face_with_rolling_eyes:\nE faça tudo de novo pra deixar de ser besta'), {
+          reply_to_message_id: answer.message_id,
+          reply_markup: {
+            remove_keyboard: true,
+            selective: true
+          }
+        })
+      }
     }
   })
 })
