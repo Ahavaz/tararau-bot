@@ -252,7 +252,7 @@ bot.onText(/^\/role\b/i, msg => {
         })
       } else if (moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
         const date = moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
-        bot.sendMessage(msg.chat.id, `Você escolheu ${date.format('DD/MM/YY')} (${date.format('dddd')})`, {
+        bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')} (${date.format('dddd')}), qual horário (HH:mm)?`, {
           reply_to_message_id: answer.message_id,
           reply_markup: {
             remove_keyboard: true,
@@ -304,6 +304,7 @@ bot.onText(/^\/niver\b/i, msg => {
             }
           }).then(() => {
             answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+              console.log(JSON.stringify(answer))
               if (answer.text.toString().toLowerCase() === 'certamente') {
                 const sign = getSign(date).filter(sign => date.within(sign.range))[0]
                 tararaus.push({ userId: msg.from.id, userName: msg.from.first_name, signName: sign.name, signSymbol: sign.symbol, birthdate: date })
