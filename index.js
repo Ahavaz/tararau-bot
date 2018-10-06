@@ -314,6 +314,9 @@ bot.onText(/^\/niver\b/i, msg => {
                     remove_keyboard: true,
                     selective: true
                   }
+                }).catch(error => {
+                  console.log(error.code)
+                  console.log(error.response.body)
                 })
               } else {
                 bot.sendMessage(msg.chat.id, 'Repita o processo e vê se não erra dessa vez', {
@@ -366,4 +369,9 @@ bot.onText(/^\/help\b/i, msg => {
 
 bot.onText(/^\/status\b/i, msg => {
   bot.sendMessage(msg.chat.id, `answerCallbacks: ${JSON.stringify(answerCallbacks)}`, { reply_to_message_id: msg.message_id })
+})
+
+bot.on('polling_error', error => {
+  console.log(error.code)
+  console.log(error.response.body)
 })
