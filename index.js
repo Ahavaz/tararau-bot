@@ -307,10 +307,11 @@ bot.onText(/^\/niver\b/i, msg => {
               console.log(JSON.stringify(answer))
               if (answer.text.toString().toLowerCase() === 'certamente') {
                 const sign = getSign(date).filter(sign => date.within(sign.range))[0]
-                tararaus.push({ userId: msg.from.id, userName: msg.from.first_name, signName: sign.name, signSymbol: sign.symbol, birthdate: date })
+                // tararaus.push({ userId: msg.from.id, userName: msg.from.first_name, signName: sign.name, signSymbol: sign.symbol, birthdate: date })
                 bot.sendMessage(msg.chat.id, `Data armazenada com sucesso... bom saber que você é do signo de ${sign.name} ${sign.symbol}`, {
                   reply_to_message_id: answer.message_id,
                   reply_markup: {
+                    force_reply: true,
                     remove_keyboard: true,
                     selective: true
                   }
