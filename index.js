@@ -93,29 +93,29 @@ const buildYesNoOptions = () => [
 
 const getSign = date => [
   // Aries
-  { name: 'áries', symbol: emoji.aries, range: moment.range(moment(`${date.get('year')}-03-21`), moment(`${date.get('year')}-04-19`)) },
+  { name: 'áries', symbol: emoji.find('aries').emoji, range: moment.range(moment(`${date.get('year')}-03-21`), moment(`${date.get('year')}-04-19`)) },
   // Taurus
-  { name: 'touro', symbol: emoji.taurus, range: moment.range(moment(`${date.get('year')}-04-20`), moment(`${date.get('year')}-05-20`)) },
+  { name: 'touro', symbol: emoji.find('taurus').emoji, range: moment.range(moment(`${date.get('year')}-04-20`), moment(`${date.get('year')}-05-20`)) },
   // Gemini
-  { name: 'gêmeos', symbol: emoji.gemini, range: moment.range(moment(`${date.get('year')}-05-21`), moment(`${date.get('year')}-06-21`)) },
+  { name: 'gêmeos', symbol: emoji.find('gemini').emoji, range: moment.range(moment(`${date.get('year')}-05-21`), moment(`${date.get('year')}-06-21`)) },
   // Cancer
-  { name: 'câncer', symbol: emoji.cancer, range: moment.range(moment(`${date.get('year')}-06-22`), moment(`${date.get('year')}-07-22`)) },
+  { name: 'câncer', symbol: emoji.find('cancer').emoji, range: moment.range(moment(`${date.get('year')}-06-22`), moment(`${date.get('year')}-07-22`)) },
   // Leo
-  { name: 'leão', symbol: emoji.leo, range: moment.range(moment(`${date.get('year')}-07-23`), moment(`${date.get('year')}-08-22`)) },
+  { name: 'leão', symbol: emoji.find('leo').emoji, range: moment.range(moment(`${date.get('year')}-07-23`), moment(`${date.get('year')}-08-22`)) },
   // Virgo
-  { name: 'virgem', symbol: emoji.virgo, range: moment.range(moment(`${date.get('year')}-08-23`), moment(`${date.get('year')}-09-22`)) },
+  { name: 'virgem', symbol: emoji.find('virgo').emoji, range: moment.range(moment(`${date.get('year')}-08-23`), moment(`${date.get('year')}-09-22`)) },
   // Libra
-  { name: 'libra', symbol: emoji.libra, range: moment.range(moment(`${date.get('year')}-09-23`), moment(`${date.get('year')}-10-22`)) },
+  { name: 'libra', symbol: emoji.find('libra').emoji, range: moment.range(moment(`${date.get('year')}-09-23`), moment(`${date.get('year')}-10-22`)) },
   // Scorpio
-  { name: 'escorpião', symbol: emoji.scorpius, range: moment.range(moment(`${date.get('year')}-10-23`), moment(`${date.get('year')}-11-21`)) },
+  { name: 'escorpião', symbol: emoji.find('scorpius').emoji, range: moment.range(moment(`${date.get('year')}-10-23`), moment(`${date.get('year')}-11-21`)) },
   // Sagittarius
-  { name: 'sagitário', symbol: emoji.sagittarius, range: moment.range(moment(`${date.get('year')}-11-22`), moment(`${date.get('year')}-12-21`)) },
+  { name: 'sagitário', symbol: emoji.find('sagittarius').emoji, range: moment.range(moment(`${date.get('year')}-11-22`), moment(`${date.get('year')}-12-21`)) },
   // Capricorn
-  { name: 'capricórnio', symbol: emoji.capricorn, range: moment.range(moment(`${date.get('year')}-12-22`), moment(`${date.get('year')}-01-19`)) },
+  { name: 'capricórnio', symbol: emoji.find('capricorn').emoji, range: moment.range(moment(`${date.get('year')}-12-22`), moment(`${date.get('year')}-01-19`)) },
   // Aquarius
-  { name: 'aquário', symbol: emoji.aquarius, range: moment.range(moment(`${date.get('year')}-01-20`), moment(`${date.get('year')}-02-18`)) },
+  { name: 'aquário', symbol: emoji.find('aquarius').emoji, range: moment.range(moment(`${date.get('year')}-01-20`), moment(`${date.get('year')}-02-18`)) },
   // Pisces
-  { name: 'peixes', symbol: emoji.pisces, range: moment.range(moment(`${date.get('year')}-02-19`), moment(`${date.get('year')}-03-20`)) },
+  { name: 'peixes', symbol: emoji.find('pisces').emoji, range: moment.range(moment(`${date.get('year')}-02-19`), moment(`${date.get('year')}-03-20`)) },
 ]
 
 const calcBirthday = () =>
@@ -243,7 +243,7 @@ bot.onText(/^\/role\b/i, msg => {
           }
         })
       } else if (answer.text.toString().toLowerCase() === 'mudei de ideia') {
-        bot.sendMessage(msg.chat.id, `Vai ti toma no cu então ${answer.from.first_name} ${emoji.upside_down_face}`, {
+        bot.sendMessage(msg.chat.id, `Vai ti toma no cu então ${answer.from.first_name} ${emoji.find('upside_down_face').emoji}`, {
           reply_to_message_id: answer.message_id,
           reply_markup: {
             remove_keyboard: true,
@@ -260,7 +260,7 @@ bot.onText(/^\/role\b/i, msg => {
           }
         })
       } else {
-        bot.sendMessage(msg.chat.id, `Use os botões, energúmeno ${emoji.face_with_rolling_eyes}\nE faça tudo de novo pra deixar de ser besta`, {
+        bot.sendMessage(msg.chat.id, `Use os botões, energúmeno ${emoji.find('face_with_rolling_eyes').emoji}\nE faça tudo de novo pra deixar de ser besta`, {
           reply_to_message_id: answer.message_id,
           reply_markup: {
             remove_keyboard: true,
@@ -282,7 +282,7 @@ bot.onText(/^\/niver\b/i, msg => {
       }
     })
   } else {
-    bot.sendMessage(msg.chat.id, `Por gentileza, insira a data (DD/MM/AAAA) em que sua mãe te pariu ${emoji.slightly_smiling_face}`, {
+    bot.sendMessage(msg.chat.id, `Por gentileza, insira a data (DD/MM/AAAA) em que sua mãe te pariu ${emoji.find('slightly_smiling_face').emoji}`, {
       reply_to_message_id: msg.message_id,
       reply_markup: {
         force_reply: true,
@@ -293,7 +293,7 @@ bot.onText(/^\/niver\b/i, msg => {
       answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
         if (moment(answer.text, 'D/M/YYYY', 'pt-br', true).isValid()) {
           const date = moment(answer.text, 'D/M/YYYY')
-          bot.sendMessage(msg.chat.id, `Você nasceu dia ${date.format('D de MMMM de YYYY')} (${date.format('dddd')})?`, {
+          bot.sendMessage(msg.chat.id, `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY')} (${date.format('dddd')})?`, {
             reply_to_message_id: answer.message_id,
             reply_markup: {
               force_reply: true,
@@ -304,7 +304,7 @@ bot.onText(/^\/niver\b/i, msg => {
             }
           }).then(() => {
             answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
-              if (answer.text === 'Certamente') {
+              if (answer.text.toString().toLowerCase() === 'certamente') {
                 const sign = getSign(date).filter(sign => date.within(sign.range))[0]
                 tararaus.push({ userId: msg.from.id, userName: msg.from.first_name, signName: sign.name, signSymbol: sign.symbol, birthdate: date })
                 bot.sendMessage(msg.chat.id, `Data armazenada com sucesso... bom saber que você é do signo de ${sign.name} ${sign.symbol}`, {
@@ -340,7 +340,7 @@ bot.onText(/^\/niver\b/i, msg => {
 })
 
 bot.onText(/^\/bdays\b/i, msg => {
-  bot.sendMessage(msg.chat.id, `Próximos aniversariantes ${emoji.birthday}\n${getBirthdays().join()}`, {
+  bot.sendMessage(msg.chat.id, `Próximos aniversariantes ${emoji.find('birthday').emoji}\n${getBirthdays().join()}`, {
     reply_to_message_id: msg.message_id,
     reply_markup: {
       remove_keyboard: true,
