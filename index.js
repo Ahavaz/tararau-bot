@@ -47,7 +47,7 @@ const outputMsgs = {
   amor: ['Deus me free', 'Tô fora', 'Nem fodendo'],
   greeting: ['E ae cutetu', 'E ae putetu', 'E ae cuzudu', 'E ae coroi', 'E ae tararau', 'Fala, cutetu', 'Fala, putetu', 'Fala, cuzudu', 'Fala, coroi', 'Fala, tararau'],
   farewell: ['Vlw flw', 'Vlw flws', 'Vlw cuteto', 'Vlws', 'Flw putetu', 'Flws', 'Xau tararau', 'Xaus', 'Hasta la vista, tararau', 'Até, cuzudu'],
-  swearings: ['Lava essa boca, tararau', 'Mas que boca suja é essa?!', 'Teu cu!', 'TEU CU', '', `${emoji.point_up_2}${point_right}${ok_hand}`],
+  swearings: ['Lava essa boca, tararau', 'Mas que boca suja é essa?!', 'Teu cu!', 'TEU CU', '', `${emoji.point_up_2}${emoji.point_right}${emoji.ok_hand}`],
   ow: ['Diga..', 'Fale', `Lá vem ${emoji.face_with_rolling_eyes}`],
   shit: ['Caguei!', 'CAGUEI', 'K-gay', `${emoji.poop}`],
   goodMorning: userName => [`Bom dia seus poha! ${emoji.angry}`, `Bom dia é o caralho ${emoji.middle_finger}`, 'Bundinha seus troxa', `Boudia bbs ${emoji.high_brightness}`, `Bom dia nenês ${emoji.sunny}`, `Bom dia cutetu ${userName}`, `Bom dia putetu ${userName}`, `Bom dia ${userName} cuzudin`, `Bom dia ${userName}-tararau`],
