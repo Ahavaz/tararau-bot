@@ -29,7 +29,7 @@ const inputMsgs = {
   farewell: ['tchau', 'tchaus', 'xau', 'xaus', 'flw', 'flws', 'vlw flw', 'adios', 'adeus', 'bye', 'goodbye', 'good bye', 'fuis', 'fuiz', 'até já', 'ateh jah', 'ateh ja', 'até mais', 'ateh mais', 'até logo', 'ateh logo', 'cya', 'see ya', 'see you', 'hasta la vista', 'ciao'],
   swearings: [' da puta', 'duma puta', 'fdp', 'se foder', 'te foder', 'se foderem', 'te foderem', 'se foda', 'te foda', 'vsf', 'seu cu', 'teu cu', 'tnc', 'tomanocu', 'tomanucu', 'te pariu', 'te paril', 'pqp', 'viado', 'veado', 'viadinho', 'veadinho', 'viadão', 'viadao', 'veadão', 'veadao', 'cuzao', 'cuzão', 'gay', 'baitola', 'bichona', 'imbecil', 'retardado'],
   ow: ['ow', 'ei', 'psiu', 'vei', 'véi', 'mano', 'cara', 'bicho'],
-  shit: ['tolete', 'merda', 'mierda', 'bosta', 'boxta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar', `${emoji.poop}`, 'bostinha', 'merdinha'],
+  shit: ['tolete', 'merda', 'mierda', 'bosta', 'boxta', 'cocô', 'shit', 'caguei', 'cagou', 'cagaram', 'cagando', 'cagar', `${emoji.find('poop').emoji}`, 'bostinha', 'merdinha'],
   goodMorning: ['bom dia', 'bomdia', 'bon dia', 'bondia', 'bun dia', 'bundia', 'bun dinha', 'bundinha', 'bou dia', 'boudia', 'good morning', 'morning', 'bonjour', 'buenos dias'],
   goodNight: ['boa noit', 'boanoit', 'boua noit', 'bouanoit', 'boa night', 'boanight', 'boua night', 'bouanight', 'boa nait', 'boanait', 'boua nait', 'bouanait', 'good nait', 'goodnait', 'gud nait', 'gudnait', 'good night', 'goodnight', 'gud night', 'gudnight', 'buenas noches', 'buenasnoches'],
   miou: /\bn((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\b|\b(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\b|^\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*$|^\s*(va+(y|i)+|vo+(u|w|y)*)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*$/,
@@ -43,20 +43,20 @@ const outputMsgs = {
   tararau: ['Tararau', 'TARARAU'],
   ayn: ['ayn', 'AYN'],
   laugh: ['ha', 'ah', 'kk', 'uhas', 'hue', 'ahu', 'hua'],
-  top: [`Top ${emoji.ok_hand}`, 'TOP', 'triceráTOPs', 'TOPázio', 'TOPizza', 'TOPeira', 'TOPster', 'TOPerson', 'TOPzera', 'TOPélio', 'TOPorens', 'TOPúlio', 'TOPorie', 'TOPucas', 'TOPinga', 'TOPleno', 'TOProfano', 'TOPrepotente', 'TOPolido', 'uTÓPico', 'isóTOPo', 'TOPada', 'TOPografia', 'TOPetada', 'TOPologia', 'orTOPedia', 'cenTOPeia', 'homoTOPia', 'ciTOPlasma', 'ecTOPlasma', 'onomaTOPeia', 'TOPovski'],
+  top: [`Top ${emoji.find('ok_hand').emoji}`, 'TOP', 'triceráTOPs', 'TOPázio', 'TOPizza', 'TOPeira', 'TOPster', 'TOPerson', 'TOPzera', 'TOPélio', 'TOPorens', 'TOPúlio', 'TOPorie', 'TOPucas', 'TOPinga', 'TOPleno', 'TOProfano', 'TOPrepotente', 'TOPolido', 'uTÓPico', 'isóTOPo', 'TOPada', 'TOPografia', 'TOPetada', 'TOPologia', 'orTOPedia', 'cenTOPeia', 'homoTOPia', 'ciTOPlasma', 'ecTOPlasma', 'onomaTOPeia', 'TOPovski'],
   amor: ['Deus me free', 'Tô fora', 'Nem fodendo'],
   greeting: ['E ae cutetu', 'E ae putetu', 'E ae cuzudu', 'E ae coroi', 'E ae tararau', 'Fala, cutetu', 'Fala, putetu', 'Fala, cuzudu', 'Fala, coroi', 'Fala, tararau'],
   farewell: ['Vlw flw', 'Vlw flws', 'Vlw cuteto', 'Vlws', 'Flw putetu', 'Flws', 'Xau tararau', 'Xaus', 'Hasta la vista, tararau', 'Até, cuzudu'],
-  swearings: ['Lava essa boca, tararau', 'Mas que boca suja é essa?!', 'Teu cu!', 'TEU CU', '', `${emoji.point_up_2}${emoji.point_right}${emoji.ok_hand}`],
-  ow: ['Diga..', 'Fale', `Lá vem ${emoji.face_with_rolling_eyes}`],
-  shit: ['Caguei!', 'CAGUEI', 'K-gay', `${emoji.poop}`],
-  goodMorning: userName => [`Bom dia seus poha! ${emoji.angry}`, `Bom dia é o caralho ${emoji.middle_finger}`, 'Bundinha seus troxa', `Boudia bbs ${emoji.high_brightness}`, `Bom dia nenês ${emoji.sunny}`, `Bom dia cutetu ${userName}`, `Bom dia putetu ${userName}`, `Bom dia ${userName} cuzudin`, `Bom dia ${userName}-tararau`],
+  swearings: ['Lava essa boca, tararau', 'Mas que boca suja é essa?!', 'Teu cu!', 'TEU CU', '', `${emoji.find('point_up_2').emoji}${emoji.find('point_right').emoji}${emoji.find('ok_hand').emoji}`],
+  ow: ['Diga..', 'Fale', `Lá vem ${emoji.find('face_with_rolling_eyes').emoji}`],
+  shit: ['Caguei!', 'CAGUEI', 'K-gay', `${emoji.find('poop').emoji}`],
+  goodMorning: userName => [`Bom dia seus poha! ${emoji.find('angry').emoji}`, `Bom dia é o caralho ${emoji.find('middle_finger').emoji}`, 'Bundinha seus troxa', `Boudia bbs ${emoji.find('high_brightness').emoji}`, `Bom dia nenês ${emoji.find('sunny').emoji}`, `Bom dia cutetu ${userName}`, `Bom dia putetu ${userName}`, `Bom dia ${userName} cuzudin`, `Bom dia ${userName} - tararau`],
   goodNight: ['Boa noite cutetu', 'Boa noite putetu', 'Boa noite cuzudu', 'Boa noite tararau', 'Gudnait modafoca', 'Sonhe com as lhamas', 'Boa viagem astral'],
   miou: ['É UM POHA', 'MAS É UM POHA', 'É UM POHA MESMO', 'MAS É UM POHA MESMO', 'FoodaC', 'Nobody yes door', 'Se fodeu', 'Tomou no meio'],
-  love: [`${emoji.purple_heart}`, 'FooodaC', 'C-A-G-A-Y'],
-  hate: [`${emoji.broken_heart}`, 'FooodaC', 'C-A-G-A-Y'],
+  love: [`${emoji.find('purple_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
+  hate: [`${emoji.find('broken_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
   enfia: ['Enfia no teu!', 'Me obrigue!'],
-  foda: ['Não tá fácil pra ninguém', `Fica sussa, relaxa o esfíncter que dá tudo certo ${emoji.ok_hand}`]
+  foda: ['Não tá fácil pra ninguém', `Fica sussa, relaxa o esfíncter que dá tudo certo ${emoji.find('ok_hand').emoji}`]
 }
 
 const randomMsg = array =>
@@ -93,29 +93,29 @@ const buildYesNoOptions = () => [
 
 const getSign = date => [
   // Aries
-  { name: 'áries', symbol: emoji.find('aries').emoji, range: moment.range(moment(`${date.get('year')}-03-21`), moment(`${date.get('year')}-04-19`)) },
+  { name: 'áries', symbol: emoji.find('aries').emoji, range: moment.range(moment(`${date.get('year')} - 03 - 21`), moment(`${date.get('year')} - 04 - 19`)) },
   // Taurus
-  { name: 'touro', symbol: emoji.find('taurus').emoji, range: moment.range(moment(`${date.get('year')}-04-20`), moment(`${date.get('year')}-05-20`)) },
+  { name: 'touro', symbol: emoji.find('taurus').emoji, range: moment.range(moment(`${date.get('year')} - 04 - 20`), moment(`${date.get('year')} - 05 - 20`)) },
   // Gemini
-  { name: 'gêmeos', symbol: emoji.find('gemini').emoji, range: moment.range(moment(`${date.get('year')}-05-21`), moment(`${date.get('year')}-06-21`)) },
+  { name: 'gêmeos', symbol: emoji.find('gemini').emoji, range: moment.range(moment(`${date.get('year')} - 05 - 21`), moment(`${date.get('year')} - 06 - 21`)) },
   // Cancer
-  { name: 'câncer', symbol: emoji.find('cancer').emoji, range: moment.range(moment(`${date.get('year')}-06-22`), moment(`${date.get('year')}-07-22`)) },
+  { name: 'câncer', symbol: emoji.find('cancer').emoji, range: moment.range(moment(`${date.get('year')} - 06 - 22`), moment(`${date.get('year')} - 07 - 22`)) },
   // Leo
-  { name: 'leão', symbol: emoji.find('leo').emoji, range: moment.range(moment(`${date.get('year')}-07-23`), moment(`${date.get('year')}-08-22`)) },
+  { name: 'leão', symbol: emoji.find('leo').emoji, range: moment.range(moment(`${date.get('year')} - 07 - 23`), moment(`${date.get('year')} - 08 - 22`)) },
   // Virgo
-  { name: 'virgem', symbol: emoji.find('virgo').emoji, range: moment.range(moment(`${date.get('year')}-08-23`), moment(`${date.get('year')}-09-22`)) },
+  { name: 'virgem', symbol: emoji.find('virgo').emoji, range: moment.range(moment(`${date.get('year')} - 08 - 23`), moment(`${date.get('year')} - 09 - 22`)) },
   // Libra
-  { name: 'libra', symbol: emoji.find('libra').emoji, range: moment.range(moment(`${date.get('year')}-09-23`), moment(`${date.get('year')}-10-22`)) },
+  { name: 'libra', symbol: emoji.find('libra').emoji, range: moment.range(moment(`${date.get('year')} - 09 - 23`), moment(`${date.get('year')} - 10 - 22`)) },
   // Scorpio
-  { name: 'escorpião', symbol: emoji.find('scorpius').emoji, range: moment.range(moment(`${date.get('year')}-10-23`), moment(`${date.get('year')}-11-21`)) },
+  { name: 'escorpião', symbol: emoji.find('scorpius').emoji, range: moment.range(moment(`${date.get('year')} - 10 - 23`), moment(`${date.get('year')} - 11 - 21`)) },
   // Sagittarius
-  { name: 'sagitário', symbol: emoji.find('sagittarius').emoji, range: moment.range(moment(`${date.get('year')}-11-22`), moment(`${date.get('year')}-12-21`)) },
+  { name: 'sagitário', symbol: emoji.find('sagittarius').emoji, range: moment.range(moment(`${date.get('year')} - 11 - 22`), moment(`${date.get('year')} - 12 - 21`)) },
   // Capricorn
-  { name: 'capricórnio', symbol: emoji.find('capricorn').emoji, range: moment.range(moment(`${date.get('year')}-12-22`), moment(`${date.get('year')}-01-19`)) },
+  { name: 'capricórnio', symbol: emoji.find('capricorn').emoji, range: moment.range(moment(`${date.get('year')} - 12 - 22`), moment(`${date.get('year')} - 01 - 19`)) },
   // Aquarius
-  { name: 'aquário', symbol: emoji.find('aquarius').emoji, range: moment.range(moment(`${date.get('year')}-01-20`), moment(`${date.get('year')}-02-18`)) },
+  { name: 'aquário', symbol: emoji.find('aquarius').emoji, range: moment.range(moment(`${date.get('year')} - 01 - 20`), moment(`${date.get('year')} - 02 - 18`)) },
   // Pisces
-  { name: 'peixes', symbol: emoji.find('pisces').emoji, range: moment.range(moment(`${date.get('year')}-02-19`), moment(`${date.get('year')}-03-20`)) },
+  { name: 'peixes', symbol: emoji.find('pisces').emoji, range: moment.range(moment(`${date.get('year')} - 02 - 19`), moment(`${date.get('year')} - 03 - 20`)) },
 ]
 
 const calcBirthday = () =>
@@ -131,7 +131,7 @@ const calcBirthday = () =>
 
 const getBirthdays = () =>
   calcBirthday().map(tararau =>
-    `${tararau.signSymbol} (${tararau.birthday}) ${tararau.userName} \nvai completar ${tararau.age + 1} invernos \nem ${tararau.countdown} dia${tararau.countdown === 1 ? '' : 's'}\n`
+    `${tararau.signSymbol}(${tararau.birthday}) ${tararau.userName} \nvai completar ${tararau.age + 1} invernos \nem ${tararau.countdown} dia${tararau.countdown === 1 ? '' : 's'}\n`
   )
 
 const roles = []
@@ -141,9 +141,9 @@ const tararaus = []
 const answerCallbacks = {}
 
 bot.on('message', msg => {
-  const callback = answerCallbacks[`${msg.chat.id}:${msg.from.id}`]
+  const callback = answerCallbacks[`${msg.chat.id}: ${msg.from.id}`]
   if (callback) {
-    delete answerCallbacks[`${msg.chat.id}:${msg.from.id}`]
+    delete answerCallbacks[`${msg.chat.id}: ${msg.from.id}`]
     return callback(msg)
   }
 
@@ -211,7 +211,7 @@ bot.onText(/^\/role\b/i, msg => {
       selective: true
     }
   }).then(() => {
-    answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+    answerCallbacks[`${msg.chat.id}: ${msg.from.id}`] = answer => {
       if (answer.text.toString().toLowerCase() === 'outra data') {
         bot.sendMessage(msg.chat.id, 'Digite uma data (DD/MM/AA) futura', {
           reply_to_message_id: answer.message_id,
@@ -221,10 +221,10 @@ bot.onText(/^\/role\b/i, msg => {
             selective: true
           }
         }).then(() => {
-          answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+          answerCallbacks[`${msg.chat.id}: ${msg.from.id}`] = answer => {
             if (moment(answer.text, 'D/M/YY', 'pt-br', true).isValid()) {
               const date = moment(answer.text, 'D/M/YY')
-              bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')} (${date.format('dddd')}), qual horário (HH:mm)?`, {
+              bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')}(${date.format('dddd')}), qual horário(HH: mm) ? `, {
                 reply_to_message_id: answer.message_id,
                 reply_markup: {
                   remove_keyboard: true,
@@ -252,7 +252,7 @@ bot.onText(/^\/role\b/i, msg => {
         })
       } else if (moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
         const date = moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
-        bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')} (${date.format('dddd')}), qual horário (HH:mm)?`, {
+        bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')}(${date.format('dddd')}), qual horário(HH: mm) ? `, {
           reply_to_message_id: answer.message_id,
           reply_markup: {
             remove_keyboard: true,
@@ -282,7 +282,7 @@ bot.onText(/^\/niver\b/i, msg => {
       }
     })
   } else {
-    bot.sendMessage(msg.chat.id, `Por gentileza, insira a data (DD/MM/AAAA) em que sua mãe te pariu ${emoji.find('slightly_smiling_face').emoji}`, {
+    bot.sendMessage(msg.chat.id, `Por gentileza, insira a data(DD / MM / AAAA) em que sua mãe te pariu ${emoji.find('slightly_smiling_face').emoji}`, {
       reply_to_message_id: msg.message_id,
       reply_markup: {
         force_reply: true,
@@ -290,10 +290,10 @@ bot.onText(/^\/niver\b/i, msg => {
         selective: true
       }
     }).then(() => {
-      answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+      answerCallbacks[`${msg.chat.id}: ${msg.from.id}`] = answer => {
         if (moment(answer.text, 'D/M/YYYY', 'pt-br', true).isValid()) {
           const date = moment(answer.text, 'D/M/YYYY')
-          bot.sendMessage(msg.chat.id, `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY')} (${date.format('dddd')})?`, {
+          bot.sendMessage(msg.chat.id, `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY')}(${date.format('dddd')}) ? `, {
             reply_to_message_id: answer.message_id,
             reply_markup: {
               force_reply: true,
@@ -303,13 +303,13 @@ bot.onText(/^\/niver\b/i, msg => {
               selective: true
             }
           }).then(() => {
-            answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
-              console.log(JSON.stringify(answerCallbacks[`${msg.chat.id}:${msg.from.id}`], answer.text))
+            answerCallbacks[`${msg.chat.id}: ${msg.from.id}`] = answer => {
+              console.log(JSON.stringify(answerCallbacks[`${msg.chat.id}: ${msg.from.id}`], answer.text))
               if (answer.text.toString().toLowerCase() === 'certamente') {
                 // const sign = getSign(date).filter(sign => date.within(sign.range))[0]
                 // tararaus.push({ userId: msg.from.id, userName: msg.from.first_name, signName: sign.name, signSymbol: sign.symbol, birthdate: date })
                 console.log(JSON.stringify(answer.text, sign, tararaus))
-                bot.sendMessage(msg.chat.id, `Data armazenada com sucesso... bom saber que você é do signo de ${sign.name} ${sign.symbol}`, {
+                bot.sendMessage(msg.chat.id, `Data armazenada com sucesso...bom saber que você é do signo de ${sign.name} ${sign.symbol}`, {
                   reply_to_message_id: answer.message_id,
                   reply_markup: {
                     remove_keyboard: true,
@@ -345,7 +345,7 @@ bot.onText(/^\/niver\b/i, msg => {
 })
 
 bot.onText(/^\/bdays\b/i, msg => {
-  bot.sendMessage(msg.chat.id, `Próximos aniversariantes ${emoji.find('birthday').emoji}\n${getBirthdays().join()}`, {
+  bot.sendMessage(msg.chat.id, `Próximos aniversariantes ${emoji.find('birthday').emoji} \n${getBirthdays().join()} `, {
     reply_to_message_id: msg.message_id,
     reply_markup: {
       remove_keyboard: true,
@@ -369,7 +369,7 @@ bot.onText(/^\/help\b/i, msg => {
 })
 
 bot.onText(/^\/status\b/i, msg => {
-  bot.sendMessage(msg.chat.id, `answerCallbacks: ${JSON.stringify(answerCallbacks)}`, { reply_to_message_id: msg.message_id })
+  bot.sendMessage(msg.chat.id, `answerCallbacks: ${JSON.stringify(answerCallbacks)} `, { reply_to_message_id: msg.message_id })
 })
 
 bot.on('polling_error', error => {
