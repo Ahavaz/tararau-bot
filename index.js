@@ -88,7 +88,7 @@ const buildDayOptions = date => [
 ]
 
 const buildYesNoOptions = () => [
-  [`Certamente`, `Não, errei`]
+  ['Sim', 'Não, errei']
 ]
 
 const getSign = date => [
@@ -141,9 +141,9 @@ const tararaus = []
 const answerCallbacks = {}
 
 bot.on('message', msg => {
-  const callback = answerCallbacks[`${msg.chat.id}: ${msg.from.id}`]
+  const callback = answerCallbacks[`${msg.chat.id}:${msg.from.id}`]
   if (callback) {
-    delete answerCallbacks[`${msg.chat.id}: ${msg.from.id}`]
+    delete answerCallbacks[`${msg.chat.id}:${msg.from.id}`]
     return callback(msg)
   }
 
@@ -211,8 +211,8 @@ bot.onText(/^\/role\b/i, msg => {
       selective: true
     }
   }).then(() => {
-    answerCallbacks[`${msg.chat.id}: ${msg.from.id}`] = answer => {
-      if (answer.text.toString().toLowerCase() === 'outra data') {
+    answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+      if (answer.text === 'Outra data') {
         bot.sendMessage(msg.chat.id, 'Digite uma data (DD/MM/AA) futura', {
           reply_to_message_id: answer.message_id,
           reply_markup: {
@@ -221,10 +221,10 @@ bot.onText(/^\/role\b/i, msg => {
             selective: true
           }
         }).then(() => {
-          answerCallbacks[`${msg.chat.id}: ${msg.from.id}`] = answer => {
-            if (moment(answer.text, 'D/M/YY', 'pt-br', true).isValid()) {
+          answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+            if (moment(answer.text, 'D/M/YY', 'pt-br', true).isValid() && moment().isSameOrBefore(moment(answer.text, 'D/M/YY'), 'day')) {
               const date = moment(answer.text, 'D/M/YY')
-              bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')}(${date.format('dddd')}), qual horário(HH: mm) ? `, {
+              bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')} (${date.format('dddd').toLowerCase()}), qual horário (HH:mm)?`, {
                 reply_to_message_id: answer.message_id,
                 reply_markup: {
                   remove_keyboard: true,
@@ -242,7 +242,7 @@ bot.onText(/^\/role\b/i, msg => {
             }
           }
         })
-      } else if (answer.text.toString().toLowerCase() === 'mudei de ideia') {
+      } else if (answer.text === 'Mudei de ideia') {
         bot.sendMessage(msg.chat.id, `Vai ti toma no cu então ${answer.from.first_name} ${emoji.find('upside_down_face').emoji}`, {
           reply_to_message_id: answer.message_id,
           reply_markup: {
@@ -252,7 +252,7 @@ bot.onText(/^\/role\b/i, msg => {
         })
       } else if (moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
         const date = moment(answer.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
-        bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')}(${date.format('dddd')}), qual horário(HH: mm) ? `, {
+        bot.sendMessage(msg.chat.id, `${date.format('DD/MM/YY')} (${date.format('dddd').toLowerCase()}), qual horário (HH:mm)?`, {
           reply_to_message_id: answer.message_id,
           reply_markup: {
             remove_keyboard: true,
@@ -282,7 +282,7 @@ bot.onText(/^\/niver\b/i, msg => {
       }
     })
   } else {
-    bot.sendMessage(msg.chat.id, `Por gentileza, insira a data(DD / MM / AAAA) em que sua mãe te pariu ${emoji.find('slightly_smiling_face').emoji}`, {
+    bot.sendMessage(msg.chat.id, `Por gentileza, insira a data (DD/MM/AAAA) em que sua mãe te pariu ${emoji.find('slightly_smiling_face').emoji}`, {
       reply_to_message_id: msg.message_id,
       reply_markup: {
         force_reply: true,
@@ -290,10 +290,10 @@ bot.onText(/^\/niver\b/i, msg => {
         selective: true
       }
     }).then(() => {
-      answerCallbacks[`${msg.chat.id}: ${msg.from.id}`] = answer => {
+      answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
         if (moment(answer.text, 'D/M/YYYY', 'pt-br', true).isValid()) {
           const date = moment(answer.text, 'D/M/YYYY')
-          bot.sendMessage(msg.chat.id, `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY')}(${date.format('dddd')}) ? `, {
+          bot.sendMessage(msg.chat.id, `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY')} (${date.format('dddd').toLowerCase()})?`, {
             reply_to_message_id: answer.message_id,
             reply_markup: {
               force_reply: true,
@@ -303,22 +303,24 @@ bot.onText(/^\/niver\b/i, msg => {
               selective: true
             }
           }).then(() => {
-            answerCallbacks[`${msg.chat.id}: ${msg.from.id}`] = answer => {
-              console.log(JSON.stringify(answerCallbacks[`${msg.chat.id}: ${msg.from.id}`], answer.text))
-              if (answer.text.toString().toLowerCase() === 'certamente') {
+            answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answer => {
+              console.log(JSON.stringify(answerCallbacks[`${msg.chat.id}:${msg.from.id}`], answer, answer.text))
+              if (answer.text === 'Sim') {
                 // const sign = getSign(date).filter(sign => date.within(sign.range))[0]
                 // tararaus.push({ userId: msg.from.id, userName: msg.from.first_name, signName: sign.name, signSymbol: sign.symbol, birthdate: date })
-                console.log(JSON.stringify(answer.text, sign, tararaus))
-                bot.sendMessage(msg.chat.id, `Data armazenada com sucesso...bom saber que você é do signo de ${sign.name} ${sign.symbol}`, {
+                // console.log(JSON.stringify(answer.text, sign, tararaus))
+                // bot.sendMessage(msg.chat.id, `Data armazenada com sucesso...bom saber que você é do signo de ${sign.name} ${sign.symbol}`, {
+                bot.sendMessage(msg.chat.id, 'Data armazenada com sucesso', {
                   reply_to_message_id: answer.message_id,
                   reply_markup: {
                     remove_keyboard: true,
                     selective: true
                   }
-                }).catch(error => {
-                  console.log(error.code)
-                  console.log(error.response.body)
                 })
+                // .catch(error => {
+                //   console.log(error.code)
+                //   console.log(error.response.body)
+                // })
               } else {
                 bot.sendMessage(msg.chat.id, 'Repita o processo e vê se não erra dessa vez', {
                   reply_to_message_id: answer.message_id,
