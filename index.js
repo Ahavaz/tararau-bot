@@ -3,18 +3,9 @@ const TelegramBot = require('node-telegram-bot-api')
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
 const emoji = require('node-emoji')
-const { inputMsgs } = require('./messages/input')
-const { outputMsgs } = require('./messages/output')
+const { msgMatches } = require('./msgMatches')
 const { getSign } = require('./signs')
-const {
-  filterMsg,
-  randomMsg,
-  getRandomInt,
-  buildMsg,
-  buildDayOptions,
-  buildYesNoOptions,
-  getBirthdays
-} = require('./utils')
+const { buildDayOptions, buildYesNoOptions, getBirthdays } = require('./utils')
 
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
@@ -32,111 +23,20 @@ const tararaus = []
 const answerCallbacks = {}
 
 bot.on('message', msg => {
-  const callback = answerCallbacks[`${msg.chat.id}:${msg.from.id}`]
+  const chatId = msg.chat.id
+  const userId = msg.from.id
+  const msgId = msg.message_id
+  const userMsg = msg.text.toString().toLowerCase()
+  const userName = msg.from.first_name
+
+  const callback = answerCallbacks[`${chatId}:${userId}`]
   if (callback) {
-    delete answerCallbacks[`${msg.chat.id}:${msg.from.id}`]
+    delete answerCallbacks[`${chatId}:${userId}`]
     return callback(msg)
   }
 
-  const userMsg = msg.text.toString().toLowerCase()
-  // const userName = msg.from.first_name
-  // const userId = msg.from.id
+  msgMatches(chatId, msgId, userMsg, userName)
 
-  const greetingMatches = filterMsg(userMsg, inputMsgs.greeting)
-  const farewellMatches = filterMsg(userMsg, inputMsgs.farewell)
-  const swearingsMatches = inputMsgs.swearings.filter(message =>
-    userMsg.includes(message)
-  )
-  const owMatches = inputMsgs.ow.filter(message => userMsg === message)
-  const shitMatches = inputMsgs.shit.filter(message =>
-    userMsg.includes(message)
-  )
-  const goodMorningMatches = inputMsgs.goodMorning.filter(message =>
-    userMsg.startsWith(message)
-  )
-  const goodNightMatches = inputMsgs.goodNight.filter(message =>
-    userMsg.startsWith(message)
-  )
-  const loveMatches = inputMsgs.love.filter(message =>
-    userMsg.includes(message)
-  )
-  const hateMatches = inputMsgs.hate.filter(message =>
-    userMsg.includes(message)
-  )
-  const enfiaMatches = inputMsgs.enfia.filter(message =>
-    userMsg.includes(message)
-  )
-  const fodaMatches = inputMsgs.foda.filter(message =>
-    userMsg.includes(message)
-  )
-
-  if (swearingsMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.swearings), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (enfiaMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.enfia), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (fodaMatches.length !== 0) {
-    bot.sendMessage(
-      msg.chat.id,
-      randomMsg(outputMsgs.foda(msg.from.first_name)),
-      { reply_to_message_id: msg.message_id }
-    )
-  } else if (inputMsgs.miou.test(userMsg)) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.miou), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (goodMorningMatches.length !== 0) {
-    bot.sendMessage(
-      msg.chat.id,
-      randomMsg(outputMsgs.goodMorning(msg.from.first_name)),
-      { reply_to_message_id: msg.message_id }
-    )
-  } else if (goodNightMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.goodNight), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (loveMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.love), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (hateMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.hate), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (inputMsgs.amor.test(userMsg)) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.amor), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (inputMsgs.top.test(userMsg)) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.top), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (owMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.ow), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (greetingMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.greeting), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (farewellMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.farewell), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (shitMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.shit), {
-      reply_to_message_id: msg.message_id
-    })
-  } else if (inputMsgs.tararau.test(userMsg)) {
-    bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.tararau))
-  } else if (inputMsgs.ayn.test(userMsg) && getRandomInt(1, 2) === 1) {
-    bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.ayn))
-  } else if (inputMsgs.laugh.test(userMsg) && getRandomInt(1, 3) === 1) {
-    bot.sendMessage(msg.chat.id, buildMsg(outputMsgs.laugh))
-  }
   return true
 })
 
@@ -431,3 +331,7 @@ bot.onText(/^\/(?!(role|niver|bdays|clear|help)\b).*/i, msg => {
 bot.on('polling_error', error => {
   console.log(error)
 })
+
+module.exports = {
+  bot
+}
