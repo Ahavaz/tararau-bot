@@ -882,6 +882,6 @@ bot.onText(/^\/status\b/i, msg => {
 })
 
 bot.on('polling_error', error => {
-  console.log(error.code)
-  console.log(error.response.body)
+  console.log(error)
+  // console.log(error.response && error.response.body)
 })
