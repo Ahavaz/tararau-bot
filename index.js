@@ -372,13 +372,16 @@ const buildMsg = array => {
 
 const getNext = date => {
   date.add(1, 'days')
-  return `${date.format('dddd')}\n(${date.format('D/MMM/YY')})`
+  return `${date.format('dddd')}
+  (${date.format('D/MMM/YY')})`
 }
 
 const buildDayOptions = date => [
   [
-    `Hoje\n(${date.format('D/MMM/YY')})`,
-    `Amanhã\n(${date.add(1, 'days').format('D/MMM/YY')})`
+    `Hoje
+    (${date.format('D/MMM/YY')})`,
+    `Amanhã
+    (${date.add(1, 'days').format('D/MMM/YY')})`
   ],
   [`${getNext(date)}`, `${getNext(date)}`],
   [`${getNext(date)}`, `${getNext(date)}`],
@@ -508,15 +511,6 @@ const nextBirthday = birthdate => {
 const calcBirthday = () =>
   tararaus
     .reduce((array, tararau) => {
-      // const birthday = moment([
-      //   moment().get('year'),
-      //   tararau.birthdate.get('month'),
-      //   tararau.birthdate.get('date')
-      // ])
-      // const birthday = tararau.birthdate
-      //   .clone()
-      //   .set('year', moment().get('year'))
-      // if (birthday.diff(moment(), 'days') < 0) birthday.add(1, 'years')
       const birthday = nextBirthday(tararau.birthdate)
       const countdown = birthday.diff(moment(), 'days')
       const age = moment().diff(tararau.birthdate, 'years')
@@ -531,9 +525,11 @@ const getBirthdays = () =>
       `${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age +
         1} inverno${tararau.age !== 1 ? 's' : ''} em ${tararau.birthday.format(
         'DD/MM/YY'
-      )}\nFalta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${
+      )}
+      Falta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${
         tararau.countdown !== 1 ? 's' : '!'
-      }\n`
+      }
+      `
   )
 
 bot.on('message', msg => {
@@ -688,9 +684,9 @@ bot.onText(/^\/role\b/i, msg => {
                   const date = moment(answerAnotherDate.text, 'D/M/YY')
                   bot.sendMessage(
                     msg.chat.id,
-                    `${date.format('DD/MM/YY')} (${date
-                      .format('dddd')
-                      .toLowerCase()}), qual horário (HH:mm)?`,
+                    `${date
+                      .format('DD/MM/YY [(]dddd[)]')
+                      .toLowerCase()}, qual horário (HH:mm)?`,
                     {
                       reply_to_message_id: answerAnotherDate.message_id,
                       reply_markup: {
@@ -702,7 +698,7 @@ bot.onText(/^\/role\b/i, msg => {
                 } else {
                   bot.sendMessage(
                     msg.chat.id,
-                    'Data inválida, preste atenção no formato',
+                    'Data inválida, escolha uma data futura e preste atenção no formato',
                     {
                       reply_to_message_id: answerAnotherDate.message_id,
                       reply_markup: {
@@ -742,9 +738,9 @@ bot.onText(/^\/role\b/i, msg => {
           )
           bot.sendMessage(
             msg.chat.id,
-            `${date.format('DD/MM/YY')} (${date
-              .format('dddd')
-              .toLowerCase()}), qual horário (HH:mm)?`,
+            `${date
+              .format('DD/MM/YY [(]dddd[)]')
+              .toLowerCase()}, qual horário (HH:mm)?`,
             {
               reply_to_message_id: answerRoleDate.message_id,
               reply_markup: {
@@ -758,7 +754,8 @@ bot.onText(/^\/role\b/i, msg => {
             msg.chat.id,
             `Use os botões, energúmeno ${
               emoji.find('face_with_rolling_eyes').emoji
-            }\nE faça tudo de novo pra deixar de ser besta`,
+            }
+            E faça tudo de novo pra deixar de ser besta`,
             {
               reply_to_message_id: answerRoleDate.message_id,
               reply_markup: {
@@ -806,9 +803,9 @@ bot.onText(/^\/niver\b/i, msg => {
             bot
               .sendMessage(
                 msg.chat.id,
-                `Você nasceu dia ${date.format(
-                  'D [de] MMMM [de] YYYY'
-                )} (${date.format('dddd').toLowerCase()})?`,
+                `Você nasceu dia ${date
+                  .format('D [de] MMMM [de] YYYY [(]dddd[)]')
+                  .toLowerCase()}?`,
                 {
                   reply_to_message_id: answerBirthdate.message_id,
                   reply_markup: {
@@ -884,11 +881,11 @@ bot.onText(/^\/niver\b/i, msg => {
 bot.onText(/^\/bdays\b/i, msg => {
   bot.sendMessage(
     msg.chat.id,
-    `Próximos aniversariantes ${
-      emoji.find('birthday').emoji
-    }\n${getBirthdays().join()} `,
+    `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
+    ${getBirthdays().join()} `,
     {
       reply_to_message_id: msg.message_id,
+      parse_mode: 'Markdown',
       reply_markup: {
         remove_keyboard: true,
         selective: true
@@ -910,17 +907,24 @@ bot.onText(/^\/clear\b/i, msg => {
 bot.onText(/^\/help\b/i, msg => {
   bot.sendMessage(
     msg.chat.id,
-    'Boa sorte, porque eu não vou te ajudar kakaka',
-    { reply_to_message_id: msg.message_id }
+    `Posso te ajudar a marcar rolês, registrar datas de nascimento da galera para listar os próximos aniversariantes e, claro, encher o saco do pessoal.
+    
+    `,
+    {
+      reply_to_message_id: msg.message_id,
+      parse_mode: 'Markdown',
+      reply_markup: {
+        remove_keyboard: true,
+        selective: true
+      }
+    }
   )
 })
 
-bot.onText(/^\/status\b/i, msg => {
-  bot.sendMessage(
-    msg.chat.id,
-    `answerCallbacks: ${JSON.stringify(answerCallbacks)} `,
-    { reply_to_message_id: msg.message_id }
-  )
+bot.onText(/^\/\b/i, msg => {
+  bot.sendMessage(msg.chat.id, 'Este comando non ecziste!', {
+    reply_to_message_id: msg.message_id
+  })
 })
 
 bot.on('polling_error', error => {
