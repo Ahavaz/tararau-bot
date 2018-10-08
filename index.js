@@ -221,12 +221,12 @@ const outputMsgs = {
     'TOProfano',
     'TOPrepotente',
     'TOPolido',
-    'uTÓPico',
-    'isóTOPo',
     'TOPada',
     'TOPografia',
     'TOPetada',
     'TOPologia',
+    'TOPológico',
+    'TOPa ou não TOPa?',
     'orTOPedia',
     'cenTOPeia',
     'homoTOPia',
@@ -234,7 +234,9 @@ const outputMsgs = {
     'ecTOPlasma',
     'onomaTOPeia',
     'TOPovski',
-    'TOPologia'
+    'uTÓPico',
+    'disTÓPico',
+    'isóTOPo'
   ],
   amor: ['Deus me free', 'Tô fora', 'Nem fodendo'],
   greeting: [
