@@ -233,7 +233,8 @@ const outputMsgs = {
     'ciTOPlasma',
     'ecTOPlasma',
     'onomaTOPeia',
-    'TOPovski'
+    'TOPovski',
+    'TOPologia'
   ],
   amor: ['Deus me free', 'Tô fora', 'Nem fodendo'],
   greeting: [
@@ -258,7 +259,12 @@ const outputMsgs = {
     'Xau tararau',
     'Xaus',
     'Hasta la vista, tararau',
-    'Até, cuzudu'
+    'Até, cuzudu',
+    'falorens',
+    'falorinha',
+    'falélios',
+    'falúlio',
+    'falucas'
   ],
   swearings: [
     'Lava essa boca, tararau',
