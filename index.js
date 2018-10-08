@@ -373,19 +373,19 @@ const buildMsg = array => {
 const getNext = date => {
   date.add(1, 'days')
   return `${date.format('dddd')}
-  (${date.format('D/MMM/YY')})`
+(${date.format('D/MMM/YY')})`
 }
 
 const buildDayOptions = date => [
   [
     `Hoje
-    (${date.format('D/MMM/YY')})`,
+(${date.format('D/MMM/YY')})`,
     `Amanhã
-    (${date.add(1, 'days').format('D/MMM/YY')})`
+(${date.add(1, 'days').format('D/MMM/YY')})`
   ],
   [`${getNext(date)}`, `${getNext(date)}`],
   [`${getNext(date)}`, `${getNext(date)}`],
-  [`${getNext(date)}`, `Outra data`],
+  [`${getNext(date)}`, 'Outra data'],
   ['Mudei de ideia']
 ]
 
@@ -754,8 +754,7 @@ bot.onText(/^\/role\b/i, msg => {
             msg.chat.id,
             `Use os botões, energúmeno ${
               emoji.find('face_with_rolling_eyes').emoji
-            }
-            E faça tudo de novo pra deixar de ser besta`,
+            }`,
             {
               reply_to_message_id: answerRoleDate.message_id,
               reply_markup: {
@@ -771,7 +770,7 @@ bot.onText(/^\/role\b/i, msg => {
 
 bot.onText(/^\/niver\b/i, msg => {
   if (tararaus.filter(tararau => tararau.userId === msg.from.id).length !== 0) {
-    bot.sendMessage(msg.chat.id, `Você já inseriu sua data de nascimento`, {
+    bot.sendMessage(msg.chat.id, 'Você já inseriu sua data de nascimento', {
       reply_to_message_id: msg.message_id,
       reply_markup: {
         remove_keyboard: true,
@@ -882,7 +881,7 @@ bot.onText(/^\/bdays\b/i, msg => {
   bot.sendMessage(
     msg.chat.id,
     `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
-    ${getBirthdays().join()} `,
+${getBirthdays().join()}`,
     {
       reply_to_message_id: msg.message_id,
       parse_mode: 'Markdown',
@@ -907,9 +906,7 @@ bot.onText(/^\/clear\b/i, msg => {
 bot.onText(/^\/help\b/i, msg => {
   bot.sendMessage(
     msg.chat.id,
-    `Posso te ajudar a marcar rolês, registrar datas de nascimento da galera para listar os próximos aniversariantes e, claro, encher o saco do pessoal.
-    
-    `,
+    `Posso te ajudar a marcar rolês, registrar datas de nascimento da galera para listar os próximos aniversariantes e, claro, encher o saco do pessoal.`,
     {
       reply_to_message_id: msg.message_id,
       parse_mode: 'Markdown',
@@ -921,9 +918,14 @@ bot.onText(/^\/help\b/i, msg => {
   )
 })
 
-bot.onText(/^\/\b/i, msg => {
-  bot.sendMessage(msg.chat.id, 'Este comando non ecziste!', {
-    reply_to_message_id: msg.message_id
+bot.onText(/^\/(?!(role|niver|bdays|clear|help)\b).*/i, msg => {
+  bot.sendMessage(msg.chat.id, 'Este comando _non ecziste_!', {
+    reply_to_message_id: msg.message_id,
+    parse_mode: 'Markdown',
+    reply_markup: {
+      remove_keyboard: true,
+      selective: true
+    }
   })
 })
 
