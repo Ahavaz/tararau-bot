@@ -263,15 +263,16 @@ const outputMsgs = {
     'Xaus',
     'Hasta la vista, tararau',
     'Até, cuzudu',
-    'falorens',
-    'falorinha',
-    'falélios',
-    'falúlio',
-    'falucas'
+    'Falorens',
+    'Falorinha',
+    'Falélios',
+    'Falúlio',
+    'Falucas'
   ],
   swearings: [
     'Lava essa boca, tararau',
     'Mas que boca suja é essa?!',
+    'É com essa boca que você beija sua mamai?',
     'Teu cu!',
     'TEU CU',
     '',
@@ -306,7 +307,7 @@ const outputMsgs = {
     'Gudnait modafoca',
     'Sonhe com as lhamas',
     'Boa viagem astral',
-    'beijinhos meu nenê'
+    'Beijinhos meu nenê'
   ],
   miou: [
     'É UM POHA',
@@ -321,9 +322,12 @@ const outputMsgs = {
   ],
   love: [`${emoji.find('purple_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
   hate: [`${emoji.find('broken_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
-  enfia: ['Enfia no teu!', 'Me obrigue!'],
+  enfia: ['Enfia no teu!', 'Me obrigue!', 'Por favor, insira no seu boga!'],
   foda: [
     'Não tá fácil pra ninguém',
+    'Eu acredito em você e acredito em um mundo mais TARARAU!',
+    'SEEEGUUUUUUUUUUUUURA PEÃO!',
+    `Lembre-se de quem você é ${userName}, você já lutou tanto para chegar até aqui, tenho certeza que irá sobreviver!`,
     `Fica sussa, relaxa o esfíncter que dá tudo certo ${
       emoji.find('ok_hand').emoji
     }`
