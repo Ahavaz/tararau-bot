@@ -519,9 +519,9 @@ const getBirthdays = () =>
   calcBirthday().map(
     tararau =>
       `${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age +
-        1} inverno${tararau.age !== 1 ? 's' : ''} em ${
-        tararau.birthday
-      }\nFalta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${
+        1} inverno${tararau.age !== 1 ? 's' : ''} em ${tararau.birthday.format(
+        'DD/MM/YY'
+      )}\nFalta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${
         tararau.countdown !== 1 ? 's' : '!'
       }\n`
   )
