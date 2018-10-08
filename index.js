@@ -280,7 +280,7 @@ bot.onText(/^\/bdays\b/i, msg => {
   bot.sendMessage(
     msg.chat.id,
     `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
-${getBirthdays(tararaus).join()}`,
+${getBirthdays(tararaus).join('')}`,
     {
       reply_to_message_id: msg.message_id,
       parse_mode: 'Markdown',
