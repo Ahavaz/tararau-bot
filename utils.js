@@ -1,7 +1,7 @@
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
 const {
-  outputMsgs: { tararau: tararauArray, aynArray }
+  outputMsgs: { tararau: tararauArray, ayn: aynArray }
 } = require('./messages/output')
 
 const moment = extendMoment(Moment)
