@@ -288,7 +288,7 @@ const outputMsgs = {
     'Fale',
     'Vemk e me conta bb',
     `Lá vem ${emoji.find('face_with_rolling_eyes').emoji}`,
-    'Vemk e fala no meu ouvidinho digital... :smirk:'
+    `Vemk e fala no meu ouvidinho digital... ${emoji.find('smirk').emoji}`
   ],
   shit: ['Caguei!', 'CAGUEI', 'K-gay', `${emoji.find('poop').emoji}`],
   goodMorning: userName => [
