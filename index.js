@@ -232,7 +232,7 @@ bot.onText(/^\/niver\b/i, msg => {
                     })
                     bot.sendMessage(
                       msg.chat.id,
-                      `Data armazenada com sucesso... bom saber que você é do signo de ${
+                      `Data registrada com sucesso... não sabia que seu signo era ${
                         sign.name
                       } ${sign.symbol}`,
                       {
