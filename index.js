@@ -238,7 +238,7 @@ const outputMsgs = {
     'disTÓPico',
     'isóTOPo'
   ],
-  amor: ['Deus me free', 'Tô fora', 'Nem fodendo'],
+  amor: ['Deus me free', 'Tô fora', 'Nem fodendo', 'God me livre!'],
   greeting: [
     'E ae cutetu',
     'E ae putetu',
@@ -249,7 +249,8 @@ const outputMsgs = {
     'Fala, putetu',
     'Fala, cuzudu',
     'Fala, coroi',
-    'Fala, tararau'
+    'Fala, tararau',
+    'Manda bala xuxu'
   ],
   farewell: [
     'Vlw flw',
@@ -281,7 +282,9 @@ const outputMsgs = {
   ow: [
     'Diga..',
     'Fale',
-    `Lá vem ${emoji.find('face_with_rolling_eyes').emoji}`
+    'Vemk e me conta bb',
+    `Lá vem ${emoji.find('face_with_rolling_eyes').emoji}`,
+    
   ],
   shit: ['Caguei!', 'CAGUEI', 'K-gay', `${emoji.find('poop').emoji}`],
   goodMorning: userName => [
@@ -302,7 +305,8 @@ const outputMsgs = {
     'Boa noite tararau',
     'Gudnait modafoca',
     'Sonhe com as lhamas',
-    'Boa viagem astral'
+    'Boa viagem astral',
+    'beijinhos meu nenê'
   ],
   miou: [
     'É UM POHA',
@@ -312,7 +316,8 @@ const outputMsgs = {
     'FoodaC',
     'Nobody yes door',
     'Se fodeu',
-    'Tomou no meio'
+    'Tomou no meio',
+    'A PRONTO!'
   ],
   love: [`${emoji.find('purple_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
   hate: [`${emoji.find('broken_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
