@@ -1,9 +1,8 @@
-const { bot } = require('./index')
 const { inputMsgs } = require('./messages/input')
 const { outputMsgs } = require('./messages/output')
 const { filterMsg, randomMsg, getRandomInt, buildMsg } = require('./utils')
 
-const msgMatches = (chatId, msgId, userMsg, userName) => {
+const msgMatches = (chatId, msgId, userMsg, userName, bot) => {
   const greetingMatches = filterMsg(userMsg, inputMsgs.greeting)
   const farewellMatches = filterMsg(userMsg, inputMsgs.farewell)
   const swearingsMatches = inputMsgs.swearings.filter(message =>

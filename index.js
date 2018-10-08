@@ -35,7 +35,7 @@ bot.on('message', msg => {
     return callback(msg)
   }
 
-  msgMatches(chatId, msgId, userMsg, userName)
+  msgMatches(chatId, msgId, userMsg, userName, bot)
 
   return true
 })
@@ -331,7 +331,3 @@ bot.onText(/^\/(?!(role|niver|bdays|clear|help)\b).*/i, msg => {
 bot.on('polling_error', error => {
   console.log(error)
 })
-
-module.exports = {
-  bot
-}
