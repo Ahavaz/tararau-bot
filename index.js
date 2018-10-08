@@ -1,11 +1,12 @@
 process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
-const moment = require('moment-timezone')
+const Moment = require('moment-timezone')
+const { extendMoment } = require('moment-range')
 const emoji = require('node-emoji')
 
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
-
+const moment = extendMoment(Moment)
 moment.locale('pt-br')
 moment.tz.setDefault('America/Sao_Paulo')
 // const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
@@ -517,11 +518,12 @@ const calcBirthday = () =>
 const getBirthdays = () =>
   calcBirthday().map(
     tararau =>
-      `${tararau.signSymbol}(${tararau.birthday}) ${
-        tararau.userName
-      } \nvai completar ${tararau.age + 1} invernos \nem ${
-        tararau.countdown
-      } dia${tararau.countdown === 1 ? '' : 's'}\n`
+      `${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age +
+        1} inverno${tararau.age !== 1 ? 's' : ''} em ${
+        tararau.birthday
+      }\nFalta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${
+        tararau.countdown !== 1 ? 's' : '!'
+      }\n`
   )
 
 bot.on('message', msg => {
@@ -886,7 +888,7 @@ bot.onText(/^\/bdays\b/i, msg => {
     msg.chat.id,
     `Próximos aniversariantes ${
       emoji.find('birthday').emoji
-    } \n${getBirthdays().join()} `,
+    }\n${getBirthdays().join()} `,
     {
       reply_to_message_id: msg.message_id,
       reply_markup: {
