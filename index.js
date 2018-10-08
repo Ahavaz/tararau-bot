@@ -386,7 +386,7 @@ const buildDayOptions = date => [
   ['Mudei de ideia']
 ]
 
-const buildYesNoOptions = () => [['Sim', 'Não, errei']]
+const buildYesNoOptions = () => [['Certamente', 'Não, errei']]
 
 const getSign = date => [
   // Aries
@@ -499,15 +499,25 @@ const getSign = date => [
   }
 ]
 
+const nextBirthday = birthdate => {
+  const date = birthdate.clone().year(moment().get('year'))
+  if (date.diff(moment(), 'days') < 0) date.add(1, 'years')
+  return date
+}
+
 const calcBirthday = () =>
   tararaus
     .reduce((array, tararau) => {
-      const birthday = moment([
-        moment().get('year'),
-        tararau.birthdate.get('month'),
-        tararau.birthdate.get('date')
-      ])
-      if (birthday.diff(moment(), 'days') < 0) birthday.add(1, 'years')
+      // const birthday = moment([
+      //   moment().get('year'),
+      //   tararau.birthdate.get('month'),
+      //   tararau.birthdate.get('date')
+      // ])
+      // const birthday = tararau.birthdate
+      //   .clone()
+      //   .set('year', moment().get('year'))
+      // if (birthday.diff(moment(), 'days') < 0) birthday.add(1, 'years')
+      const birthday = nextBirthday(tararau.birthdate)
       const countdown = birthday.diff(moment(), 'days')
       const age = moment().diff(tararau.birthdate, 'years')
       array.push({ ...tararau, birthday, countdown, age })
@@ -814,14 +824,7 @@ bot.onText(/^\/niver\b/i, msg => {
                 answerCallbacks[
                   `${msg.chat.id}:${msg.from.id}`
                 ] = answerConfirmation => {
-                  console.log(
-                    JSON.stringify(
-                      answerCallbacks[`${msg.chat.id}:${msg.from.id}`],
-                      answerConfirmation,
-                      answerConfirmation.text
-                    )
-                  )
-                  if (answerConfirmation.text === 'Sim') {
+                  if (answerConfirmation.text === 'Certamente') {
                     const sign = getSign(date).filter(signEl =>
                       date.within(signEl.range)
                     )[0]
@@ -832,7 +835,6 @@ bot.onText(/^\/niver\b/i, msg => {
                       signSymbol: sign.symbol,
                       birthdate: date
                     })
-                    // console.log(JSON.stringify(answerConfirmation.text, sign, tararaus))
                     bot.sendMessage(
                       msg.chat.id,
                       `Data armazenada com sucesso... bom saber que você é do signo de ${
@@ -923,5 +925,4 @@ bot.onText(/^\/status\b/i, msg => {
 
 bot.on('polling_error', error => {
   console.log(error)
-  // console.log(error.response && error.response.body)
 })
