@@ -227,6 +227,7 @@ const outputMsgs = {
     'TOPologia',
     'TOPológico',
     'TOPa ou não TOPa?',
+    'TOPuto',
     'orTOPedia',
     'cenTOPeia',
     'homoTOPia',
@@ -250,7 +251,8 @@ const outputMsgs = {
     'Fala, cuzudu',
     'Fala, coroi',
     'Fala, tararau',
-    'Manda bala xuxu'
+    'Manda bala xuxu',
+    'Oi nenê <3 '
   ],
   farewell: [
     'Vlw flw',
@@ -267,7 +269,8 @@ const outputMsgs = {
     'Falorinha',
     'Falélios',
     'Falúlio',
-    'Falucas'
+    'Falucas',
+    'до свидания'
   ],
   swearings: [
     'Lava essa boca, tararau',
@@ -285,7 +288,7 @@ const outputMsgs = {
     'Fale',
     'Vemk e me conta bb',
     `Lá vem ${emoji.find('face_with_rolling_eyes').emoji}`,
-    
+    'Vemk e fala no meu ouvidinho digital... :smirk:'
   ],
   shit: ['Caguei!', 'CAGUEI', 'K-gay', `${emoji.find('poop').emoji}`],
   goodMorning: userName => [
@@ -297,7 +300,8 @@ const outputMsgs = {
     `Bom dia cutetu ${userName}`,
     `Bom dia putetu ${userName}`,
     `Bom dia ${userName} cuzudin`,
-    `Bom dia ${userName} - tararau`
+    `Bom dia ${userName} - tararau`,
+    'Hello world seus pirocetudos!!!'
   ],
   goodNight: [
     'Boa noite cutetu',
@@ -318,16 +322,19 @@ const outputMsgs = {
     'Nobody yes door',
     'Se fodeu',
     'Tomou no meio',
-    'A PRONTO!'
+    'A PRONTO!',
+    'OLHA AÍ A MADAME!'
   ],
   love: [`${emoji.find('purple_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
   hate: [`${emoji.find('broken_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
   enfia: ['Enfia no teu!', 'Me obrigue!', 'Por favor, insira no seu boga!'],
-  foda: [
+  foda: userName => [
     'Não tá fácil pra ninguém',
     'Eu acredito em você e acredito em um mundo mais TARARAU!',
     'SEEEGUUUUUUUUUUUUURA PEÃO!',
     `Lembre-se de quem você é ${userName}, você já lutou tanto para chegar até aqui, tenho certeza que irá sobreviver!`,
+    `${userName}, você é o resultado de bilhões de ano de evolução, aja como tal!`,
+    'Respira e vai!',
     `Fica sussa, relaxa o esfíncter que dá tudo certo ${
       emoji.find('ok_hand').emoji
     }`
