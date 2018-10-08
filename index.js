@@ -221,21 +221,25 @@ const outputMsgs = {
     'TOProfano',
     'TOPrepotente',
     'TOPolido',
-    'uTÓPico',
-    'isóTOPo',
     'TOPada',
     'TOPografia',
     'TOPetada',
     'TOPologia',
+    'TOPológico',
+    'TOPa ou não TOPa?',
+    'TOPuto',
     'orTOPedia',
     'cenTOPeia',
     'homoTOPia',
     'ciTOPlasma',
     'ecTOPlasma',
     'onomaTOPeia',
-    'TOPovski'
+    'TOPovski',
+    'uTÓPico',
+    'disTÓPico',
+    'isóTOPo'
   ],
-  amor: ['Deus me free', 'Tô fora', 'Nem fodendo'],
+  amor: ['Deus me free', 'Tô fora', 'Nem fodendo', 'God me livre!'],
   greeting: [
     'E ae cutetu',
     'E ae putetu',
@@ -246,7 +250,9 @@ const outputMsgs = {
     'Fala, putetu',
     'Fala, cuzudu',
     'Fala, coroi',
-    'Fala, tararau'
+    'Fala, tararau',
+    'Manda bala xuxu',
+    'Oi nenê <3 '
   ],
   farewell: [
     'Vlw flw',
@@ -258,11 +264,18 @@ const outputMsgs = {
     'Xau tararau',
     'Xaus',
     'Hasta la vista, tararau',
-    'Até, cuzudu'
+    'Até, cuzudu',
+    'Falorens',
+    'Falorinha',
+    'Falélios',
+    'Falúlio',
+    'Falucas',
+    'до свидания'
   ],
   swearings: [
     'Lava essa boca, tararau',
     'Mas que boca suja é essa?!',
+    'É com essa boca que você beija sua mamai?',
     'Teu cu!',
     'TEU CU',
     '',
@@ -273,7 +286,9 @@ const outputMsgs = {
   ow: [
     'Diga..',
     'Fale',
-    `Lá vem ${emoji.find('face_with_rolling_eyes').emoji}`
+    'Vemk e me conta bb',
+    `Lá vem ${emoji.find('face_with_rolling_eyes').emoji}`,
+    `Vemk e fala no meu ouvidinho digital... ${emoji.find('smirk').emoji}`
   ],
   shit: ['Caguei!', 'CAGUEI', 'K-gay', `${emoji.find('poop').emoji}`],
   goodMorning: userName => [
@@ -285,7 +300,8 @@ const outputMsgs = {
     `Bom dia cutetu ${userName}`,
     `Bom dia putetu ${userName}`,
     `Bom dia ${userName} cuzudin`,
-    `Bom dia ${userName} - tararau`
+    `Bom dia ${userName} - tararau`,
+    'Hello world seus pirocetudos!!!'
   ],
   goodNight: [
     'Boa noite cutetu',
@@ -294,7 +310,8 @@ const outputMsgs = {
     'Boa noite tararau',
     'Gudnait modafoca',
     'Sonhe com as lhamas',
-    'Boa viagem astral'
+    'Boa viagem astral',
+    'Beijinhos meu nenê'
   ],
   miou: [
     'É UM POHA',
@@ -304,13 +321,20 @@ const outputMsgs = {
     'FoodaC',
     'Nobody yes door',
     'Se fodeu',
-    'Tomou no meio'
+    'Tomou no meio',
+    'A PRONTO!',
+    'OLHA AÍ A MADAME!'
   ],
   love: [`${emoji.find('purple_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
   hate: [`${emoji.find('broken_heart').emoji}`, 'FooodaC', 'C-A-G-A-Y'],
-  enfia: ['Enfia no teu!', 'Me obrigue!'],
-  foda: [
+  enfia: ['Enfia no teu!', 'Me obrigue!', 'Por favor, insira no seu boga!'],
+  foda: userName => [
     'Não tá fácil pra ninguém',
+    'Eu acredito em você e acredito em um mundo mais TARARAU!',
+    'SEEEGUUUUUUUUUUUUURA PEÃO!',
+    `Lembre-se de quem você é ${userName}, você já lutou tanto para chegar até aqui, tenho certeza que irá sobreviver!`,
+    `${userName}, você é o resultado de bilhões de ano de evolução, aja como tal!`,
+    'Respira e vai!',
     `Fica sussa, relaxa o esfíncter que dá tudo certo ${
       emoji.find('ok_hand').emoji
     }`
@@ -541,7 +565,7 @@ bot.on('message', msg => {
       reply_to_message_id: msg.message_id
     })
   } else if (fodaMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.foda), {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.foda(msg.from.first_name)), {
       reply_to_message_id: msg.message_id
     })
   } else if (inputMsgs.miou.test(userMsg)) {
