@@ -565,7 +565,7 @@ bot.on('message', msg => {
       reply_to_message_id: msg.message_id
     })
   } else if (fodaMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.foda), {
+    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.foda(msg.from.first_name)), {
       reply_to_message_id: msg.message_id
     })
   } else if (inputMsgs.miou.test(userMsg)) {
