@@ -97,6 +97,8 @@ const inputMsgs = {
     'tnc',
     'tomanocu',
     'tomanucu',
+    'toma no cu',
+    'tomar no cu',
     'te pariu',
     'te paril',
     'pqp',
@@ -267,7 +269,7 @@ const outputMsgs = {
     'Até, cuzudu',
     'Falorens',
     'Falorinha',
-    'Falélios',
+    'Falélio',
     'Falúlio',
     'Falucas',
     'до свидания'
@@ -278,7 +280,6 @@ const outputMsgs = {
     'É com essa boca que você beija sua mamai?',
     'Teu cu!',
     'TEU CU',
-    '',
     `${emoji.find('point_up_2').emoji}${emoji.find('point_right').emoji}${
       emoji.find('ok_hand').emoji
     }`
@@ -565,9 +566,11 @@ bot.on('message', msg => {
       reply_to_message_id: msg.message_id
     })
   } else if (fodaMatches.length !== 0) {
-    bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.foda(msg.from.first_name)), {
-      reply_to_message_id: msg.message_id
-    })
+    bot.sendMessage(
+      msg.chat.id,
+      randomMsg(outputMsgs.foda(msg.from.first_name)),
+      { reply_to_message_id: msg.message_id }
+    )
   } else if (inputMsgs.miou.test(userMsg)) {
     bot.sendMessage(msg.chat.id, randomMsg(outputMsgs.miou), {
       reply_to_message_id: msg.message_id
@@ -811,13 +814,22 @@ bot.onText(/^\/niver\b/i, msg => {
                     )
                   )
                   if (answerConfirmation.text === 'Sim') {
-                    // const sign = getSign(date).filter(sign => date.within(sign.range))[0]
-                    // tararaus.push({ userId: msg.from.id, userName: msg.from.first_name, signName: sign.name, signSymbol: sign.symbol, birthdate: date })
+                    const sign = getSign(date).filter(signEl =>
+                      date.within(signEl.range)
+                    )[0]
+                    tararaus.push({
+                      userId: msg.from.id,
+                      userName: msg.from.first_name,
+                      signName: sign.name,
+                      signSymbol: sign.symbol,
+                      birthdate: date
+                    })
                     // console.log(JSON.stringify(answerConfirmation.text, sign, tararaus))
-                    // bot.sendMessage(msg.chat.id, `Data armazenada com sucesso...bom saber que você é do signo de ${sign.name} ${sign.symbol}`, {
                     bot.sendMessage(
                       msg.chat.id,
-                      'Data armazenada com sucesso',
+                      `Data armazenada com sucesso... bom saber que você é do signo de ${
+                        sign.name
+                      } ${sign.symbol}`,
                       {
                         reply_to_message_id: answerConfirmation.message_id,
                         reply_markup: {
