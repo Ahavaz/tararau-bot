@@ -29,7 +29,7 @@ bot.on('message', msg => {
   const userId = msg.from.id
   const msgId = msg.message_id
   const userMsg = msg.text.toString().toLowerCase()
-  const userName = msg.from.first_name
+  const userFirstName = msg.from.first_name
   const callbackId = `${chatId}:${userId}`
 
   const callback = answerCallbacks[callbackId]
@@ -38,7 +38,7 @@ bot.on('message', msg => {
     return callback(msg)
   }
 
-  msgMatches(chatId, msgId, userMsg, userName, bot)
+  msgMatches(chatId, msgId, userMsg, userFirstName, bot)
 
   return true
 })
@@ -105,7 +105,8 @@ bot.onText(/^\/niver\b/i, msg => {
   const userId = msg.from.id
   const msgId = msg.message_id
   const callbackId = `${chatId}:${userId}`
-  const userName = msg.from.first_name
+  const userName = msg.from.username
+  const userFullName = `${msg.from.first_name} ${msg.from.last_name}`
 
   if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length !== 0) {
     bot.sendMessage(chatId, 'Você já registrou sua data de nascimento', defaultKb(msgId))
@@ -140,6 +141,7 @@ bot.onText(/^\/niver\b/i, msg => {
                       chatId,
                       userId,
                       userName,
+                      userFullName,
                       signName: sign.name,
                       signSymbol: sign.symbol,
                       birthdate: date
@@ -168,7 +170,6 @@ bot.onText(/^\/bdays\b/i, msg => {
     msg.chat.id,
     hasBirthdays(msg.chat.id, tararaus)
       ? `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
-
 ${getBirthdays(msg.chat.id, tararaus).join('')}`
       : `Nenhuma data de nascimento foi registrada ainda ${emoji.find('slightly_frowning_face').emoji}
       
