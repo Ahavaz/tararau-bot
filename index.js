@@ -5,7 +5,9 @@ const { extendMoment } = require('moment-range')
 const emoji = require('node-emoji')
 const { msgMatches } = require('./msgMatches')
 const { getSign } = require('./signs')
-const { buildDayOptions, buildYesNoOptions, getBirthdays } = require('./utils')
+const { getBirthdays, hasBirthdays, isValidDate, isFutureDate } = require('./utils')
+const { customKb, defaultKb } = require('./msgOptions')
+const { buildDayOptions, buildYesNoOptions } = require('./keyboardTemplates')
 
 const token = process.env.TELEGRAM_CHATBOT_API_KEY
 const bot = new TelegramBot(token, { polling: true })
@@ -28,10 +30,11 @@ bot.on('message', msg => {
   const msgId = msg.message_id
   const userMsg = msg.text.toString().toLowerCase()
   const userName = msg.from.first_name
+  const callbackId = `${chatId}:${userId}`
 
-  const callback = answerCallbacks[`${chatId}:${userId}`]
+  const callback = answerCallbacks[callbackId]
   if (callback) {
-    delete answerCallbacks[`${chatId}:${userId}`]
+    delete answerCallbacks[callbackId]
     return callback(msg)
   }
 
@@ -39,31 +42,6 @@ bot.on('message', msg => {
 
   return true
 })
-
-const customKb = (msgId, customKeyboard) => ({
-  reply_to_message_id: msgId,
-  parse_mode: 'Markdown',
-  reply_markup: {
-    keyboard: customKeyboard,
-    force_reply: true,
-    resize_keyboard: true,
-    one_time_keyboard: true,
-    selective: true
-  }
-})
-
-const defaultKb = (msgId, isReply = false) => ({
-  reply_to_message_id: msgId,
-  parse_mode: 'Markdown',
-  reply_markup: {
-    force_reply: isReply,
-    remove_keyboard: true,
-    selective: true
-  }
-})
-
-const isValidDate = date =>
-  moment(date, 'D/M/YY', 'pt-br', true).isValid() && moment().isSameOrBefore(moment(date, 'D/M/YY'), 'day')
 
 bot.onText(/^\/role\b/i, msg => {
   const chatId = msg.chat.id
@@ -79,7 +57,8 @@ bot.onText(/^\/role\b/i, msg => {
         bot.sendMessage(chatId, 'Digite uma data (DD/MM/AA) futura', defaultKb(answerRoleDateId, true)).then(() => {
           answerCallbacks[callbackId] = answerAnotherDate => {
             const answerAnotherDateId = answerAnotherDate.message_id
-            if (isValidDate(answerAnotherDate.text)) {
+
+            if (isValidDate(answerAnotherDate.text) && isFutureDate(answerAnotherDate.text)) {
               const date = moment(answerAnotherDate.text, 'D/M/YY')
 
               bot.sendMessage(
@@ -104,6 +83,7 @@ bot.onText(/^\/role\b/i, msg => {
         )
       } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
         const date = moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
+
         bot.sendMessage(
           chatId,
           `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
@@ -121,77 +101,66 @@ bot.onText(/^\/role\b/i, msg => {
 })
 
 bot.onText(/^\/niver\b/i, msg => {
-  if (tararaus.filter(tararau => tararau.userId === msg.from.id).length !== 0) {
-    bot.sendMessage(msg.chat.id, 'Você já inseriu sua data de nascimento', defaultKb(msg.message_id))
+  const chatId = msg.chat.id
+  const userId = msg.from.id
+  const msgId = msg.message_id
+  const callbackId = `${chatId}:${userId}`
+  const userName = msg.from.first_name
+
+  if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length !== 0) {
+    bot.sendMessage(chatId, 'Você já registrou sua data de nascimento', defaultKb(msgId))
   } else {
     bot
       .sendMessage(
-        msg.chat.id,
-        `Por gentileza, insira a data (DD/MM/AAAA) em que sua mãe te pariu ${
-          emoji.find('slightly_smiling_face').emoji
-        }`,
-        defaultKb(msg.message_id, true)
+        chatId,
+        `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento ${emoji.find('slightly_smiling_face').emoji}`,
+        defaultKb(msgId, true)
       )
       .then(() => {
-        answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answerBirthdate => {
-          if (moment(answerBirthdate.text, 'D/M/YYYY', 'pt-br', true).isValid()) {
+        answerCallbacks[callbackId] = answerBirthdate => {
+          const answerBirthdateId = answerBirthdate.message_id
+
+          if (isValidDate(answerBirthdate.text, true)) {
             const date = moment(answerBirthdate.text, 'D/M/YYYY')
+
             bot
               .sendMessage(
                 chatId,
                 `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY [(]dddd[)]').toLowerCase()}?`,
-                {
-                  reply_to_message_id: answerBirthdate.message_id,
-                  reply_markup: {
-                    force_reply: true,
-                    keyboard: buildYesNoOptions(),
-                    resize_keyboard: true,
-                    one_time_keyboard: true,
-                    selective: true
-                  }
-                }
+                customKb(answerBirthdateId, buildYesNoOptions())
               )
               .then(() => {
-                answerCallbacks[`${msg.chat.id}:${msg.from.id}`] = answerConfirmation => {
+                answerCallbacks[callbackId] = answerConfirmation => {
+                  const answerConfirmationId = answerConfirmation.message_id
+
                   if (answerConfirmation.text === 'Certamente') {
                     const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
+
                     tararaus.push({
-                      userId: msg.from.id,
-                      userName: msg.from.first_name,
+                      chatId,
+                      userId,
+                      userName,
                       signName: sign.name,
                       signSymbol: sign.symbol,
                       birthdate: date
                     })
+
                     bot.sendMessage(
-                      msg.chat.id,
+                      chatId,
                       `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
-                      {
-                        reply_to_message_id: answerConfirmation.message_id,
-                        reply_markup: {
-                          remove_keyboard: true,
-                          selective: true
-                        }
-                      }
+                      defaultKb(answerConfirmationId)
                     )
                   } else {
-                    bot.sendMessage(msg.chat.id, 'Repita o processo e vê se não erra dessa vez', {
-                      reply_to_message_id: answerConfirmation.message_id,
-                      reply_markup: {
-                        remove_keyboard: true,
-                        selective: true
-                      }
-                    })
+                    bot.sendMessage(
+                      chatId,
+                      'Repita o processo e vê se não erra dessa vez',
+                      defaultKb(answerConfirmationId)
+                    )
                   }
                 }
               })
           } else {
-            bot.sendMessage(msg.chat.id, 'Data inválida, preste atenção no formato', {
-              reply_to_message_id: answerBirthdate.message_id,
-              reply_markup: {
-                remove_keyboard: true,
-                selective: true
-              }
-            })
+            bot.sendMessage(chatId, 'Data inválida, preste atenção no formato', defaultKb(answerBirthdateId))
           }
         }
       })
@@ -201,53 +170,35 @@ bot.onText(/^\/niver\b/i, msg => {
 bot.onText(/^\/bdays\b/i, msg => {
   bot.sendMessage(
     msg.chat.id,
-    `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
-${getBirthdays(tararaus).join('')}`,
-    {
-      reply_to_message_id: msg.message_id,
-      parse_mode: 'Markdown',
-      reply_markup: {
-        remove_keyboard: true,
-        selective: true
-      }
-    }
+    hasBirthdays(msg.chat.id, tararaus)
+      ? `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
+
+${getBirthdays(msg.chat.id, tararaus).join('')}`
+      : `Nenhuma data de nascimento foi registrada ainda ${emoji.find('white_frowning_face').emoji}`,
+    defaultKb(msg.message_id)
   )
 })
 
 bot.onText(/^\/clear\b/i, msg => {
-  bot.sendMessage(msg.chat.id, 'Teclado aniquilado com sucesso', {
-    reply_to_message_id: msg.message_id,
-    reply_markup: {
-      remove_keyboard: true,
-      selective: true
-    }
-  })
+  bot.sendMessage(msg.chat.id, 'Teclado aniquilado com sucesso', defaultKb(msg.message_id))
 })
 
-bot.onText(/^\/help\b/i, msg => {
+bot.onText(/^\/(help\b|$)/i, msg => {
   bot.sendMessage(
     msg.chat.id,
-    `Posso te ajudar a marcar rolês, registrar datas de nascimento da galera para listar os próximos aniversariantes e, claro, encher o saco do pessoal.`,
-    {
-      reply_to_message_id: msg.message_id,
-      parse_mode: 'Markdown',
-      reply_markup: {
-        remove_keyboard: true,
-        selective: true
-      }
-    }
+    `Posso te ajudar a marcar rolês, registrar a data de nascimento da galera e te lembrar dos próximos aniversariantes.
+
+Você pode fazer isso enviando os seguintes comandos:
+
+/role - marque o rolê da galera ${emoji.find('sunglasses').emoji}
+/niver - registre sua data de nascimento pro pessoal não deixar seu níver passar em branco ${emoji.find('tada').emoji}
+/bdays - liste os próximos aniversariantes do grupo ${emoji.find('birthday').emoji}`,
+    defaultKb(msg.message_id)
   )
 })
 
-bot.onText(/^\/(?!(role|niver|bdays|clear|help)\b).*/i, msg => {
-  bot.sendMessage(msg.chat.id, 'Este comando _non ecziste_!', {
-    reply_to_message_id: msg.message_id,
-    parse_mode: 'Markdown',
-    reply_markup: {
-      remove_keyboard: true,
-      selective: true
-    }
-  })
+bot.onText(/^\/(?!(role|niver|bdays|clear|help)\b).+/i, msg => {
+  bot.sendMessage(msg.chat.id, 'Este comando _non ecziste_!', defaultKb(msg.message_id))
 })
 
 bot.on('polling_error', error => {

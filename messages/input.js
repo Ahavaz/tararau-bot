@@ -95,7 +95,21 @@ const inputMsgs = {
     'imbecil',
     'retardado'
   ],
-  ow: ['ow', 'ei', 'psiu', 'vei', 'véi', 'mano', 'cara', 'bicho'],
+  ow: [
+    'ow', //
+    'ei',
+    'hey',
+    'yo',
+    'psiu',
+    'vei',
+    'véi',
+    'vey',
+    'mano',
+    'cara',
+    'bicho',
+    'entao',
+    'então'
+  ],
   shit: [
     'tolete',
     'merda',
@@ -154,10 +168,16 @@ const inputMsgs = {
     'buenasnoches'
   ],
   miou: /\bn((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\b|\b(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\b|^\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*$|^\s*(va+(y|i)+|vo+(u|w|y)*)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*$/,
-  love: ['te amo', 'amo você'],
-  hate: ['te odeio', 'odeio você'],
+  love: [
+    'te amo', //
+    'amo você'
+  ],
+  hate: [
+    'te odeio', //
+    'odeio você'
+  ],
   enfia: [
-    'enfia no cu',
+    'enfia no cu', //
     'enfia no rabo',
     'enfie no cu',
     'enfie no rabo',
@@ -165,7 +185,7 @@ const inputMsgs = {
     'enfiar no rabo'
   ],
   foda: [
-    'ta foda',
+    'ta foda', //
     'tá foda',
     'ta osso',
     'tá osso',
