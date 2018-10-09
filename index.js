@@ -174,7 +174,9 @@ bot.onText(/^\/bdays\b/i, msg => {
       ? `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
 
 ${getBirthdays(msg.chat.id, tararaus).join('')}`
-      : `Nenhuma data de nascimento foi registrada ainda ${emoji.find('white_frowning_face').emoji}`,
+      : `Nenhuma data de nascimento foi registrada ainda ${emoji.find('slightly_frowning_face').emoji}
+      
+Envie o comando /niver para registrar a sua!`,
     defaultKb(msg.message_id)
   )
 })
