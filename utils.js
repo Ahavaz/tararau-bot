@@ -26,6 +26,9 @@ const buildMsg = array => {
 }
 
 // Birthday functions
+const seasons = (isPlural = true) =>
+  isPlural ? ['primaveras', 'verões', 'outonos', 'invernos'] : ['primavera', 'verão', 'outono', 'inverno']
+
 const nextBirthday = birthdate => {
   const date = birthdate.clone().year(moment().get('year'))
   if (date.diff(moment(), 'days') < 0) date.add(1, 'years')
@@ -48,8 +51,8 @@ const calcBirthday = (chatId, tararaus) =>
 const getBirthdays = (chatId, tararaus) =>
   calcBirthday(chatId, tararaus).map(
     tararau => `
-${tararau.signSymbol} ${tararau.userFullName} (@${tararau.userName}) vai completar ${tararau.age + 1} inverno${
-      tararau.age !== 1 ? 's' : ''
+${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age + 1} ${
+      tararau.age !== 1 ? randomMsg(seasons()) : randomMsg(seasons(false))
     } em ${tararau.birthday.format('DD/MM/YY')}
 _Falta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${tararau.countdown !== 1 ? 's_' : '!_'}
 `
