@@ -23,17 +23,11 @@ const filterMsg = (userMsg, options) =>
 
 const randomMsg = array => array[Math.floor(Math.random() * array.length)]
 
-const getRandomInt = (min = 2, max = 6) =>
-  Math.floor(Math.random() * (max - min + 1)) + min
+const getRandomInt = (min = 2, max = 6) => Math.floor(Math.random() * (max - min + 1)) + min
 
 const buildMsg = array => {
   const msg = randomMsg(array)
-  if (array === tararauArray)
-    return (
-      msg.slice(0, 5) +
-      msg.slice(5, 6).repeat(getRandomInt(1, 5)) +
-      msg.slice(6)
-    )
+  if (array === tararauArray) return msg.slice(0, 5) + msg.slice(5, 6).repeat(getRandomInt(1, 5)) + msg.slice(6)
   if (array === aynArray)
     return msg
       .split('')
@@ -83,13 +77,10 @@ const calcBirthday = tararaus =>
 const getBirthdays = tararaus =>
   calcBirthday(tararaus).map(
     tararau =>
-      `${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age +
-        1} inverno${tararau.age !== 1 ? 's' : ''} em ${tararau.birthday.format(
-        'DD/MM/YY'
-      )}
-_Falta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${
-        tararau.countdown !== 1 ? 's_' : '_!'
-      }
+      `${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age + 1} inverno${
+        tararau.age !== 1 ? 's' : ''
+      } em ${tararau.birthday.format('DD/MM/YY')}
+_Falta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${tararau.countdown !== 1 ? 's_' : '_!'}
       `
   )
 
