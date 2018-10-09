@@ -1,14 +1,7 @@
-// const Moment = require('moment-timezone')
-// const { extendMoment } = require('moment-range')
-
-// const moment = extendMoment(Moment)
-// moment.locale('pt-br')
-// moment.tz.setDefault('America/Sao_Paulo')
-
 const getNext = date => {
   date.add(1, 'days')
-  return `${date.format(`dddd
-[(]'D/MMM/YY'[)]`)}`
+  return date.format(`dddd
+[(]'D/MMM/YY'[)]`)
 }
 
 const buildDayOptions = date => [
