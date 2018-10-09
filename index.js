@@ -172,7 +172,7 @@ bot.onText(/^\/bdays\b/i, msg => {
       ? `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
 ${getBirthdays(msg.chat.id, tararaus).join('')}`
       : `Nenhuma data de nascimento foi registrada ainda ${emoji.find('slightly_frowning_face').emoji}
-      
+
 Envie o comando /niver para registrar a sua!`,
     defaultKb(msg.message_id)
   )
@@ -190,7 +190,9 @@ bot.onText(/^\/(help\b|$)/i, msg => {
 Você pode fazer isso enviando os seguintes comandos:
 
 /role - marque o rolê da galera ${emoji.find('sunglasses').emoji}
-/niver - registre sua data de nascimento pro pessoal não deixar seu níver passar em branco ${emoji.find('tada').emoji}
+/niver - registre sua data de nascimento para o pessoal não deixar seu níver passar em branco ${
+      emoji.find('tada').emoji
+    }
 /bdays - liste os próximos aniversariantes do grupo ${emoji.find('birthday').emoji}`,
     defaultKb(msg.message_id)
   )
