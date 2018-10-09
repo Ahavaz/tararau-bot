@@ -51,7 +51,7 @@ const getBirthdays = (chatId, tararaus) =>
 ${tararau.signSymbol} ${tararau.userFullName} (@${tararau.userName}) vai completar ${tararau.age + 1} inverno${
       tararau.age !== 1 ? 's' : ''
     } em ${tararau.birthday.format('DD/MM/YY')}
-_Falta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${tararau.countdown !== 1 ? 's_' : '_!'}
+_Falta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${tararau.countdown !== 1 ? 's_' : '!_'}
 `
   )
 
