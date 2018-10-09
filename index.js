@@ -151,11 +151,7 @@ bot.onText(/^\/niver\b/i, msg => {
                       defaultKb(answerConfirmationId)
                     )
                   } else {
-                    bot.sendMessage(
-                      chatId,
-                      'Repita o processo e vê se não erra dessa vez',
-                      defaultKb(answerConfirmationId)
-                    )
+                    bot.sendMessage(chatId, 'Favor repetir o processo', defaultKb(answerConfirmationId))
                   }
                 }
               })
