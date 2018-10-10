@@ -3,18 +3,23 @@ const TelegramBot = require('node-telegram-bot-api')
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
 const emoji = require('node-emoji')
+// const mongoose = require('mongoose')
 const { msgMatches } = require('./msgMatches')
 const { getSign } = require('./signs')
 const { getBirthdays, hasBirthdays, isValidDate, isFutureDate } = require('./utils')
 const { customKb, defaultKb } = require('./msgOptions')
 const { buildDayOptions, buildYesNoOptions } = require('./keyboardTemplates')
 
-const token = process.env.TELEGRAM_CHATBOT_API_KEY
-const bot = new TelegramBot(token, { polling: true })
+// const mongoUri = process.env.MONGODB_URI
+const telegramToken = process.env.TELEGRAM_CHATBOT_API_KEY
+const bot = new TelegramBot(telegramToken, { polling: true })
 const moment = extendMoment(Moment)
 moment.locale('pt-br')
 moment.tz.setDefault('America/Sao_Paulo')
 // const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
+
+// const db = mongoose.connect(mongoUri)
+// db.tararaus.find()
 
 // const roles = []
 
