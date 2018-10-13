@@ -83,7 +83,8 @@ bot.onText(/^\/role\b/i, msg => {
       } else if (answerRoleDate.text === 'Mudei de ideia') {
         bot.sendMessage(
           chatId,
-          `Vai ti toma no cu então ${answerRoleDate.from.first_name} ${emoji.find('upside_down_face').emoji}`,
+          // `Vai ti toma no cu então ${answerRoleDate.from.first_name} ${emoji.find('').emoji}`,
+          `Vai ti toma no cu então ${answerRoleDate.from.first_name} 🙃`,
           defaultKb(answerRoleDateId)
         )
       } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
@@ -97,7 +98,8 @@ bot.onText(/^\/role\b/i, msg => {
       } else {
         bot.sendMessage(
           chatId,
-          `Use os botões, energúmeno ${emoji.find('face_with_rolling_eyes').emoji}`,
+          // `Use os botões, energúmeno ${emoji.find('face_with_rolling_eyes').emoji}`,
+          `Use os botões, energúmeno 🙄`,
           defaultKb(answerRoleDateId)
         )
       }
@@ -113,13 +115,14 @@ bot.onText(/^\/niver\b/i, msg => {
   const userFullName = `${msg.from.first_name} ${msg.from.last_name || ''}`.trim()
   const userName = `[${userFullName}](tg://user?id=${userId})`
 
-  if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length !== 0) {
+  if (!tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
     bot.sendMessage(chatId, 'Você já registrou sua data de nascimento', defaultKb(msgId))
   } else {
     bot
       .sendMessage(
         chatId,
-        `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento ${emoji.find('slightly_smiling_face').emoji}`,
+        // `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento ${emoji.find('slightly_smiling_face').emoji}`,
+        `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`,
         defaultKb(msgId, true)
       )
       .then(() => {
@@ -196,7 +199,7 @@ Você pode fazer isso enviando os seguintes comandos:
 
 /role - marque o rolê da galera ${emoji.find('sunglasses').emoji}
 /niver - registre sua data de nascimento para o pessoal não deixar seu níver passar em branco ${
-      emoji.find('tada').emoji
+    emoji.find('tada').emoji
     }
 /bdays - liste os próximos aniversariantes do grupo ${emoji.find('birthday').emoji}`,
     defaultKb(msg.message_id)
