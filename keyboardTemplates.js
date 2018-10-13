@@ -17,7 +17,7 @@ const buildDayOptions = date => [
   ['Mudei de ideia']
 ]
 
-const buildYesNoOptions = () => [['Certamente ✔️', 'Não, errei ❌']]
+const buildYesNoOptions = () => [['Sim', 'Não']]
 
 module.exports = {
   buildDayOptions,
