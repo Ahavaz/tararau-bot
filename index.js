@@ -4,10 +4,10 @@ const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
 // const mongoose = require('mongoose')
 const { msgMatches } = require('./msgMatches')
-const { getSign } = require('./signs')
 const { getBirthdays, hasBirthdays, isValidDate, isFutureDate } = require('./utils')
 const { customKb, defaultKb } = require('./msgOptions')
-const { buildDayOptions, buildYesNoOptions } = require('./keyboardTemplates')
+const { buildDayOptions } = require('./keyboardTemplates')
+const { getBirthdate } = require('./commands/niver')
 
 // const mongoUri = process.env.MONGODB_URI
 const telegramToken = process.env.TELEGRAM_CHATBOT_API_KEY
@@ -26,7 +26,7 @@ moment.tz.setDefault('America/Sao_Paulo')
 
 const tararaus = []
 
-const answerCallbacks = {}
+global.answerCallbacks = {}
 
 bot.on('message', msg => {
   const chatId = msg.chat.id
@@ -36,9 +36,9 @@ bot.on('message', msg => {
   const userFirstName = msg.from.first_name
   const callbackId = `${chatId}:${userId}`
 
-  const callback = answerCallbacks[callbackId]
+  const callback = global.answerCallbacks[callbackId]
   if (callback) {
-    delete answerCallbacks[callbackId]
+    delete global.answerCallbacks[callbackId]
     return callback(msg)
   }
 
@@ -56,12 +56,12 @@ bot.onText(/^\/role\b/i, msg => {
   const callbackId = `${chatId}:${userId}`
 
   bot.sendMessage(chatId, 'Quando vocês querem meter o loko?', customKb(msgId, buildDayOptions(moment()))).then(() => {
-    answerCallbacks[callbackId] = answerRoleDate => {
+    global.answerCallbacks[callbackId] = answerRoleDate => {
       const answerRoleDateId = answerRoleDate.message_id
 
       if (answerRoleDate.text === 'Outra data') {
         bot.sendMessage(chatId, 'Digite uma data (DD/MM/AA) futura', defaultKb(answerRoleDateId, true)).then(() => {
-          answerCallbacks[callbackId] = answerAnotherDate => {
+          global.answerCallbacks[callbackId] = answerAnotherDate => {
             const answerAnotherDateId = answerAnotherDate.message_id
 
             if (isValidDate(answerAnotherDate.text) && isFutureDate(answerAnotherDate.text)) {
@@ -99,88 +99,6 @@ Escolha uma data futura e preste atenção no formato`,
   })
 })
 
-const confirmBirthdate = (callbackId, chatId, userId, userFullName, userName, date) => {
-  answerCallbacks[callbackId] = async answerConfirmation => {
-    const answerConfirmationId = answerConfirmation.message_id
-
-    if (answerConfirmation.text === 'Sim') {
-      const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
-
-      tararaus.push({
-        chatId,
-        userId,
-        userName,
-        userFullName,
-        signName: sign.name,
-        signSymbol: sign.symbol,
-        birthdate: date
-      })
-
-      bot.sendMessage(
-        chatId,
-        `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
-        defaultKb(answerConfirmationId)
-      )
-    } else if (answerConfirmation.text === 'Não') {
-      await bot.sendMessage(chatId, 'Favor repetir o processo.', defaultKb(answerConfirmationId))
-      getBirthdate(callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
-    } else {
-      bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
-    }
-  }
-}
-
-const receivedBirthdate = (callbackId, chatId, userId, userFullName, userName) => {
-  answerCallbacks[callbackId] = async answerBirthdate => {
-    const answerBirthdateId = answerBirthdate.message_id
-
-    if (isValidDate(answerBirthdate.text, true)) {
-      const date = moment(answerBirthdate.text, 'D/M/YYYY')
-
-      await bot.sendMessage(
-        chatId,
-        `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY [(]dddd[)]').toLowerCase()}?`,
-        customKb(answerBirthdateId, buildYesNoOptions())
-      )
-      confirmBirthdate(callbackId, chatId, userId, userFullName, userName, date)
-    } else {
-      await bot.sendMessage(
-        chatId,
-        `⚠️ *Data inválida*
-Preste atenção no formato.
-
-Gostaria de tentar novamente?`,
-        customKb(answerBirthdateId, buildYesNoOptions())
-      )
-      tryAgain(callbackId, chatId, userId, userFullName, userName)
-    }
-  }
-}
-
-const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
-  answerCallbacks[callbackId] = async answerConfirmation => {
-    const answerConfirmationId = answerConfirmation.message_id
-
-    if (answerConfirmation.text === 'Sim') {
-      getBirthdate(callbackId, chatId, userId, userFullName, userName)
-    } else if (answerConfirmation.text === 'Não') {
-      bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
-    } else {
-      await bot.sendMessage(
-        chatId,
-        `🤔 Não entendi, tente novamente.`,
-        customKb(answerConfirmationId, buildYesNoOptions())
-      )
-      tryAgain(callbackId, chatId, userId, userFullName, userName)
-    }
-  }
-}
-
-const getBirthdate = async (callbackId, chatId, userId, msgId, userFullName, userName) => {
-  await bot.sendMessage(chatId, `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`, defaultKb(msgId, true))
-  receivedBirthdate(callbackId, chatId, userId, userFullName, userName)
-}
-
 bot.onText(/^\/niver\b/i, async msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
@@ -192,7 +110,7 @@ bot.onText(/^\/niver\b/i, async msg => {
   if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
     bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
-    getBirthdate(callbackId, chatId, userId, msgId, userFullName, userName)
+    getBirthdate(bot, tararaus, callbackId, chatId, userId, msgId, userFullName, userName)
   }
 })
 
