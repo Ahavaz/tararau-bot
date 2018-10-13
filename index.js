@@ -42,7 +42,9 @@ bot.on('message', msg => {
     return callback(msg)
   }
 
-  msgMatches(chatId, msgId, userMsg, userFirstName, bot)
+  if (!userMsg.startsWith('/')) {
+    msgMatches(chatId, msgId, userMsg, userFirstName, bot)
+  }
 
   return true
 })
@@ -97,7 +99,54 @@ Escolha uma data futura e preste atenção no formato`,
   })
 })
 
-bot.onText(/^\/niver\b/i, msg => {
+const receivedBirthdate = (callbackId, answerBirthdate, chatId, userId, userFullName, userName) => {
+  answerCallbacks[callbackId] = () => {
+    const answerBirthdateId = answerBirthdate.message_id
+
+    if (isValidDate(answerBirthdate.text, true)) {
+      const date = moment(answerBirthdate.text, 'D/M/YYYY')
+
+      bot
+        .sendMessage(
+          chatId,
+          `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY [(]dddd[)]').toLowerCase()}?`,
+          customKb(answerBirthdateId, buildYesNoOptions())
+        )
+
+        .then(() => {
+          answerCallbacks[callbackId] = answerConfirmation => {
+            const answerConfirmationId = answerConfirmation.message_id
+
+            if (answerConfirmation.text === 'Certamente ✔️') {
+              const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
+
+              tararaus.push({
+                chatId,
+                userId,
+                userName,
+                userFullName,
+                signName: sign.name,
+                signSymbol: sign.symbol,
+                birthdate: date
+              })
+
+              bot.sendMessage(
+                chatId,
+                `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
+                defaultKb(answerConfirmationId)
+              )
+            } else {
+              bot.sendMessage(chatId, 'Favor repetir o processo', defaultKb(answerConfirmationId))
+            }
+          }
+        })
+    } else {
+      bot.sendMessage(chatId, 'Data inválida, preste atenção no formato', defaultKb(answerBirthdateId))
+    }
+  }
+}
+
+bot.onText(/^\/niver\b/i, async msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
   const msgId = msg.message_id
@@ -108,53 +157,13 @@ bot.onText(/^\/niver\b/i, msg => {
   if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
     bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
-    bot
-      .sendMessage(chatId, `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`, defaultKb(msgId, true))
-      .then(() => {
-        answerCallbacks[callbackId] = answerBirthdate => {
-          const answerBirthdateId = answerBirthdate.message_id
+    const answerBirthdate = await bot.sendMessage(
+      chatId,
+      `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`,
+      defaultKb(msgId, true)
+    )
 
-          if (isValidDate(answerBirthdate.text, true)) {
-            const date = moment(answerBirthdate.text, 'D/M/YYYY')
-
-            bot
-              .sendMessage(
-                chatId,
-                `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY [(]dddd[)]').toLowerCase()}?`,
-                customKb(answerBirthdateId, buildYesNoOptions())
-              )
-              .then(() => {
-                answerCallbacks[callbackId] = answerConfirmation => {
-                  const answerConfirmationId = answerConfirmation.message_id
-
-                  if (answerConfirmation.text === 'Certamente ✔️') {
-                    const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
-
-                    tararaus.push({
-                      chatId,
-                      userId,
-                      userName,
-                      userFullName,
-                      signName: sign.name,
-                      signSymbol: sign.symbol,
-                      birthdate: date
-                    })
-
-                    bot.sendMessage(
-                      chatId,
-                      `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
-                      defaultKb(answerConfirmationId)
-                    )
-                  } else {
-                    bot.sendMessage(chatId, 'Favor repetir o processo', defaultKb(answerConfirmationId))
-                  }
-                }
-              })
-          } else {
-            bot.sendMessage(chatId, 'Data inválida, preste atenção no formato', defaultKb(answerBirthdateId))
-          }
-        }
-      })
+    receivedBirthdate(callbackId, answerBirthdate, chatId, userId, userFullName, userName)
   }
 })
 
