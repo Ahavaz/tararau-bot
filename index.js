@@ -2,7 +2,6 @@ process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
-const emoji = require('node-emoji')
 // const mongoose = require('mongoose')
 const { msgMatches } = require('./msgMatches')
 const { getSign } = require('./signs')
@@ -83,7 +82,6 @@ bot.onText(/^\/role\b/i, msg => {
       } else if (answerRoleDate.text === 'Mudei de ideia') {
         bot.sendMessage(
           chatId,
-          // `Vai ti toma no cu então ${answerRoleDate.from.first_name} ${emoji.find('').emoji}`,
           `Vai ti toma no cu então ${answerRoleDate.from.first_name} 🙃`,
           defaultKb(answerRoleDateId)
         )
@@ -98,7 +96,6 @@ bot.onText(/^\/role\b/i, msg => {
       } else {
         bot.sendMessage(
           chatId,
-          // `Use os botões, energúmeno ${emoji.find('face_with_rolling_eyes').emoji}`,
           `Use os botões, energúmeno 🙄`,
           defaultKb(answerRoleDateId)
         )
@@ -121,7 +118,6 @@ bot.onText(/^\/niver\b/i, msg => {
     bot
       .sendMessage(
         chatId,
-        // `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento ${emoji.find('slightly_smiling_face').emoji}`,
         `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`,
         defaultKb(msgId, true)
       )
@@ -177,9 +173,9 @@ bot.onText(/^\/bdays\b/i, msg => {
   bot.sendMessage(
     msg.chat.id,
     hasBirthdays(msg.chat.id, tararaus)
-      ? `*Próximos aniversariantes* ${emoji.find('birthday').emoji}
+      ? `*Próximos aniversariantes* 🎂
 ${getBirthdays(msg.chat.id, tararaus).join('')}`
-      : `Nenhuma data de nascimento foi registrada ainda ${emoji.find('slightly_frowning_face').emoji}
+      : `Nenhuma data de nascimento foi registrada ainda 🙁
 
 Envie o comando /niver para registrar a sua!`,
     defaultKb(msg.message_id)
@@ -197,11 +193,9 @@ bot.onText(/^\/(help\b|$)/i, msg => {
 
 Você pode fazer isso enviando os seguintes comandos:
 
-/role - marque o rolê da galera ${emoji.find('sunglasses').emoji}
-/niver - registre sua data de nascimento para o pessoal não deixar seu níver passar em branco ${
-    emoji.find('tada').emoji
-    }
-/bdays - liste os próximos aniversariantes do grupo ${emoji.find('birthday').emoji}`,
+/role - marque o rolê da galera 😎
+/niver - registre sua data de nascimento para o pessoal não deixar seu níver passar em branco 🎉
+/bdays - liste os próximos aniversariantes do grupo 🎂`,
     defaultKb(msg.message_id)
   )
 })

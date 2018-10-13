@@ -1,5 +1,3 @@
-const emoji = require('node-emoji')
-
 const inputMsgs = {
   tararau: /\bta+ra+ra+u+\b/,
   ayn: /\b(a+(y|i)+n+)+\b/,
@@ -123,7 +121,7 @@ const inputMsgs = {
     'cagaram',
     'cagando',
     'cagar',
-    `${emoji.find('poop').emoji}`,
+    `💩`,
     'bostinha',
     'merdinha'
   ],
@@ -196,4 +194,6 @@ const inputMsgs = {
   ]
 }
 
-module.exports = { inputMsgs }
+module.exports = {
+  inputMsgs
+}
