@@ -82,7 +82,7 @@ bot.onText(/^\/role\b/i, msg => {
       } else if (answerRoleDate.text === 'Mudei de ideia') {
         bot.sendMessage(
           chatId,
-          `Vai ti toma no cu então ${answerRoleDate.from.first_name} 🙃`,
+          `Vai ti toma no cu então poha 😒`,
           defaultKb(answerRoleDateId)
         )
       } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
