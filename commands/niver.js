@@ -54,7 +54,12 @@ const confirmedBirthdate = (tararaus, callbackId, chatId, userId, userFullName, 
       await global.bot.sendMessage(chatId, 'Favor repetir o processo.', defaultKb(answerConfirmationId))
       getBirthdate(tararaus, callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
     } else {
-      global.bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
+      await global.bot.sendMessage(
+        chatId,
+        '🤔 Não entendi, gostaria de tentar novamente?',
+        customKb(answerConfirmationId, buildYesNoOptions())
+      )
+      tryAgain(tararaus, callbackId, chatId, userId, userFullName, userName)
     }
   }
 }
