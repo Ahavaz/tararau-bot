@@ -73,7 +73,7 @@ bot.onText(/^\/role\b/i, msg => {
             } else {
               bot.sendMessage(
                 chatId,
-                `**Data inválida** ⚠️
+                `*Data inválida* ⚠️
 Escolha uma data futura e preste atenção no formato`,
                 defaultKb(answerAnotherDateId)
               )
@@ -81,11 +81,7 @@ Escolha uma data futura e preste atenção no formato`,
           }
         })
       } else if (answerRoleDate.text === 'Mudei de ideia') {
-        bot.sendMessage(
-          chatId,
-          `Vai ti toma no cu então poha 😒`,
-          defaultKb(answerRoleDateId)
-        )
+        bot.sendMessage(chatId, `Vai ti toma no cu então poha 😒`, defaultKb(answerRoleDateId))
       } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
         const date = moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
 
@@ -95,11 +91,7 @@ Escolha uma data futura e preste atenção no formato`,
           defaultKb(answerRoleDateId, true)
         )
       } else {
-        bot.sendMessage(
-          chatId,
-          `Use os botões, energúmeno 🙄`,
-          defaultKb(answerRoleDateId)
-        )
+        bot.sendMessage(chatId, `Use os botões, energúmeno 🙄`, defaultKb(answerRoleDateId))
       }
     }
   })
@@ -117,11 +109,7 @@ bot.onText(/^\/niver\b/i, msg => {
     bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
     bot
-      .sendMessage(
-        chatId,
-        `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`,
-        defaultKb(msgId, true)
-      )
+      .sendMessage(chatId, `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`, defaultKb(msgId, true))
       .then(() => {
         answerCallbacks[callbackId] = answerBirthdate => {
           const answerBirthdateId = answerBirthdate.message_id
