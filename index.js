@@ -115,7 +115,7 @@ bot.onText(/^\/niver\b/i, msg => {
   const userFullName = `${msg.from.first_name} ${msg.from.last_name || ''}`.trim()
   const userName = `[${userFullName}](tg://user?id=${userId})`
 
-  if (!tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
+  if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
     bot.sendMessage(chatId, 'Você já registrou sua data de nascimento', defaultKb(msgId))
   } else {
     bot
