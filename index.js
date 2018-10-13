@@ -73,7 +73,8 @@ bot.onText(/^\/role\b/i, msg => {
             } else {
               bot.sendMessage(
                 chatId,
-                'Data inválida, escolha uma data futura e preste atenção no formato',
+                `**Data inválida** ⚠️
+Escolha uma data futura e preste atenção no formato`,
                 defaultKb(answerAnotherDateId)
               )
             }
@@ -113,7 +114,7 @@ bot.onText(/^\/niver\b/i, msg => {
   const userName = `[${userFullName}](tg://user?id=${userId})`
 
   if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
-    bot.sendMessage(chatId, 'Você já registrou sua data de nascimento', defaultKb(msgId))
+    bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
     bot
       .sendMessage(
@@ -138,7 +139,7 @@ bot.onText(/^\/niver\b/i, msg => {
                 answerCallbacks[callbackId] = answerConfirmation => {
                   const answerConfirmationId = answerConfirmation.message_id
 
-                  if (answerConfirmation.text === 'Certamente') {
+                  if (answerConfirmation.text === 'Certamente ✔️') {
                     const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
 
                     tararaus.push({
