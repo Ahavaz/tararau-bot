@@ -9,7 +9,26 @@ const moment = extendMoment(Moment)
 moment.locale('pt-br')
 moment.tz.setDefault('America/Sao_Paulo')
 
-const confirmBirthdate = (tararaus, callbackId, chatId, userId, userFullName, userName, date) => {
+const tryAgain = (tararaus, callbackId, chatId, userId, userFullName, userName) => {
+  global.answerCallbacks[callbackId] = async answerConfirmation => {
+    const answerConfirmationId = answerConfirmation.message_id
+
+    if (answerConfirmation.text === 'Sim') {
+      getBirthdate(tararaus, callbackId, chatId, userId, userFullName, userName)
+    } else if (answerConfirmation.text === 'Não') {
+      global.bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
+    } else {
+      await global.bot.sendMessage(
+        chatId,
+        `🤔 Não entendi, tente novamente.`,
+        customKb(answerConfirmationId, buildYesNoOptions())
+      )
+      tryAgain(tararaus, callbackId, chatId, userId, userFullName, userName)
+    }
+  }
+}
+
+const confirmedBirthdate = (tararaus, callbackId, chatId, userId, userFullName, userName, date) => {
   global.answerCallbacks[callbackId] = async answerConfirmation => {
     const answerConfirmationId = answerConfirmation.message_id
 
@@ -52,7 +71,7 @@ const receivedBirthdate = (tararaus, callbackId, chatId, userId, userFullName, u
         `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY [(]dddd[)]').toLowerCase()}?`,
         customKb(answerBirthdateId, buildYesNoOptions())
       )
-      confirmBirthdate(tararaus, callbackId, chatId, userId, userFullName, userName, date)
+      confirmedBirthdate(tararaus, callbackId, chatId, userId, userFullName, userName, date)
     } else {
       await global.bot.sendMessage(
         chatId,
@@ -76,21 +95,6 @@ const getBirthdate = async (tararaus, callbackId, chatId, userId, msgId, userFul
   receivedBirthdate(tararaus, callbackId, chatId, userId, userFullName, userName)
 }
 
-const tryAgain = (tararaus, callbackId, chatId, userId, userFullName, userName) => {
-  global.answerCallbacks[callbackId] = async answerConfirmation => {
-    const answerConfirmationId = answerConfirmation.message_id
-
-    if (answerConfirmation.text === 'Sim') {
-      getBirthdate(tararaus, callbackId, chatId, userId, userFullName, userName)
-    } else if (answerConfirmation.text === 'Não') {
-      global.bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
-    } else {
-      await global.bot.sendMessage(
-        chatId,
-        `🤔 Não entendi, tente novamente.`,
-        customKb(answerConfirmationId, buildYesNoOptions())
-      )
-      tryAgain(tararaus, callbackId, chatId, userId, userFullName, userName)
-    }
-  }
+module.exports = {
+  getBirthdate
 }
