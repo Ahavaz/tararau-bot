@@ -99,51 +99,86 @@ Escolha uma data futura e preste atenção no formato`,
   })
 })
 
+const confirmBirthdate = (callbackId, chatId, userId, userFullName, userName, date) => {
+  answerCallbacks[callbackId] = async answerConfirmation => {
+    const answerConfirmationId = answerConfirmation.message_id
+
+    if (answerConfirmation.text === 'Sim') {
+      const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
+
+      tararaus.push({
+        chatId,
+        userId,
+        userName,
+        userFullName,
+        signName: sign.name,
+        signSymbol: sign.symbol,
+        birthdate: date
+      })
+
+      bot.sendMessage(
+        chatId,
+        `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
+        defaultKb(answerConfirmationId)
+      )
+    } else if (answerConfirmation.text === 'Não') {
+      await bot.sendMessage(chatId, 'Favor repetir o processo.', defaultKb(answerConfirmationId))
+      getBirthdate(callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
+    } else {
+      bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
+    }
+  }
+}
+
 const receivedBirthdate = (callbackId, chatId, userId, userFullName, userName) => {
-  answerCallbacks[callbackId] = answerBirthdate => {
+  answerCallbacks[callbackId] = async answerBirthdate => {
     const answerBirthdateId = answerBirthdate.message_id
-    console.log(JSON.stringify(answerBirthdate))
+
     if (isValidDate(answerBirthdate.text, true)) {
       const date = moment(answerBirthdate.text, 'D/M/YYYY')
 
-      bot
-        .sendMessage(
-          chatId,
-          `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY [(]dddd[)]').toLowerCase()}?`,
-          customKb(answerBirthdateId, buildYesNoOptions())
-        )
-
-        .then(() => {
-          answerCallbacks[callbackId] = answerConfirmation => {
-            const answerConfirmationId = answerConfirmation.message_id
-
-            if (answerConfirmation.text === 'Certamente ✔️') {
-              const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
-
-              tararaus.push({
-                chatId,
-                userId,
-                userName,
-                userFullName,
-                signName: sign.name,
-                signSymbol: sign.symbol,
-                birthdate: date
-              })
-
-              bot.sendMessage(
-                chatId,
-                `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
-                defaultKb(answerConfirmationId)
-              )
-            } else {
-              bot.sendMessage(chatId, 'Favor repetir o processo', defaultKb(answerConfirmationId))
-            }
-          }
-        })
+      await bot.sendMessage(
+        chatId,
+        `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY [(]dddd[)]').toLowerCase()}?`,
+        customKb(answerBirthdateId, buildYesNoOptions())
+      )
+      confirmBirthdate(callbackId, chatId, userId, userFullName, userName, date)
     } else {
-      bot.sendMessage(chatId, 'Data inválida, preste atenção no formato', defaultKb(answerBirthdateId))
+      await bot.sendMessage(
+        chatId,
+        `⚠️ *Data inválida*
+Preste atenção no formato.
+
+Gostaria de tentar novamente?`,
+        customKb(answerBirthdateId, buildYesNoOptions())
+      )
+      tryAgain(callbackId, chatId, userId, userFullName, userName)
     }
   }
+}
+
+const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
+  answerCallbacks[callbackId] = async answerConfirmation => {
+    const answerConfirmationId = answerConfirmation.message_id
+
+    if (answerConfirmation.text === 'Sim') {
+      getBirthdate(callbackId, chatId, userId, userFullName, userName)
+    } else if (answerConfirmation.text === 'Não') {
+      bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
+    } else {
+      await bot.sendMessage(
+        chatId,
+        `🤔 Não entendi, tente novamente.`,
+        customKb(answerConfirmationId, buildYesNoOptions())
+      )
+      tryAgain(callbackId, chatId, userId, userFullName, userName)
+    }
+  }
+}
+
+const getBirthdate = async (callbackId, chatId, userId, msgId, userFullName, userName) => {
+  await bot.sendMessage(chatId, `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`, defaultKb(msgId, true))
+  receivedBirthdate(callbackId, chatId, userId, userFullName, userName)
 }
 
 bot.onText(/^\/niver\b/i, async msg => {
@@ -157,13 +192,7 @@ bot.onText(/^\/niver\b/i, async msg => {
   if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
     bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
-    await bot.sendMessage(
-      chatId,
-      `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`,
-      defaultKb(msgId, true)
-    )
-
-    receivedBirthdate(callbackId, chatId, userId, userFullName, userName)
+    getBirthdate(callbackId, chatId, userId, msgId, userFullName, userName)
   }
 })
 
