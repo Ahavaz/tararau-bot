@@ -99,11 +99,10 @@ Escolha uma data futura e preste atenção no formato`,
   })
 })
 
-const receivedBirthdate = (callbackId, answerBirthdate, chatId, userId, userFullName, userName) => {
-  answerCallbacks[callbackId] = () => {
+const receivedBirthdate = (callbackId, chatId, userId, userFullName, userName) => {
+  answerCallbacks[callbackId] = answerBirthdate => {
     const answerBirthdateId = answerBirthdate.message_id
     console.log(JSON.stringify(answerBirthdate))
-    console.log(JSON.stringify(answerBirthdate.text))
     if (isValidDate(answerBirthdate.text, true)) {
       const date = moment(answerBirthdate.text, 'D/M/YYYY')
 
@@ -158,13 +157,13 @@ bot.onText(/^\/niver\b/i, async msg => {
   if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
     bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
-    const answerBirthdate = await bot.sendMessage(
+    await bot.sendMessage(
       chatId,
       `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`,
       defaultKb(msgId, true)
     )
 
-    receivedBirthdate(callbackId, answerBirthdate, chatId, userId, userFullName, userName)
+    receivedBirthdate(callbackId, chatId, userId, userFullName, userName)
   }
 })
 
