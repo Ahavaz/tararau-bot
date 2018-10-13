@@ -11,7 +11,7 @@ const { getBirthdate } = require('./commands/niver')
 
 // const mongoUri = process.env.MONGODB_URI
 const telegramToken = process.env.TELEGRAM_CHATBOT_API_KEY
-const bot = new TelegramBot(telegramToken, { polling: true })
+global.bot = new TelegramBot(telegramToken, { polling: true })
 const moment = extendMoment(Moment)
 moment.locale('pt-br')
 moment.tz.setDefault('America/Sao_Paulo')
@@ -28,7 +28,7 @@ const tararaus = []
 
 global.answerCallbacks = {}
 
-bot.on('message', msg => {
+global.bot.on('message', msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
   const msgId = msg.message_id
@@ -43,63 +43,67 @@ bot.on('message', msg => {
   }
 
   if (!userMsg.startsWith('/')) {
-    msgMatches(chatId, msgId, userMsg, userFirstName, bot)
+    msgMatches(chatId, msgId, userMsg, userFirstName)
   }
 
   return true
 })
 
-bot.onText(/^\/role\b/i, msg => {
+global.bot.onText(/^\/role\b/i, msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
   const msgId = msg.message_id
   const callbackId = `${chatId}:${userId}`
 
-  bot.sendMessage(chatId, 'Quando vocês querem meter o loko?', customKb(msgId, buildDayOptions(moment()))).then(() => {
-    global.answerCallbacks[callbackId] = answerRoleDate => {
-      const answerRoleDateId = answerRoleDate.message_id
+  global.bot
+    .sendMessage(chatId, 'Quando vocês querem meter o loko?', customKb(msgId, buildDayOptions(moment())))
+    .then(() => {
+      global.answerCallbacks[callbackId] = answerRoleDate => {
+        const answerRoleDateId = answerRoleDate.message_id
 
-      if (answerRoleDate.text === 'Outra data') {
-        bot.sendMessage(chatId, 'Digite uma data (DD/MM/AA) futura', defaultKb(answerRoleDateId, true)).then(() => {
-          global.answerCallbacks[callbackId] = answerAnotherDate => {
-            const answerAnotherDateId = answerAnotherDate.message_id
+        if (answerRoleDate.text === 'Outra data') {
+          global.bot
+            .sendMessage(chatId, 'Digite uma data (DD/MM/AA) futura', defaultKb(answerRoleDateId, true))
+            .then(() => {
+              global.answerCallbacks[callbackId] = answerAnotherDate => {
+                const answerAnotherDateId = answerAnotherDate.message_id
 
-            if (isValidDate(answerAnotherDate.text) && isFutureDate(answerAnotherDate.text)) {
-              const date = moment(answerAnotherDate.text, 'D/M/YY')
+                if (isValidDate(answerAnotherDate.text) && isFutureDate(answerAnotherDate.text)) {
+                  const date = moment(answerAnotherDate.text, 'D/M/YY')
 
-              bot.sendMessage(
-                chatId,
-                `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
-                defaultKb(answerAnotherDateId, true)
-              )
-            } else {
-              bot.sendMessage(
-                chatId,
-                `*Data inválida* ⚠️
+                  global.bot.sendMessage(
+                    chatId,
+                    `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
+                    defaultKb(answerAnotherDateId, true)
+                  )
+                } else {
+                  global.bot.sendMessage(
+                    chatId,
+                    `*Data inválida* ⚠️
 Escolha uma data futura e preste atenção no formato`,
-                defaultKb(answerAnotherDateId)
-              )
-            }
-          }
-        })
-      } else if (answerRoleDate.text === 'Mudei de ideia') {
-        bot.sendMessage(chatId, `Vai ti toma no cu então poha 😒`, defaultKb(answerRoleDateId))
-      } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
-        const date = moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
+                    defaultKb(answerAnotherDateId)
+                  )
+                }
+              }
+            })
+        } else if (answerRoleDate.text === 'Mudei de ideia') {
+          global.bot.sendMessage(chatId, `Vai ti toma no cu então poha 😒`, defaultKb(answerRoleDateId))
+        } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
+          const date = moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
 
-        bot.sendMessage(
-          chatId,
-          `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
-          defaultKb(answerRoleDateId, true)
-        )
-      } else {
-        bot.sendMessage(chatId, `Use os botões, energúmeno 🙄`, defaultKb(answerRoleDateId))
+          global.bot.sendMessage(
+            chatId,
+            `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
+            defaultKb(answerRoleDateId, true)
+          )
+        } else {
+          global.bot.sendMessage(chatId, `Use os botões, energúmeno 🙄`, defaultKb(answerRoleDateId))
+        }
       }
-    }
-  })
+    })
 })
 
-bot.onText(/^\/niver\b/i, async msg => {
+global.bot.onText(/^\/niver\b/i, async msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
   const msgId = msg.message_id
@@ -108,14 +112,14 @@ bot.onText(/^\/niver\b/i, async msg => {
   const userName = `[${userFullName}](tg://user?id=${userId})`
 
   if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
-    bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
+    global.bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
-    getBirthdate(bot, tararaus, callbackId, chatId, userId, msgId, userFullName, userName)
+    getBirthdate(tararaus, callbackId, chatId, userId, msgId, userFullName, userName)
   }
 })
 
-bot.onText(/^\/bdays\b/i, msg => {
-  bot.sendMessage(
+global.bot.onText(/^\/bdays\b/i, msg => {
+  global.bot.sendMessage(
     msg.chat.id,
     hasBirthdays(msg.chat.id, tararaus)
       ? `*Próximos aniversariantes* 🎂
@@ -127,12 +131,12 @@ Envie o comando /niver para registrar a sua!`,
   )
 })
 
-bot.onText(/^\/clear\b/i, msg => {
-  bot.sendMessage(msg.chat.id, 'Teclado aniquilado com sucesso', defaultKb(msg.message_id))
+global.bot.onText(/^\/clear\b/i, msg => {
+  global.bot.sendMessage(msg.chat.id, 'Teclado aniquilado com sucesso', defaultKb(msg.message_id))
 })
 
-bot.onText(/^\/(help\b|$)/i, msg => {
-  bot.sendMessage(
+global.bot.onText(/^\/(help\b|$)/i, msg => {
+  global.bot.sendMessage(
     msg.chat.id,
     `Posso te ajudar a marcar rolês, registrar a data de nascimento da galera e te lembrar dos próximos aniversariantes.
 
@@ -145,10 +149,10 @@ Você pode fazer isso enviando os seguintes comandos:
   )
 })
 
-bot.onText(/^\/(?!(role|niver|bdays|clear|help)\b).+/i, msg => {
-  bot.sendMessage(msg.chat.id, 'Este comando _non ecziste_!', defaultKb(msg.message_id))
+global.bot.onText(/^\/(?!(role|niver|bdays|clear|help)\b).+/i, msg => {
+  global.bot.sendMessage(msg.chat.id, 'Este comando _non ecziste_!', defaultKb(msg.message_id))
 })
 
-bot.on('polling_error', error => {
+global.bot.on('polling_error', error => {
   console.log(error)
 })

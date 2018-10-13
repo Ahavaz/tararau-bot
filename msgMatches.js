@@ -16,7 +16,7 @@ const filterMsg = (userMsg, options) =>
       userMsg.startsWith(`${option}?`)
   )
 
-const msgMatches = (chatId, msgId, userMsg, userName, bot) => {
+const msgMatches = (chatId, msgId, userMsg, userName) => {
   const greetingMatches = filterMsg(userMsg, inputMsgs.greeting)
   const farewellMatches = filterMsg(userMsg, inputMsgs.farewell)
   const swearingsMatches = inputMsgs.swearings.filter(message => userMsg.includes(message))
@@ -30,39 +30,39 @@ const msgMatches = (chatId, msgId, userMsg, userName, bot) => {
   const fodaMatches = inputMsgs.foda.filter(message => userMsg.includes(message))
 
   if (swearingsMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.swearings), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.swearings), defaultKb(msgId))
   } else if (enfiaMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.enfia), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.enfia), defaultKb(msgId))
   } else if (fodaMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.foda(userName)), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.foda(userName)), defaultKb(msgId))
   } else if (inputMsgs.miou.test(userMsg)) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.miou), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.miou), defaultKb(msgId))
   } else if (goodMorningMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.goodMorning(userName)), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.goodMorning(userName)), defaultKb(msgId))
   } else if (goodNightMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.goodNight), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.goodNight), defaultKb(msgId))
   } else if (loveMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.love), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.love), defaultKb(msgId))
   } else if (hateMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.hate), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.hate), defaultKb(msgId))
   } else if (inputMsgs.amor.test(userMsg)) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.amor), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.amor), defaultKb(msgId))
   } else if (inputMsgs.top.test(userMsg)) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.top), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.top), defaultKb(msgId))
   } else if (owMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.ow), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.ow), defaultKb(msgId))
   } else if (greetingMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.greeting), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.greeting), defaultKb(msgId))
   } else if (farewellMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.farewell), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.farewell), defaultKb(msgId))
   } else if (shitMatches.length !== 0) {
-    bot.sendMessage(chatId, randomMsg(outputMsgs.shit), defaultKb(msgId))
+    global.bot.sendMessage(chatId, randomMsg(outputMsgs.shit), defaultKb(msgId))
   } else if (inputMsgs.tararau.test(userMsg)) {
-    bot.sendMessage(chatId, buildMsg(outputMsgs.tararau))
+    global.bot.sendMessage(chatId, buildMsg(outputMsgs.tararau))
   } else if (inputMsgs.ayn.test(userMsg) && getRandomInt(1, 2) === 1) {
-    bot.sendMessage(chatId, buildMsg(outputMsgs.ayn))
+    global.bot.sendMessage(chatId, buildMsg(outputMsgs.ayn))
   } else if (inputMsgs.laugh.test(userMsg) && getRandomInt(1, 3) === 1) {
-    bot.sendMessage(chatId, buildMsg(outputMsgs.laugh))
+    global.bot.sendMessage(chatId, buildMsg(outputMsgs.laugh))
   }
 }
 
