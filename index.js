@@ -149,7 +149,7 @@ Você pode fazer isso enviando os seguintes comandos:
   )
 })
 
-global.bot.onText(/^\/(?!(role|niver|bdays|clear|help)\b).+/i, msg => {
+global.bot.onText(/^\/(?!(role|niver|bdays|clear|help|start|stop)\b).+/i, msg => {
   global.bot.sendMessage(msg.chat.id, 'Este comando _non ecziste_!', defaultKb(msg.message_id))
 })
 
