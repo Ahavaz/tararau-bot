@@ -102,7 +102,8 @@ Escolha uma data futura e preste atenção no formato`,
 const receivedBirthdate = (callbackId, answerBirthdate, chatId, userId, userFullName, userName) => {
   answerCallbacks[callbackId] = () => {
     const answerBirthdateId = answerBirthdate.message_id
-
+    console.log(JSON.stringify(answerBirthdate))
+    console.log(JSON.stringify(answerBirthdate.text))
     if (isValidDate(answerBirthdate.text, true)) {
       const date = moment(answerBirthdate.text, 'D/M/YYYY')
 
