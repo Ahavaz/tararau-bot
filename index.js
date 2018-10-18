@@ -2,23 +2,19 @@ process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
-// const mongoose = require('mongoose')
+require('./server')
 const { msgMatches } = require('./msgMatches')
 const { getBirthdays, hasBirthdays, isValidDate, isFutureDate } = require('./utils')
 const { customKb, defaultKb } = require('./msgOptions')
 const { buildDayOptions } = require('./keyboardTemplates')
 const { getBirthdate } = require('./commands/niver')
 
-// const mongoUri = process.env.MONGODB_URI
 const telegramToken = process.env.TELEGRAM_CHATBOT_API_KEY
 global.bot = new TelegramBot(telegramToken, { polling: true })
 const moment = extendMoment(Moment)
 moment.locale('pt-br')
 moment.tz.setDefault('America/Sao_Paulo')
 // const url = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
-
-// const db = mongoose.connect(mongoUri)
-// db.tararaus.find()
 
 // const roles = []
 
@@ -34,6 +30,7 @@ global.bot.on('message', msg => {
   const msgId = msg.message_id
   const userMsg = msg.text.toString().toLowerCase()
   const userFirstName = msg.from.first_name
+  const userName = `[${userFirstName}](tg://user?id=${userId})`
   const callbackId = `${chatId}:${userId}`
 
   const callback = global.answerCallbacks[callbackId]
@@ -43,7 +40,7 @@ global.bot.on('message', msg => {
   }
 
   if (!userMsg.startsWith('/')) {
-    msgMatches(chatId, msgId, userMsg, userFirstName)
+    msgMatches(chatId, msgId, userMsg, userName)
   }
 
   return true
@@ -111,7 +108,7 @@ global.bot.onText(/^\/niver\b/i, async msg => {
   const userFullName = `${msg.from.first_name} ${msg.from.last_name || ''}`.trim()
   const userName = `[${userFullName}](tg://user?id=${userId})`
 
-  if (tararaus.filter(tararau => tararau.chatId === chatId && tararau.userId === userId).length) {
+  if (tararaus.filter(tararau => tararau.userId === userId).length) {
     global.bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
     getBirthdate(tararaus, callbackId, chatId, userId, msgId, userFullName, userName)
