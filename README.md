@@ -10,25 +10,25 @@
 git clone https://github.com/[YOUR_USERNAME]/tararau-bot.git
 ```
 
-3. Add the **original repository** to your git remotes:
+3. Add the original repository to your git remotes:
 
 ```
 git remote add upstream https://github.com/Ahavaz/tararau-bot.git
 ```
 
-4. Fetch the **original repository** changes if there were any:
+4. Fetch the original repository changes if there were any:
 
 ```
 git fetch upstream
 ```
 
-5. Merge the changes from the **original repository** into **your local**:
+5. Merge the changes from the original repository into your local:
 
 ```
 git merge upstream/master
 ```
 
-6. Stage, commit and push **your local** changes to **your fork**:
+6. Stage, commit and push your local changes to **your fork**:
 
 ```
 git add .
