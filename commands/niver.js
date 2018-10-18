@@ -1,5 +1,7 @@
+const axios = require('axios')
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
+const { baseApiUrl } = require('../global')
 const { getSign } = require('../signs')
 const { isValidDate } = require('../utils')
 const { customKb, defaultKb } = require('../msgOptions')
@@ -35,7 +37,7 @@ const confirmedBirthdate = (tararaus, callbackId, chatId, userId, userFullName, 
     if (answerConfirmation.text === 'Sim') {
       const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
 
-      tararaus.push({
+      const tararau = {
         chatId,
         userId,
         userName,
@@ -43,13 +45,29 @@ const confirmedBirthdate = (tararaus, callbackId, chatId, userId, userFullName, 
         signName: sign.name,
         signSymbol: sign.symbol,
         birthdate: date
-      })
+      }
 
-      global.bot.sendMessage(
-        chatId,
-        `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
-        defaultKb(answerConfirmationId)
-      )
+      // axios.get(`${baseApiUrl}/tararaus`).then(res => console.log(res.data))
+      axios
+        .put(`${baseApiUrl}/tararaus/${chatId}`, tararau)
+        .then(() => {
+          global.bot.sendMessage(
+            chatId,
+            `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
+            defaultKb(answerConfirmationId)
+          )
+        })
+        .catch(e => console.error(e))
+
+      // tararaus.push({
+      //   chatId,
+      //   userId,
+      //   userName,
+      //   userFullName,
+      //   signName: sign.name,
+      //   signSymbol: sign.symbol,
+      //   birthdate: date
+      // })
     } else if (answerConfirmation.text === 'Não') {
       await global.bot.sendMessage(chatId, 'Favor repetir o processo.', defaultKb(answerConfirmationId))
       getBirthdate(tararaus, callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
