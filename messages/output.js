@@ -101,7 +101,7 @@ const outputMsgs = {
     `👆👉👌`
   ],
   ow: [
-    'Diga..',
+    'Diga..', //
     'Fale',
     'Vemk e me conta bb',
     `Lá vem 🙄`,
@@ -116,14 +116,14 @@ const outputMsgs = {
   goodMorning: userName => [
     `Bom dia seus poha! 😠`,
     `Bom dia é o caralho 🖕`,
-    'Bundinha seus troxa',
+    `Bundinha seus troxa`,
     `Boudia bbs 🔆`,
     `Bom dia nenês ☀️`,
     `Bom dia cutetu ${userName}`,
     `Bom dia putetu ${userName}`,
     `Bom dia ${userName} cuzudin`,
-    `Bom dia ${userName} - tararau`,
-    'Hello world seus pirocetudos!!!'
+    `Bom dia ${userName}-tararau`,
+    `Hello world seus pirocetudos!!!`
   ],
   goodNight: [
     'Boa noite cutetu',
@@ -148,7 +148,7 @@ const outputMsgs = {
     'OLHA AÍ A MADAME!'
   ],
   love: [
-    `🖤`, //
+    `Ayn 🖤`, //
     'FooodaC',
     'C-A-G-A-Y'
   ],
