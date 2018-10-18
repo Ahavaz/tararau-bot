@@ -18,6 +18,11 @@
     "npm": "6.4.1"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "consign": "^0.1.6",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
     "moment": "^2.22.2",
     "moment-range": "^4.0.1",
     "moment-timezone": "^0.5.21",
