@@ -36,7 +36,6 @@ const confirmedBirthdate = (tararaus, callbackId, chatId, userId, userFullName, 
 
     if (answerConfirmation.text === 'Sim') {
       const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
-
       const tararau = {
         chatId,
         userId,
@@ -47,9 +46,10 @@ const confirmedBirthdate = (tararaus, callbackId, chatId, userId, userFullName, 
         birthdate: date
       }
 
-      // axios.get(`${baseApiUrl}/tararaus`).then(res => console.log(res.data))
+      console.log(`Salvando tararau ${JSON.stringify(tararau)}... ${baseApiUrl}/tararaus/${chatId}`)
+
       axios
-        .put(`${baseApiUrl}/tararaus/${chatId}`, tararau)
+        .post(`${baseApiUrl}/tararaus/${chatId}`, tararau)
         .then(() => {
           global.bot.sendMessage(
             chatId,
@@ -58,16 +58,6 @@ const confirmedBirthdate = (tararaus, callbackId, chatId, userId, userFullName, 
           )
         })
         .catch(e => console.error(e))
-
-      // tararaus.push({
-      //   chatId,
-      //   userId,
-      //   userName,
-      //   userFullName,
-      //   signName: sign.name,
-      //   signSymbol: sign.symbol,
-      //   birthdate: date
-      // })
     } else if (answerConfirmation.text === 'Não') {
       await global.bot.sendMessage(chatId, 'Favor repetir o processo.', defaultKb(answerConfirmationId))
       getBirthdate(tararaus, callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
