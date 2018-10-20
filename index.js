@@ -1,7 +1,9 @@
 process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
+const axios = require('axios')
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
+const { baseApiUrl } = require('./global')
 require('./server')
 const { msgMatches } = require('./msgMatches')
 const { getBirthdays, hasBirthdays, isValidDate, isFutureDate } = require('./utils')
@@ -20,15 +22,13 @@ moment.tz.setDefault('America/Sao_Paulo')
 
 // const places = []
 
-const tararaus = []
-
 global.answerCallbacks = {}
 
 global.bot.on('message', msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
   const msgId = msg.message_id
-  const userMsg = msg.text.toString().toLowerCase()
+  const userMsg = msg.text ? msg.text.toLowerCase() : ''
   const userFirstName = msg.from.first_name
   const userName = `[${userFirstName}](tg://user?id=${userId})`
   const callbackId = `${chatId}:${userId}`
@@ -39,7 +39,7 @@ global.bot.on('message', msg => {
     return callback(msg)
   }
 
-  if (!userMsg.startsWith('/')) {
+  if (userMsg && !userMsg.startsWith('/')) {
     msgMatches(chatId, msgId, userMsg, userName)
   }
 
@@ -107,24 +107,35 @@ global.bot.onText(/^\/niver\b/i, async msg => {
   const callbackId = `${chatId}:${userId}`
   const userFullName = `${msg.from.first_name} ${msg.from.last_name || ''}`.trim()
   const userName = `[${userFullName}](tg://user?id=${userId})`
+  const { data } = await axios.get(`${baseApiUrl}/tararaus/${chatId}`)
+  const tararaus = data
 
-  if (tararaus.filter(tararau => tararau.userId === userId).length) {
+  console.log(tararaus)
+
+  if (tararaus.filter(tararau => tararau.userId === userId && tararau.chatId === chatId).length) {
     global.bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
     getBirthdate(tararaus, callbackId, chatId, userId, msgId, userFullName, userName)
   }
 })
 
-global.bot.onText(/^\/bdays\b/i, msg => {
+global.bot.onText(/^\/bdays\b/i, async msg => {
+  const chatId = msg.chat.id
+  const msgId = msg.message_id
+  const { data } = await axios.get(`${baseApiUrl}/tararaus/${chatId}`)
+  const tararaus = data.map(tararau => ({ ...tararau, birthdate: moment(tararau.birthdate) }))
+
+  console.log(tararaus)
+
   global.bot.sendMessage(
-    msg.chat.id,
-    hasBirthdays(msg.chat.id, tararaus)
+    chatId,
+    hasBirthdays(chatId, tararaus)
       ? `*Próximos aniversariantes* 🎂
-${getBirthdays(msg.chat.id, tararaus).join('')}`
+${getBirthdays(chatId, tararaus).join('')}`
       : `Nenhuma data de nascimento foi registrada ainda 🙁
 
 Envie o comando /niver para registrar a sua!`,
-    defaultKb(msg.message_id)
+    defaultKb(msgId)
   )
 })
 
