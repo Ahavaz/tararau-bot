@@ -64,7 +64,12 @@ const getSign = date => [
   {
     name: 'capricórnio',
     symbol: `♑️`,
-    range: moment.range(moment(`${date.get('year')}-12-22`), moment(`${date.get('year')}-01-19`))
+    range: moment.range(moment(`${date.get('year')}-12-22`), moment(`${date.get('year') + 1}-12-31`))
+  },
+  {
+    name: 'capricórnio',
+    symbol: `♑️`,
+    range: moment.range(moment(`${date.get('year')}-01-01`), moment(`${date.get('year') + 1}-01-19`))
   },
   // Aquarius
   {
