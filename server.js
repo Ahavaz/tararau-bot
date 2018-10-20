@@ -3,7 +3,7 @@ const consign = require('consign')
 const mongoose = require('mongoose')
 require('./config/mongodb')
 
-const port = process.env.PORT
+const port = process.env.PORT || 3000
 
 app.mongoose = mongoose
 
