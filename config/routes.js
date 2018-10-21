@@ -1,4 +1,9 @@
 module.exports = app => {
+  app.get('/', (req, res) => {
+    console.log(`Received request`)
+    res.send(`It works`)
+  })
+
   app
     .route('/roles/:chat')
     .post(app.api.role.save)
