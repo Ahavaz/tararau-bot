@@ -5,7 +5,10 @@ const mongoUri = process.env.MONGODB_URI
 mongoose
   .connect(
     mongoUri,
-    { useNewUrlParser: true }
+    {
+      useNewUrlParser: true,
+      useCreateIndex: true
+    }
   )
   .catch(() => {
     const msg = `ERROR: Não foi possível se conectar com o MongoDB!`
