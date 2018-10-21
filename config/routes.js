@@ -1,7 +1,6 @@
 module.exports = app => {
   app.get('/', (req, res) => {
-    console.log(`Received request`)
-    res.send(`It works`)
+    res.send(`Ayn`)
   })
 
   app
