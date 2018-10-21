@@ -1,11 +1,23 @@
+const axios = require('axios')
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
+const { baseApiUrl } = require('./global')
 const {
   outputMsgs: { tararau: tararauArray, ayn: aynArray }
 } = require('./messages/output')
 
 const moment = extendMoment(Moment)
 moment.locale('pt-br')
+moment.updateLocale('pt-br', {
+  calendar: {
+    lastWeek: 'dddd [passada(o)]',
+    lastDay: '[Ontem]',
+    sameDay: '[Hoje às] H[h]mm',
+    nextDay: '[Amanhã às] H[h]mm',
+    nextWeek: 'dddd [às] H[h]mm',
+    sameElse: 'D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
+  }
+})
 moment.tz.setDefault('America/Sao_Paulo')
 
 // Random generators
@@ -25,42 +37,75 @@ const buildMsg = array => {
   return msg.repeat(getRandomInt())
 }
 
-// Birthday functions
+// Role functions
+const calcRole = (chatId, roles) =>
+  roles
+    .reduce((array, role) => {
+      const daysLeft = role.date.diff(moment(), 'days', true)
+      if (daysLeft > 0) {
+        array.push({ ...role, daysLeft })
+      } else {
+        delete role.chatId
+        delete role.title
+        axios.post(`${baseApiUrl}/roles/${chatId}`, role)
+      }
+      return array
+    }, [])
+    .sort((a, b) => a.date - b.date)
+
+const listRoles = (chatId, roles) =>
+  calcRole(chatId, roles).map(
+    role => `
+➡️ *${role.title}*
+vai rolar ${role.date.calendar().toLowerCase()}
+_${role.date.fromNow()[0].toUpperCase() + role.date.fromNow().slice(1)}${role.daysLeft < 1 ? '! 🚨' : ''}_
+`
+  )
+
+// Seasons
 const seasons = (isPlural = true) =>
   isPlural ? ['primaveras', 'verões', 'outonos', 'invernos'] : ['primavera', 'verão', 'outono', 'inverno']
 
+// Birthday functions
 const nextBirthday = birthdate => {
   const date = birthdate.clone().year(moment().get('year'))
   if (date.diff(moment(), 'days') < 0) date.add(1, 'years')
   return date
 }
 
-const calcBirthday = (chatId, tararaus) =>
+const calcBirthday = tararaus =>
   tararaus
-    .reduce((array, tararau) => {
-      if (tararau.chatId === chatId) {
-        const birthday = nextBirthday(tararau.birthdate)
-        const countdown = birthday.diff(moment(), 'days')
-        const age = moment().diff(tararau.birthdate, 'years')
-        array.push({ ...tararau, birthday, countdown, age })
-      }
-      return array
-    }, [])
+    .map(tararau => {
+      const birthday = nextBirthday(tararau.birthdate)
+      const countdown = birthday.diff(moment(), 'days')
+      const age = moment().diff(tararau.birthdate, 'years')
+      return { ...tararau, birthday, countdown, age }
+    })
     .sort((a, b) => a.countdown - b.countdown)
 
-const getBirthdays = (chatId, tararaus) =>
-  calcBirthday(chatId, tararaus).map(
+const listBirthdays = tararaus =>
+  calcBirthday(tararaus).map(
     tararau => `
 ${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age + 1} ${
       tararau.age !== 1 ? randomMsg(seasons()) : randomMsg(seasons(false))
     } em ${tararau.birthday.format('DD/MM/YY')}
-_Falta${tararau.age !== 1 ? 'm' : ''} ${tararau.countdown} dia${tararau.countdown !== 1 ? 's_' : '!_'}
+${
+      tararau.countdown === 0
+        ? `_É HOJE!!!_ 🎉`
+        : tararau.countdown === 1
+          ? `_É amanhã!_`
+          : `_Faltam ${tararau.countdown} dias_`
+    }
 `
   )
 
-const hasBirthdays = (chatId, tararaus) => tararaus.filter(tararau => tararau.chatId === chatId).length !== 0
+// Date/Time validators
+const isValidTime = (time, date) => {
+  const hours = time.split(':')[0]
+  const minutes = time.split(':')[1]
+  return moment().isSameOrBefore(date.hour(hours).minutes(minutes))
+}
 
-// Date validators
 const isValidDate = (date, isFullYear = false) =>
   isFullYear ? moment(date, 'D/M/YYYY', 'pt-br', true).isValid() : moment(date, 'D/M/YY', 'pt-br', true).isValid()
 
@@ -70,8 +115,9 @@ module.exports = {
   getRandomInt,
   randomMsg,
   buildMsg,
-  getBirthdays,
-  hasBirthdays,
+  listRoles,
+  listBirthdays,
+  isValidTime,
   isValidDate,
   isFutureDate
 }
