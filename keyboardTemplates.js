@@ -1,7 +1,7 @@
 const getNext = date => {
   date.add(1, 'days')
-  return date.format(`dddd
-[(]'D/MMM/YY'[)]`)
+  return `${date.format('dddd')}
+${date.format('[(]D/MMM/YY[)]')}`
 }
 
 const buildDayOptions = date => [
