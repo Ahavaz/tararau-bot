@@ -10,6 +10,7 @@ app.mongoose = mongoose
 consign()
   .then('./config/middlewares.js')
   .then('./api')
+  .then('./cronJob.js')
   .then('./config/routes.js')
   .into(app)
 
