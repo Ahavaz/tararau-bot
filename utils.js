@@ -57,7 +57,7 @@ const listRoles = (chatId, roles) =>
   calcRole(chatId, roles).map(
     role => `
 ➡️ *${role.title}*
-vai rolar ${role.date.calendar().toLowerCase()} no(a) ${role.location}
+vai rolar ${role.date.calendar().toLowerCase()} no(a) ${role.locations}
 _${role.date.fromNow()[0].toUpperCase() + role.date.fromNow().slice(1)}${role.daysLeft < 1 ? '! 🚨' : ''}_
 `
   )
