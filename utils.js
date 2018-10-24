@@ -2,6 +2,7 @@ const axios = require('axios')
 const Moment = require('moment-timezone')
 const { extendMoment } = require('moment-range')
 const { baseApiUrl } = require('./global')
+const { notification } = require('./msgOptions')
 const {
   outputMsgs: { tararau: tararauArray, ayn: aynArray }
 } = require('./messages/output')
@@ -78,7 +79,7 @@ const calcBirthday = tararaus =>
     .map(tararau => {
       const birthday = nextBirthday(tararau.birthdate)
       const daysLeft = birthday.diff(moment(), 'days')
-      const age = moment().diff(tararau.birthdate, 'years')
+      const age = moment().diff(tararau.birthdate, 'years') + 1
       return { ...tararau, birthday, daysLeft, age }
     })
     .sort((a, b) => a.birthday - b.birthday)
@@ -86,7 +87,7 @@ const calcBirthday = tararaus =>
 const listBirthdays = tararaus =>
   calcBirthday(tararaus).map(
     tararau => `
-${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age + 1} ${
+${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age} ${
       tararau.age !== 1 ? randomMsg(seasons()) : randomMsg(seasons(false))
     } em ${tararau.birthday.format('DD/MM/YY')}
 _${tararau.birthday.fromNow()[0].toUpperCase() + tararau.birthday.fromNow().slice(1)}${
@@ -94,6 +95,17 @@ _${tararau.birthday.fromNow()[0].toUpperCase() + tararau.birthday.fromNow().slic
     }_
 `
   )
+
+const congratulate = tararau => {
+  const age = moment().diff(tararau.birthdate, 'years') + 1
+  global.bot.sendMessage(
+    tararau.chatId,
+    `*Parabéns* ${tararau.userName}!!! 🎉
+Hoje você completa mais um ciclo de experiências e upa para o nível ${age}!
+Aproveite o dia ao lado daqueles que são especiais para você!`,
+    notification()
+  )
+}
 
 // Date/Time validators
 const isValidTime = (time, date) => {
@@ -113,6 +125,7 @@ module.exports = {
   buildMsg,
   listRoles,
   listBirthdays,
+  congratulate,
   isValidTime,
   isValidDate,
   isFutureDate
