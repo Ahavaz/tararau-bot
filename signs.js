@@ -1,9 +1,4 @@
-const Moment = require('moment-timezone')
-const { extendMoment } = require('moment-range')
-
-const moment = extendMoment(Moment)
-moment.locale('pt-br')
-moment.tz.setDefault('America/Sao_Paulo')
+const moment = require('./config/moment')
 
 const getSign = date => [
   // Aries
