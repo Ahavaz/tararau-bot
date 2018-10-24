@@ -89,7 +89,9 @@ const listBirthdays = tararaus =>
 ${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age + 1} ${
       tararau.age !== 1 ? randomMsg(seasons()) : randomMsg(seasons(false))
     } em ${tararau.birthday.format('DD/MM/YY')}
-_${tararau.date.fromNow()[0].toUpperCase() + tararau.date.fromNow().slice(1)}${tararau.daysLeft < 1 ? '! 🎉' : ''}_
+_${tararau.birthday.fromNow()[0].toUpperCase() + tararau.birthday.fromNow().slice(1)}${
+      tararau.daysLeft < 1 ? '! 🎉' : ''
+    }_
 `
   )
 
