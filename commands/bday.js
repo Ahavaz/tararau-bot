@@ -14,12 +14,11 @@ moment.tz.setDefault('America/Sao_Paulo')
 const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
   global.answerCallbacks[callbackId] = async answerConfirmation => {
     const answerConfirmationId = answerConfirmation.message_id
+    const answerConfirmationMsg = answerConfirmation.text ? answerConfirmation.text.toLowerCase() : ''
 
-    console.log(`tryAgain => userName: ${userName}`)
-
-    if (answerConfirmation.text === 'Sim') {
+    if (answerConfirmationMsg === 'sim' || answerConfirmationMsg === 's') {
       getBirthdate(callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
-    } else if (answerConfirmation.text === 'Não') {
+    } else if (answerConfirmationMsg === 'não' || answerConfirmationMsg === 'nao' || answerConfirmationMsg === 'n') {
       global.bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
     } else {
       await global.bot.sendMessage(
@@ -35,10 +34,9 @@ const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
 const confirmedBirthdate = (callbackId, chatId, userId, userFullName, userName, date) => {
   global.answerCallbacks[callbackId] = async answerConfirmation => {
     const answerConfirmationId = answerConfirmation.message_id
+    const answerConfirmationMsg = answerConfirmation.text ? answerConfirmation.text.toLowerCase() : ''
 
-    console.log(`confirmedBirthdate => userName: ${userName}`)
-
-    if (answerConfirmation.text === 'Sim') {
+    if (answerConfirmationMsg === 'sim' || answerConfirmationMsg === 's') {
       const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
       const tararau = {
         chatId,
@@ -62,8 +60,7 @@ const confirmedBirthdate = (callbackId, chatId, userId, userFullName, userName, 
           )
         })
         .catch(e => console.error(e))
-    } else if (answerConfirmation.text === 'Não') {
-      await global.bot.sendMessage(chatId, 'Favor repetir o processo.', defaultKb(answerConfirmationId))
+    } else if (answerConfirmationMsg === 'não' || answerConfirmationMsg === 'nao' || answerConfirmationMsg === 'n') {
       getBirthdate(callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
     } else {
       await global.bot.sendMessage(
