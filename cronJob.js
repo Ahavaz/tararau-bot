@@ -4,7 +4,7 @@ const { baseApiUrl } = require('./global')
 const { congratulate } = require('./utils')
 
 // Call base url every 10min from 6am to 11:50pm to prevent app from sleeping in heroku
-schedule.scheduleJob('*/10 6-23 * * *', async () => {
+schedule.scheduleJob('*/10 * * * *', async () => {
   await axios.get(`${baseApiUrl}`).then(() => console.log(`Call base url`))
 })
 
