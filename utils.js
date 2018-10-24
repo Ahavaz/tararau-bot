@@ -77,11 +77,11 @@ const calcBirthday = tararaus =>
   tararaus
     .map(tararau => {
       const birthday = nextBirthday(tararau.birthdate)
-      const countdown = birthday.diff(moment(), 'days')
+      const daysLeft = birthday.diff(moment(), 'days')
       const age = moment().diff(tararau.birthdate, 'years')
-      return { ...tararau, birthday, countdown, age }
+      return { ...tararau, birthday, daysLeft, age }
     })
-    .sort((a, b) => a.countdown - b.countdown)
+    .sort((a, b) => a.birthday - b.birthday)
 
 const listBirthdays = tararaus =>
   calcBirthday(tararaus).map(
@@ -89,13 +89,7 @@ const listBirthdays = tararaus =>
 ${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age + 1} ${
       tararau.age !== 1 ? randomMsg(seasons()) : randomMsg(seasons(false))
     } em ${tararau.birthday.format('DD/MM/YY')}
-${
-      tararau.countdown === 0
-        ? `_É HOJE!!!_ 🎉`
-        : tararau.countdown === 1
-          ? `_É amanhã!_`
-          : `_Faltam ${tararau.countdown} dias_`
-    }
+_${tararau.date.fromNow()[0].toUpperCase() + tararau.date.fromNow().slice(1)}${tararau.daysLeft < 1 ? '! 🎉' : ''}_
 `
   )
 
