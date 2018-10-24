@@ -15,6 +15,8 @@ const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
   global.answerCallbacks[callbackId] = async answerConfirmation => {
     const answerConfirmationId = answerConfirmation.message_id
 
+    console.log(`tryAgain => userName: ${userName}`)
+
     if (answerConfirmation.text === 'Sim') {
       getBirthdate(callbackId, chatId, userId, userFullName, userName)
     } else if (answerConfirmation.text === 'Não') {
@@ -33,6 +35,8 @@ const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
 const confirmedBirthdate = (callbackId, chatId, userId, userFullName, userName, date) => {
   global.answerCallbacks[callbackId] = async answerConfirmation => {
     const answerConfirmationId = answerConfirmation.message_id
+
+    console.log(`confirmedBirthdate => userName: ${userName}`)
 
     if (answerConfirmation.text === 'Sim') {
       const sign = getSign(date).filter(signEl => date.within(signEl.range))[0]
