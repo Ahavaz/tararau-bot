@@ -97,7 +97,7 @@ _${tararau.birthday.fromNow()[0].toUpperCase() + tararau.birthday.fromNow().slic
   )
 
 const congratulate = tararau => {
-  const age = moment().diff(tararau.birthdate, 'years') + 1
+  const age = moment().diff(tararau.birthdate, 'years')
   global.bot.sendMessage(
     tararau.chatId,
     `*Parabéns* ${tararau.userName}!!! 🎉

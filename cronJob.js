@@ -9,7 +9,7 @@ schedule.scheduleJob('*/10 6-23 * * *', async () => {
 })
 
 // Check for bdays every day at 8am to notify users and groups
-schedule.scheduleJob('*/10 * * * * *', async () => {
+schedule.scheduleJob('0 8 * * *', async () => {
   const { data } = await axios.get(`${baseApiUrl}/tararaus`)
   const tararaus = data
   const chats = tararaus.reduce((array, tararau) => {
