@@ -20,7 +20,15 @@ const defaultKb = (msgId, isReply = false) => ({
   }
 })
 
+const notification = () => ({
+  parse_mode: 'Markdown',
+  reply_markup: {
+    remove_keyboard: true
+  }
+})
+
 module.exports = {
   customKb,
-  defaultKb
+  defaultKb,
+  notification
 }
