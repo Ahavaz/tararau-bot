@@ -15,7 +15,7 @@ moment.updateLocale('pt-br', {
     sameDay: '[Hoje às] H[h]mm',
     nextDay: '[Amanhã às] H[h]mm',
     nextWeek: 'dddd [às] H[h]mm',
-    sameElse: 'D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
+    sameElse: '[em] D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
   }
 })
 moment.tz.setDefault('America/Sao_Paulo')
@@ -68,8 +68,8 @@ const seasons = (isPlural = true) =>
 
 // Birthday functions
 const nextBirthday = birthdate => {
-  const date = birthdate.clone().year(moment().get('year'))
-  if (date.diff(moment(), 'days') < 0) date.add(1, 'years')
+  const date = birthdate.clone().year(moment().year())
+  if (date.diff(moment(), 'days', true) < 0) date.add(1, 'years')
   return date
 }
 
