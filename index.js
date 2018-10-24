@@ -1,6 +1,6 @@
 process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
-const axios = require('axios')
+const axios = require('./config/axios')
 // const Moment = require('moment-timezone')
 // const { extendMoment } = require('moment-range')
 const moment = require('./config/moment')
