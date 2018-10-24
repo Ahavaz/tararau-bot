@@ -1,5 +1,6 @@
 process.env.NTBA_FIX_319 = 1
 require('./server')
+require('./config/axios')
 const TelegramBot = require('node-telegram-bot-api')
 const axios = require('./config/axios')
 // const Moment = require('moment-timezone')
@@ -30,7 +31,7 @@ global.bot = new TelegramBot(telegramToken, { polling: true })
 // const maps = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
 
 // const places = []
-console.log(axios.defaults.baseURL)
+console.log(axios.defaults)
 
 global.answerCallbacks = {}
 
