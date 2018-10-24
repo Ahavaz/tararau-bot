@@ -23,7 +23,6 @@ module.exports = app => {
         }
       }
     ])
-      .lean()
       .then(tararau => res.status(200).json(tararau))
       .catch(err => res.status(500).send(err))
   }
