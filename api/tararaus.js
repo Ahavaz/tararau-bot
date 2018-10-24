@@ -12,6 +12,13 @@ module.exports = app => {
     Tararau.aggregate([
       {
         $project: {
+          userId: 1,
+          chatId: 1,
+          userName: 1,
+          userFullName: 1,
+          signName: 1,
+          signSymbol: 1,
+          birthdate: 1,
           month: { $month: '$birthdate' },
           day: { $dayOfMonth: '$birthdate' }
         }
