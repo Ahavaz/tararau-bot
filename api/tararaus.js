@@ -15,13 +15,13 @@ module.exports = app => {
           month: { $month: '$birthdate' },
           day: { $dayOfMonth: '$birthdate' }
         }
-      },
-      {
-        $match: {
-          month: { month },
-          day: { day }
-        }
       }
+      // {
+      //   $match: {
+      //     month: { month },
+      //     day: { day }
+      //   }
+      // }
     ])
       .then(tararau => res.status(200).json(tararau))
       .catch(err => res.status(500).send(err))
