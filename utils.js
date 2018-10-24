@@ -1,25 +1,25 @@
 const axios = require('axios')
-const Moment = require('moment-timezone')
-const { extendMoment } = require('moment-range')
-const { baseApiUrl } = require('./global')
+const moment = require('./config/moment')
+// const Moment = require('moment-timezone')
+// const { extendMoment } = require('moment-range')
 const { notification } = require('./msgOptions')
 const {
   outputMsgs: { tararau: tararauArray, ayn: aynArray }
 } = require('./messages/output')
 
-const moment = extendMoment(Moment)
-moment.locale('pt-br')
-moment.updateLocale('pt-br', {
-  calendar: {
-    lastWeek: 'dddd [passada(o)]',
-    lastDay: '[Ontem]',
-    sameDay: '[Hoje às] H[h]mm',
-    nextDay: '[Amanhã às] H[h]mm',
-    nextWeek: 'dddd [às] H[h]mm',
-    sameElse: '[em] D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
-  }
-})
-moment.tz.setDefault('America/Sao_Paulo')
+// const moment = extendMoment(Moment)
+// moment.locale('pt-br')
+// moment.updateLocale('pt-br', {
+//   calendar: {
+//     lastWeek: 'dddd [passada(o)]',
+//     lastDay: '[Ontem]',
+//     sameDay: '[Hoje às] H[h]mm',
+//     nextDay: '[Amanhã às] H[h]mm',
+//     nextWeek: 'dddd [às] H[h]mm',
+//     sameElse: '[em] D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
+//   }
+// })
+// moment.tz.setDefault('America/Sao_Paulo')
 
 // Random generators
 const getRandomInt = (min = 2, max = 6) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -48,7 +48,7 @@ const calcRole = (chatId, roles) =>
       } else {
         delete role.chatId
         delete role.title
-        axios.post(`${baseApiUrl}/roles/${chatId}`, role)
+        axios.post(`/roles/${chatId}`, role)
       }
       return array
     }, [])
@@ -58,7 +58,9 @@ const listRoles = (chatId, roles) =>
   calcRole(chatId, roles).map(
     role => `
 ➡️ *${role.title}*
-vai rolar ${role.date.calendar().toLowerCase()} no(a) ${role.location}
+Vai rolar ${role.date
+      .calendar(null, { sameElse: '[em] D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm' })
+      .toLowerCase()} no(a) ${role.location}
 _${role.date.fromNow()[0].toUpperCase() + role.date.fromNow().slice(1)}${role.daysLeft < 1 ? '! 🚨' : ''}_
 `
   )
@@ -110,9 +112,15 @@ Aproveite o dia ao lado daqueles que são especiais para você!`,
 
 // Date/Time validators
 const isValidTime = (time, date) => {
-  const hours = time.split(':')[0]
-  const minutes = time.split(':')[1]
-  return moment().isSameOrBefore(date.hour(hours).minutes(minutes))
+  try {
+    time = time.split(':').map(num => parseInt(num, 10))
+    const hour = time[0]
+    const minutes = time[1]
+    return hour >= 0 <= 23 && minutes >= 0 <= 59 ? moment().isSameOrBefore(date.hour(hour).minutes(minutes)) : false
+  } catch (e) {
+    console.error(e)
+    return false
+  }
 }
 
 const isValidDate = (date, isFullYear = false) =>

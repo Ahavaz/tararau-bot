@@ -1,15 +1,9 @@
 const axios = require('axios')
-const Moment = require('moment-timezone')
-const { extendMoment } = require('moment-range')
-const { baseApiUrl } = require('../global')
+const moment = require('../config/moment')
 const { getSign } = require('../signs')
 const { isValidDate } = require('../utils')
 const { customKb, defaultKb } = require('../msgOptions')
 const { buildYesNoOptions } = require('../keyboardTemplates')
-
-const moment = extendMoment(Moment)
-moment.locale('pt-br')
-moment.tz.setDefault('America/Sao_Paulo')
 
 const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
   global.answerCallbacks[callbackId] = async answerConfirmation => {
@@ -48,10 +42,10 @@ const confirmedBirthdate = (callbackId, chatId, userId, userFullName, userName, 
         birthdate: date
       }
 
-      console.log(`Salvando tararau ${JSON.stringify(tararau)}... ${baseApiUrl}/tararaus/${chatId}`)
+      console.log(`Salvando tararau ${JSON.stringify(tararau)}... /tararaus/${chatId}`)
 
       axios
-        .post(`${baseApiUrl}/tararaus/${chatId}`, tararau)
+        .post(`/tararaus/${chatId}`, tararau)
         .then(() => {
           global.bot.sendMessage(
             chatId,

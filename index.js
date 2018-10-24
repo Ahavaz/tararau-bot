@@ -1,9 +1,9 @@
 process.env.NTBA_FIX_319 = 1
 const TelegramBot = require('node-telegram-bot-api')
 const axios = require('axios')
-const Moment = require('moment-timezone')
-const { extendMoment } = require('moment-range')
-const { baseApiUrl } = require('./global')
+// const Moment = require('moment-timezone')
+// const { extendMoment } = require('moment-range')
+const moment = require('./config/moment')
 require('./server')
 const { msgMatches } = require('./msgMatches')
 const { listBirthdays, listRoles, isValidTime, isValidDate, isFutureDate } = require('./utils')
@@ -13,19 +13,19 @@ const { getBirthdate } = require('./commands/bday')
 
 const telegramToken = process.env.TELEGRAM_CHATBOT_API_KEY
 global.bot = new TelegramBot(telegramToken, { polling: true })
-const moment = extendMoment(Moment)
-moment.locale('pt-br')
-moment.updateLocale('pt-br', {
-  calendar: {
-    lastWeek: 'dddd [passada(o)]',
-    lastDay: '[Ontem]',
-    sameDay: '[Hoje às] H[h]mm',
-    nextDay: '[Amanhã às] H[h]mm',
-    nextWeek: 'dddd [às] H[h]mm',
-    sameElse: 'D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
-  }
-})
-moment.tz.setDefault('America/Sao_Paulo')
+// const moment = extendMoment(Moment)
+// moment.locale('pt-br')
+// moment.updateLocale('pt-br', {
+//   calendar: {
+//     lastWeek: 'dddd [passada(o)]',
+//     lastDay: '[Ontem]',
+//     sameDay: '[Hoje às] H[h]mm',
+//     nextDay: '[Amanhã às] H[h]mm',
+//     nextWeek: 'dddd [às] H[h]mm',
+//     sameElse: 'D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
+//   }
+// })
+// moment.tz.setDefault('America/Sao_Paulo')
 
 // const maps = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
 
@@ -117,7 +117,7 @@ global.bot.onText(/^\/role\b/i, msg => {
                                       console.log(fullDate.format('DD/MM/YY [às] H[h]mm'))
 
                                       axios
-                                        .post(`${baseApiUrl}/roles/${chatId}`, role)
+                                        .post(`/roles/${chatId}`, role)
                                         .then(() => {
                                           global.bot.sendMessage(
                                             chatId,
@@ -201,7 +201,7 @@ Escolha uma data futura e preste atenção no formato`,
                               console.log(fullDate.format('DD/MM/YY [às] H[h]mm'))
 
                               axios
-                                .post(`${baseApiUrl}/roles/${chatId}`, role)
+                                .post(`/roles/${chatId}`, role)
                                 .then(() => {
                                   global.bot.sendMessage(
                                     chatId,
@@ -237,7 +237,7 @@ Escolha uma data futura e preste atenção no formato`,
 global.bot.onText(/^\/roles\b/i, async msg => {
   const chatId = msg.chat.id
   const msgId = msg.message_id
-  const { data } = await axios.get(`${baseApiUrl}/roles/${chatId}`)
+  const { data } = await axios.get(`/roles/${chatId}`)
   const roles = data.map(role => ({ ...role, date: moment(role.date) }))
 
   console.log(roles)
@@ -261,7 +261,7 @@ global.bot.onText(/^\/bday\b/i, async msg => {
   const callbackId = `${chatId}:${userId}`
   const userFullName = `${msg.from.first_name} ${msg.from.last_name || ''}`.trim()
   const userName = `[${userFullName}](tg://user?id=${userId})`
-  const { data } = await axios.get(`${baseApiUrl}/tararaus/${chatId}`)
+  const { data } = await axios.get(`/tararaus/${chatId}`)
   const tararaus = data
 
   console.log(tararaus)
@@ -276,7 +276,7 @@ global.bot.onText(/^\/bday\b/i, async msg => {
 global.bot.onText(/^\/bdays\b/i, async msg => {
   const chatId = msg.chat.id
   const msgId = msg.message_id
-  const { data } = await axios.get(`${baseApiUrl}/tararaus/${chatId}`)
+  const { data } = await axios.get(`/tararaus/${chatId}`)
   const tararaus = data.map(tararau => ({ ...tararau, birthdate: moment(tararau.birthdate) }))
 
   console.log(tararaus)
