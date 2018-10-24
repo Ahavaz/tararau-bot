@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require('../config/axios')
 const moment = require('../config/moment')
 const { getSign } = require('../signs')
 const { isValidDate } = require('../utils')

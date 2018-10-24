@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require('./config/axios')
 const moment = require('./config/moment')
 // const Moment = require('moment-timezone')
 // const { extendMoment } = require('moment-range')

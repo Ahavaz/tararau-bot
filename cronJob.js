@@ -1,5 +1,5 @@
 const schedule = require('node-schedule')
-const axios = require('axios')
+const axios = require('./config/axios')
 const { congratulate } = require('./utils')
 
 // Call base url every 10min from 6am to 11:50pm to prevent app from sleeping in heroku
