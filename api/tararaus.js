@@ -4,7 +4,7 @@ module.exports = app => {
   const get = (req, res) => {
     const params = { ...req.params }
     const today = new Date()
-    const month = today.getMonth()
+    const month = today.getMonth() + 1
     const day = today.getDate()
 
     console.log('GET request', params)
@@ -15,13 +15,13 @@ module.exports = app => {
           month: { $month: '$birthdate' },
           day: { $dayOfMonth: '$birthdate' }
         }
+      },
+      {
+        $match: {
+          month: { month },
+          day: { day }
+        }
       }
-      // {
-      //   $match: {
-      //     month: { month },
-      //     day: { day }
-      //   }
-      // }
     ])
       .then(tararau => res.status(200).json(tararau))
       .catch(err => res.status(500).send(err))
