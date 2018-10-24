@@ -101,6 +101,7 @@ const congratulate = tararau => {
   global.bot.sendMessage(
     tararau.chatId,
     `*Parabéns* ${tararau.userName}!!! 🎉
+
 Hoje você completa mais um ciclo de experiências e upa para o nível ${age}!
 Aproveite o dia ao lado daqueles que são especiais para você!`,
     notification()
