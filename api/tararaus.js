@@ -25,8 +25,8 @@ module.exports = app => {
       },
       {
         $match: {
-          month: { month },
-          day: { day }
+          month,
+          day
         }
       }
     ])
