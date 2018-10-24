@@ -18,7 +18,7 @@ const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
     console.log(`tryAgain => userName: ${userName}`)
 
     if (answerConfirmation.text === 'Sim') {
-      getBirthdate(callbackId, chatId, userId, userFullName, userName)
+      getBirthdate(callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
     } else if (answerConfirmation.text === 'Não') {
       global.bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
     } else {
