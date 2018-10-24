@@ -1,13 +1,5 @@
 module.exports = app => {
-  const Tararau = app.mongoose.model('Tararau', {
-    chatId: { type: Number, required: true },
-    userId: { type: Number, required: true },
-    userName: { type: String, required: true },
-    userFullName: { type: String, required: true },
-    signName: { type: String, required: true },
-    signSymbol: { type: String, required: true },
-    birthdate: { type: Date, required: true }
-  })
+  const Tararau = app.mongoose.model('Tararau')
 
   const get = (req, res) => {
     const params = { ...req.params }
