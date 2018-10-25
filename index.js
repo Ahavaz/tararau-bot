@@ -1,8 +1,8 @@
 process.env.NTBA_FIX_319 = 1
 require('./server')
-require('./config/axios')
 const TelegramBot = require('node-telegram-bot-api')
-const axios = require('./config/axios')
+const axios = require('axios')
+const config = require('./config/axios')
 // const Moment = require('moment-timezone')
 // const { extendMoment } = require('moment-range')
 const moment = require('./config/moment')
@@ -239,7 +239,7 @@ Escolha uma data futura e preste atenção no formato`,
 global.bot.onText(/^\/roles\b/i, async msg => {
   const chatId = msg.chat.id
   const msgId = msg.message_id
-  const { data } = await axios.get(`/roles/${chatId}`)
+  const { data } = await axios.get(`/roles/${chatId}`, config)
   const roles = data.map(role => ({ ...role, date: moment(role.date) }))
 
   console.log(roles)
