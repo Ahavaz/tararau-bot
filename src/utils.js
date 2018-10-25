@@ -1,26 +1,10 @@
 const { bot } = require('./config/telegram')
 const { axios } = require('./config/axios')
 const { moment } = require('./config/moment')
-// const Moment = require('moment-timezone')
-// const { extendMoment } = require('moment-range')
 const { notification } = require('./msgOptions')
 const {
   outputMsgs: { tararau: tararauArray, ayn: aynArray }
 } = require('./messages/output')
-
-// const moment = extendMoment(Moment)
-// moment.locale('pt-br')
-// moment.updateLocale('pt-br', {
-//   calendar: {
-//     lastWeek: 'dddd [passada(o)]',
-//     lastDay: '[Ontem]',
-//     sameDay: '[Hoje às] H[h]mm',
-//     nextDay: '[Amanhã às] H[h]mm',
-//     nextWeek: 'dddd [às] H[h]mm',
-//     sameElse: '[em] D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
-//   }
-// })
-// moment.tz.setDefault('America/Sao_Paulo')
 
 // Random generators
 const getRandomInt = (min = 2, max = 6) => Math.floor(Math.random() * (max - min + 1)) + min

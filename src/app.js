@@ -3,27 +3,11 @@ const { bot } = require('./config/telegram')
 const { axios } = require('./config/axios')
 const { moment } = require('./config/moment')
 require('./server')
-// const Moment = require('moment-timezone')
-// const { extendMoment } = require('moment-range')
 const { msgMatches } = require('./msgMatches')
 const { customKb, defaultKb } = require('./msgOptions')
 const { listBirthdays, listRoles, isValidTime, isValidDate, isFutureDate } = require('./utils')
 const { buildDayOptions } = require('./keyboardTemplates')
 const { getBirthdate } = require('./commands/bday')
-
-// const moment = extendMoment(Moment)
-// moment.locale('pt-br')
-// moment.updateLocale('pt-br', {
-//   calendar: {
-//     lastWeek: 'dddd [passada(o)]',
-//     lastDay: '[Ontem]',
-//     sameDay: '[Hoje às] H[h]mm',
-//     nextDay: '[Amanhã às] H[h]mm',
-//     nextWeek: 'dddd [às] H[h]mm',
-//     sameElse: 'D [de] MMMM [de] YYYY [(]dddd[)] [às] H[h]mm'
-//   }
-// })
-// moment.tz.setDefault('America/Sao_Paulo')
 
 // const maps = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
 
@@ -128,7 +112,7 @@ bot.onText(/^\/role\b/i, msg => {
                     } else {
                       bot.sendMessage(
                         chatId,
-                        `*Data inválida* ⚠️
+                        `⚠️ *Data inválida*
                     
 Escolha uma data futura e preste atenção no formato`,
                         defaultKb(answerRoleTimeId)
@@ -139,7 +123,7 @@ Escolha uma data futura e preste atenção no formato`,
             } else {
               bot.sendMessage(
                 chatId,
-                `*Data inválida* ⚠️
+                `⚠️ *Data inválida*
                     
 Escolha uma data futura e preste atenção no formato`,
                 defaultKb(answerAnotherDateId)
@@ -208,7 +192,7 @@ Escolha uma data futura e preste atenção no formato`,
               } else {
                 bot.sendMessage(
                   chatId,
-                  `*Data inválida* ⚠️
+                  `⚠️ *Data inválida*
                     
 Escolha uma data futura e preste atenção no formato`,
                   defaultKb(answerRoleTimeId)
@@ -226,7 +210,7 @@ Escolha uma data futura e preste atenção no formato`,
 bot.onText(/^\/roles\b/i, async msg => {
   const chatId = msg.chat.id
   const msgId = msg.message_id
-  const { data } = await axios.get(`https://tararau-bot.herokuapp.com/roles/${chatId}`)
+  const { data } = await axios.get(`/roles/${chatId}`)
   const roles = data.map(role => ({ ...role, date: moment(role.date) }))
 
   console.log(roles)
