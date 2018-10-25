@@ -7,7 +7,7 @@ const port = process.env.PORT
 
 app.mongoose = mongoose
 
-consign()
+consign({ cwd: 'src' })
   .then('./config/middlewares.js')
   .then('./api')
   .then('./config/routers.js')
