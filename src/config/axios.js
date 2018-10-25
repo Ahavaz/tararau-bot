@@ -2,7 +2,7 @@ const axios = require('axios')
 
 axios.defaults.baseURL = 'https://tararau-bot.herokuapp.com'
 
-global.axios = axios
+// global.axios = axios
 
 // const config = {
 //   baseURL: 'https://tararau-bot.herokuapp.com'
@@ -11,3 +11,7 @@ global.axios = axios
 //     'Content-Type': 'application/x-www-form-urlencoded'
 //   }
 // }
+
+module.exports = {
+  axios
+}
