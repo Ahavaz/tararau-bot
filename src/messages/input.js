@@ -3,7 +3,7 @@ const inputMsgs = {
   ayn: /\b(a+(y|i)+n+)+\b/,
   laugh: /(kk+)|(ha(ha)+)|(ah(ah)+)|(uhas(uhas)+)|(hue(hue)+)|(ahu(ahu)+)|(hua(hua)+)/,
   top: /to+p/,
-  amor: /\ba+m(a|o)+r+|ca+sa+(r+|me+n+to+)|re+la+(ci+o+na+me+n+to+|(c|ç)(a|ã)+o+)\s*s(e|é)+ri+(o|a)+|co+m+pro+(mi+ss+o+|me+ti+me+n+to+)\b/,
+  amor: /\b(a+m(a|o)+r+|ca+sa+(r+|me+n+to+)|re+la+(ci+o+na+me+n+to+|(c|ç)(a|ã)+o+)\s*s(e|é)+ri+(o|a)+|co+m+pro+(mi+ss+o+|me+ti+me+n+to+))\b/,
   greeting: [
     'nhae',
     'oi',
@@ -77,7 +77,7 @@ const inputMsgs = {
     'te pariu',
     'te paril',
     'pqp',
-    'viado',
+    ' viado',
     'veado',
     'viadinho',
     'veadinho',
@@ -168,11 +168,24 @@ const inputMsgs = {
   miou: /\bn((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\b|\b(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\b|^\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*$|^\s*(va+(y|i)+|vo+(u|w|y)*)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*$/,
   love: [
     'te amo', //
-    'amo você'
+    'amo você',
+    'amo vc',
+    'quanto amor',
+    '<3',
+    's2',
+    '❤️',
+    '♥️',
+    '💙',
+    '🖤',
+    '💚',
+    '💜',
+    '💛',
+    '🧡'
   ],
   hate: [
     'te odeio', //
-    'odeio você'
+    'odeio você',
+    'odeio vc'
   ],
   enfia: [
     'enfia no cu', //
