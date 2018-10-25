@@ -1,5 +1,6 @@
-const axios = require('../config/axios')
-const moment = require('../config/moment')
+const { bot } = require('../config/telegram')
+const { axios } = require('../config/axios')
+const { moment } = require('../config/moment')
 const { getSign } = require('../signs')
 const { isValidDate } = require('../utils')
 const { customKb, defaultKb } = require('../msgOptions')
@@ -13,9 +14,9 @@ const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
     if (answerConfirmationMsg === 'sim' || answerConfirmationMsg === 's') {
       getBirthdate(callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
     } else if (answerConfirmationMsg === 'não' || answerConfirmationMsg === 'nao' || answerConfirmationMsg === 'n') {
-      global.bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
+      bot.sendMessage(chatId, 'Processo cancelado...', defaultKb(answerConfirmationId))
     } else {
-      await global.bot.sendMessage(
+      await bot.sendMessage(
         chatId,
         `🤔 Não entendi, tente novamente.`,
         customKb(answerConfirmationId, buildYesNoOptions())
@@ -47,7 +48,7 @@ const confirmedBirthdate = (callbackId, chatId, userId, userFullName, userName, 
       axios
         .post(`/tararaus/${chatId}`, tararau)
         .then(() => {
-          global.bot.sendMessage(
+          bot.sendMessage(
             chatId,
             `Data registrada com sucesso... não sabia que seu signo era ${sign.name} ${sign.symbol}`,
             defaultKb(answerConfirmationId)
@@ -57,7 +58,7 @@ const confirmedBirthdate = (callbackId, chatId, userId, userFullName, userName, 
     } else if (answerConfirmationMsg === 'não' || answerConfirmationMsg === 'nao' || answerConfirmationMsg === 'n') {
       getBirthdate(callbackId, chatId, userId, answerConfirmationId, userFullName, userName)
     } else {
-      await global.bot.sendMessage(
+      await bot.sendMessage(
         chatId,
         '🤔 Não entendi, gostaria de tentar novamente?',
         customKb(answerConfirmationId, buildYesNoOptions())
@@ -74,14 +75,14 @@ const receivedBirthdate = (callbackId, chatId, userId, userFullName, userName) =
     if (isValidDate(answerBirthdate.text, true)) {
       const date = moment(answerBirthdate.text, 'D/M/YYYY')
 
-      await global.bot.sendMessage(
+      await bot.sendMessage(
         chatId,
         `Você nasceu dia ${date.format('D [de] MMMM [de] YYYY [(]dddd[)]').toLowerCase()}?`,
         customKb(answerBirthdateId, buildYesNoOptions())
       )
       confirmedBirthdate(callbackId, chatId, userId, userFullName, userName, date)
     } else {
-      await global.bot.sendMessage(
+      await bot.sendMessage(
         chatId,
         `⚠️ *Data inválida*
 Preste atenção no formato.
@@ -95,11 +96,7 @@ Gostaria de tentar novamente?`,
 }
 
 const getBirthdate = async (callbackId, chatId, userId, msgId, userFullName, userName) => {
-  await global.bot.sendMessage(
-    chatId,
-    `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`,
-    defaultKb(msgId, true)
-  )
+  await bot.sendMessage(chatId, `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`, defaultKb(msgId, true))
   receivedBirthdate(callbackId, chatId, userId, userFullName, userName)
 }
 

@@ -1,5 +1,6 @@
-const axios = require('./config/axios')
-const moment = require('./config/moment')
+const { bot } = require('./config/telegram')
+const { axios } = require('./config/axios')
+const { moment } = require('./config/moment')
 // const Moment = require('moment-timezone')
 // const { extendMoment } = require('moment-range')
 const { notification } = require('./msgOptions')
@@ -100,7 +101,7 @@ _${tararau.birthday.fromNow()[0].toUpperCase() + tararau.birthday.fromNow().slic
 
 const congratulate = tararau => {
   const age = moment().diff(tararau.birthdate, 'years')
-  global.bot.sendMessage(
+  bot.sendMessage(
     tararau.chatId,
     `*Parabéns* ${tararau.userName}!!! 🎉
 

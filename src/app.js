@@ -1,15 +1,13 @@
 process.env.NTBA_FIX_319 = 1
+const { bot } = require('./config/telegram')
+const { axios } = require('./config/axios')
+const { moment } = require('./config/moment')
 require('./server')
-require('./config/telegram')
-// const { axios } = require('./config/axios')
-
-const axios = require('axios')
 // const Moment = require('moment-timezone')
 // const { extendMoment } = require('moment-range')
-const { moment } = require('./config/moment')
 const { msgMatches } = require('./msgMatches')
-const { listBirthdays, listRoles, isValidTime, isValidDate, isFutureDate } = require('./utils')
 const { customKb, defaultKb } = require('./msgOptions')
+const { listBirthdays, listRoles, isValidTime, isValidDate, isFutureDate } = require('./utils')
 const { buildDayOptions } = require('./keyboardTemplates')
 const { getBirthdate } = require('./commands/bday')
 
@@ -34,7 +32,7 @@ console.log(axios.defaults)
 
 global.answerCallbacks = {}
 
-global.bot.on('message', msg => {
+bot.on('message', msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
   const msgId = msg.message_id
@@ -56,186 +54,176 @@ global.bot.on('message', msg => {
   return true
 })
 
-global.bot.onText(/^\/role\b/i, msg => {
+bot.onText(/^\/role\b/i, msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
   const msgId = msg.message_id
   const callbackId = `${chatId}:${userId}`
 
-  global.bot
-    .sendMessage(chatId, 'Quando vocês querem meter o loko?', customKb(msgId, buildDayOptions(moment())))
-    .then(() => {
-      global.answerCallbacks[callbackId] = answerRoleDate => {
-        const answerRoleDateId = answerRoleDate.message_id
+  bot.sendMessage(chatId, 'Quando vocês querem meter o loko?', customKb(msgId, buildDayOptions(moment()))).then(() => {
+    global.answerCallbacks[callbackId] = answerRoleDate => {
+      const answerRoleDateId = answerRoleDate.message_id
 
-        if (answerRoleDate.text === 'Outra data') {
-          global.bot
-            .sendMessage(chatId, 'Digite uma data (DD/MM/AA) futura', defaultKb(answerRoleDateId, true))
-            .then(() => {
-              global.answerCallbacks[callbackId] = answerAnotherDate => {
-                const answerAnotherDateId = answerAnotherDate.message_id
+      if (answerRoleDate.text === 'Outra data') {
+        bot.sendMessage(chatId, 'Digite uma data (DD/MM/AA) futura', defaultKb(answerRoleDateId, true)).then(() => {
+          global.answerCallbacks[callbackId] = answerAnotherDate => {
+            const answerAnotherDateId = answerAnotherDate.message_id
 
-                if (isValidDate(answerAnotherDate.text) && isFutureDate(answerAnotherDate.text)) {
-                  const date = moment(answerAnotherDate.text, 'D/M/YY')
+            if (isValidDate(answerAnotherDate.text) && isFutureDate(answerAnotherDate.text)) {
+              const date = moment(answerAnotherDate.text, 'D/M/YY')
 
-                  global.bot
-                    .sendMessage(
-                      chatId,
-                      `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
-                      defaultKb(answerAnotherDateId, true)
-                    )
-                    .then(() => {
-                      global.answerCallbacks[callbackId] = answerRoleTime => {
-                        const answerRoleTimeId = answerRoleTime.message_id
+              bot
+                .sendMessage(
+                  chatId,
+                  `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
+                  defaultKb(answerAnotherDateId, true)
+                )
+                .then(() => {
+                  global.answerCallbacks[callbackId] = answerRoleTime => {
+                    const answerRoleTimeId = answerRoleTime.message_id
 
-                        if (isValidTime(answerRoleTime.text, date)) {
-                          const fullDate = date
+                    if (isValidTime(answerRoleTime.text, date)) {
+                      const fullDate = date
 
-                          global.bot
-                            .sendMessage(chatId, `Digite o local do rolê`, defaultKb(answerRoleTimeId, true))
+                      bot.sendMessage(chatId, `Digite o local do rolê`, defaultKb(answerRoleTimeId, true)).then(() => {
+                        global.answerCallbacks[callbackId] = answerRoleLocation => {
+                          const answerRoleLocationId = answerRoleLocation.message_id
+                          const location = answerRoleLocation.text
+
+                          bot
+                            .sendMessage(
+                              chatId,
+                              `Agora, dê um nome tararau para o rolê!`,
+                              defaultKb(answerRoleLocationId, true)
+                            )
                             .then(() => {
-                              global.answerCallbacks[callbackId] = answerRoleLocation => {
-                                const answerRoleLocationId = answerRoleLocation.message_id
-                                const location = answerRoleLocation.text
+                              global.answerCallbacks[callbackId] = answerRoleTitle => {
+                                const answerRoleTitleId = answerRoleTitle.message_id
+                                const title = answerRoleTitle.text
+                                const role = {
+                                  chatId,
+                                  title,
+                                  date: fullDate,
+                                  location
+                                }
 
-                                global.bot
-                                  .sendMessage(
-                                    chatId,
-                                    `Agora, dê um nome tararau para o rolê!`,
-                                    defaultKb(answerRoleLocationId, true)
-                                  )
+                                console.log(fullDate.format('DD/MM/YY [às] H[h]mm'))
+
+                                axios
+                                  .post(`/roles/${chatId}`, role)
                                   .then(() => {
-                                    global.answerCallbacks[callbackId] = answerRoleTitle => {
-                                      const answerRoleTitleId = answerRoleTitle.message_id
-                                      const title = answerRoleTitle.text
-                                      const role = {
-                                        chatId,
-                                        title,
-                                        date: fullDate,
-                                        location
-                                      }
-
-                                      console.log(fullDate.format('DD/MM/YY [às] H[h]mm'))
-
-                                      axios
-                                        .post(`/roles/${chatId}`, role)
-                                        .then(() => {
-                                          global.bot.sendMessage(
-                                            chatId,
-                                            `Rolê *${
-                                              role.title
-                                            }* marcado para ${role.date.calendar().toLowerCase()} no(a) _${
-                                              role.location
-                                            }_!`,
-                                            defaultKb(answerRoleTitleId)
-                                          )
-                                        })
-                                        .catch(e => console.error(e))
-                                    }
+                                    bot.sendMessage(
+                                      chatId,
+                                      `Rolê *${role.title}* marcado para ${role.date.calendar().toLowerCase()} no(a) _${
+                                        role.location
+                                      }_!`,
+                                      defaultKb(answerRoleTitleId)
+                                    )
                                   })
+                                  .catch(e => console.error(e))
                               }
                             })
-                        } else {
-                          global.bot.sendMessage(
-                            chatId,
-                            `*Data inválida* ⚠️
-                    
-Escolha uma data futura e preste atenção no formato`,
-                            defaultKb(answerRoleTimeId)
-                          )
                         }
-                      }
-                    })
-                } else {
-                  global.bot.sendMessage(
-                    chatId,
-                    `*Data inválida* ⚠️
+                      })
+                    } else {
+                      bot.sendMessage(
+                        chatId,
+                        `*Data inválida* ⚠️
                     
 Escolha uma data futura e preste atenção no formato`,
-                    defaultKb(answerAnotherDateId)
-                  )
-                }
-              }
-            })
-        } else if (answerRoleDate.text === 'Mudei de ideia') {
-          global.bot.sendMessage(chatId, `Vai ti toma no cu então poha 😒`, defaultKb(answerRoleDateId))
-        } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
-          const date = moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
+                        defaultKb(answerRoleTimeId)
+                      )
+                    }
+                  }
+                })
+            } else {
+              bot.sendMessage(
+                chatId,
+                `*Data inválida* ⚠️
+                    
+Escolha uma data futura e preste atenção no formato`,
+                defaultKb(answerAnotherDateId)
+              )
+            }
+          }
+        })
+      } else if (answerRoleDate.text === 'Mudei de ideia') {
+        bot.sendMessage(chatId, `Vai ti toma no cu então poha 😒`, defaultKb(answerRoleDateId))
+      } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
+        const date = moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
 
-          global.bot
-            .sendMessage(
-              chatId,
-              `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
-              defaultKb(answerRoleDateId, true)
-            )
-            .then(() => {
-              global.answerCallbacks[callbackId] = answerRoleTime => {
-                const answerRoleTimeId = answerRoleTime.message_id
+        bot
+          .sendMessage(
+            chatId,
+            `${date.format('DD/MM/YY [(]dddd[)]').toLowerCase()}, qual horário (HH:mm)?`,
+            defaultKb(answerRoleDateId, true)
+          )
+          .then(() => {
+            global.answerCallbacks[callbackId] = answerRoleTime => {
+              const answerRoleTimeId = answerRoleTime.message_id
 
-                if (isValidTime(answerRoleTime.text, date)) {
-                  const fullDate = date
+              if (isValidTime(answerRoleTime.text, date)) {
+                const fullDate = date
 
-                  global.bot
-                    .sendMessage(chatId, `Digite o local do rolê`, defaultKb(answerRoleTimeId, true))
-                    .then(() => {
-                      global.answerCallbacks[callbackId] = answerRoleLocation => {
-                        const answerRoleLocationId = answerRoleLocation.message_id
-                        const location = answerRoleLocation.text
+                bot.sendMessage(chatId, `Digite o local do rolê`, defaultKb(answerRoleTimeId, true)).then(() => {
+                  global.answerCallbacks[callbackId] = answerRoleLocation => {
+                    const answerRoleLocationId = answerRoleLocation.message_id
+                    const location = answerRoleLocation.text
 
-                        global.bot
-                          .sendMessage(
+                    bot
+                      .sendMessage(
+                        chatId,
+                        `Agora, dê um nome tararau para o rolê!`,
+                        defaultKb(answerRoleLocationId, true)
+                      )
+                      .then(() => {
+                        global.answerCallbacks[callbackId] = answerRoleTitle => {
+                          const answerRoleTitleId = answerRoleTitle.message_id
+                          const title = answerRoleTitle.text
+                          const role = {
                             chatId,
-                            `Agora, dê um nome tararau para o rolê!`,
-                            defaultKb(answerRoleLocationId, true)
-                          )
-                          .then(() => {
-                            global.answerCallbacks[callbackId] = answerRoleTitle => {
-                              const answerRoleTitleId = answerRoleTitle.message_id
-                              const title = answerRoleTitle.text
-                              const role = {
+                            title,
+                            date: fullDate,
+                            location
+                          }
+
+                          console.log(fullDate.format('DD/MM/YY [às] H[h]mm'))
+
+                          axios
+                            .post(`/roles/${chatId}`, role)
+                            .then(() => {
+                              bot.sendMessage(
                                 chatId,
-                                title,
-                                date: fullDate,
-                                location
-                              }
-
-                              console.log(fullDate.format('DD/MM/YY [às] H[h]mm'))
-
-                              axios
-                                .post(`/roles/${chatId}`, role)
-                                .then(() => {
-                                  global.bot.sendMessage(
-                                    chatId,
-                                    `Rolê *${role.title}* marcado para ${role.date.calendar().toLowerCase()} no(a) _${
-                                      role.location
-                                    }_!`,
-                                    defaultKb(answerRoleTitleId)
-                                  )
-                                })
-                                .catch(e => console.error(e))
-                            }
-                          })
-                      }
-                    })
-                } else {
-                  global.bot.sendMessage(
-                    chatId,
-                    `*Data inválida* ⚠️
+                                `Rolê *${role.title}* marcado para ${role.date.calendar().toLowerCase()} no(a) _${
+                                  role.location
+                                }_!`,
+                                defaultKb(answerRoleTitleId)
+                              )
+                            })
+                            .catch(e => console.error(e))
+                        }
+                      })
+                  }
+                })
+              } else {
+                bot.sendMessage(
+                  chatId,
+                  `*Data inválida* ⚠️
                     
 Escolha uma data futura e preste atenção no formato`,
-                    defaultKb(answerRoleTimeId)
-                  )
-                }
+                  defaultKb(answerRoleTimeId)
+                )
               }
-            })
-        } else {
-          global.bot.sendMessage(chatId, `Use os botões, energúmeno 🙄`, defaultKb(answerRoleDateId))
-        }
+            }
+          })
+      } else {
+        bot.sendMessage(chatId, `Use os botões, energúmeno 🙄`, defaultKb(answerRoleDateId))
       }
-    })
+    }
+  })
 })
 
-global.bot.onText(/^\/roles\b/i, async msg => {
+bot.onText(/^\/roles\b/i, async msg => {
   const chatId = msg.chat.id
   const msgId = msg.message_id
   const { data } = await axios.get(`https://tararau-bot.herokuapp.com/roles/${chatId}`)
@@ -243,7 +231,7 @@ global.bot.onText(/^\/roles\b/i, async msg => {
 
   console.log(roles)
 
-  global.bot.sendMessage(
+  bot.sendMessage(
     chatId,
     roles.length
       ? `*Próximos Rolês* 🍻
@@ -255,7 +243,7 @@ Envie o comando /role para marcar o próximo!`,
   )
 })
 
-global.bot.onText(/^\/bday\b/i, async msg => {
+bot.onText(/^\/bday\b/i, async msg => {
   const chatId = msg.chat.id
   const userId = msg.from.id
   const msgId = msg.message_id
@@ -268,13 +256,13 @@ global.bot.onText(/^\/bday\b/i, async msg => {
   console.log(tararaus)
 
   if (tararaus.filter(tararau => tararau.userId === userId && tararau.chatId === chatId).length) {
-    global.bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
+    bot.sendMessage(chatId, 'Você já registrou sua data de nascimento ⚠️', defaultKb(msgId))
   } else {
     getBirthdate(callbackId, chatId, userId, msgId, userFullName, userName)
   }
 })
 
-global.bot.onText(/^\/bdays\b/i, async msg => {
+bot.onText(/^\/bdays\b/i, async msg => {
   const chatId = msg.chat.id
   const msgId = msg.message_id
   const { data } = await axios.get(`/tararaus/${chatId}`)
@@ -282,7 +270,7 @@ global.bot.onText(/^\/bdays\b/i, async msg => {
 
   console.log(tararaus)
 
-  global.bot.sendMessage(
+  bot.sendMessage(
     chatId,
     tararaus.length
       ? `*Próximos Aniversariantes* 🎂
@@ -294,12 +282,12 @@ Envie o comando /bday para registrar a sua!`,
   )
 })
 
-global.bot.onText(/^\/clear\b/i, msg => {
-  global.bot.sendMessage(msg.chat.id, 'Teclado aniquilado com sucesso', defaultKb(msg.message_id))
+bot.onText(/^\/clear\b/i, msg => {
+  bot.sendMessage(msg.chat.id, 'Teclado aniquilado com sucesso', defaultKb(msg.message_id))
 })
 
-global.bot.onText(/^\/(help\b|$)/i, msg => {
-  global.bot.sendMessage(
+bot.onText(/^\/(help\b|$)/i, msg => {
+  bot.sendMessage(
     msg.chat.id,
     `Posso te ajudar a marcar rolês, registrar a data de nascimento da galera e te lembrar dos próximos rolês e aniversariantes.
 
@@ -313,10 +301,10 @@ Você pode fazer isso enviando os seguintes comandos:
   )
 })
 
-global.bot.onText(/^\/(?!(role|roles|bday|bdays|clear|help|start|stop)\b).+/i, msg => {
-  global.bot.sendMessage(msg.chat.id, 'Este comando _non ecziste_!', defaultKb(msg.message_id))
+bot.onText(/^\/(?!(role|roles|bday|bdays|clear|help|start|stop)\b).+/i, msg => {
+  bot.sendMessage(msg.chat.id, 'Este comando _non ecziste_!', defaultKb(msg.message_id))
 })
 
-global.bot.on('polling_error', err => {
+bot.on('polling_error', err => {
   console.error(err)
 })

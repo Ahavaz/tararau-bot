@@ -1,4 +1,4 @@
-const moment = require('./config/moment')
+const { moment } = require('./config/moment')
 
 const getSign = date => [
   // Aries
