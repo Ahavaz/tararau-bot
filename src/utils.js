@@ -117,7 +117,9 @@ const isValidTime = (time, date) => {
     time = time.split(':').map(num => parseInt(num, 10))
     const hour = time[0]
     const minutes = time[1]
-    return hour >= 0 <= 23 && minutes >= 0 <= 59 ? moment().isSameOrBefore(date.hour(hour).minutes(minutes)) : false
+    return hour >= 0 && hour <= 23 && minutes >= 0 && minutes <= 59
+      ? moment().isSameOrBefore(date.hour(hour).minutes(minutes))
+      : false
   } catch (e) {
     console.error(e)
     return false
