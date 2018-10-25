@@ -1,7 +1,8 @@
 const axios = require('axios')
 
-global.axios = axios
 axios.defaults.baseURL = 'https://tararau-bot.herokuapp.com'
+
+global.axios = axios
 
 // const config = {
 //   baseURL: 'https://tararau-bot.herokuapp.com'

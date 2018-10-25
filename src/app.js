@@ -1,19 +1,18 @@
 process.env.NTBA_FIX_319 = 1
 require('./config/axios')
+require('./config/telegram')
 require('./server')
-const TelegramBot = require('node-telegram-bot-api')
+
 // const axios = require('axios')
 // const Moment = require('moment-timezone')
 // const { extendMoment } = require('moment-range')
-const moment = require('./config/moment')
+const { moment } = require('./config/moment')
 const { msgMatches } = require('./msgMatches')
 const { listBirthdays, listRoles, isValidTime, isValidDate, isFutureDate } = require('./utils')
 const { customKb, defaultKb } = require('./msgOptions')
 const { buildDayOptions } = require('./keyboardTemplates')
 const { getBirthdate } = require('./commands/bday')
 
-const telegramToken = process.env.TELEGRAM_CHATBOT_API_KEY
-global.bot = new TelegramBot(telegramToken, { polling: true })
 // const moment = extendMoment(Moment)
 // moment.locale('pt-br')
 // moment.updateLocale('pt-br', {
