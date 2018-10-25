@@ -1,8 +1,8 @@
 process.env.NTBA_FIX_319 = 1
+require('./config/axios')
 require('./server')
 const TelegramBot = require('node-telegram-bot-api')
-const axios = require('axios')
-const config = require('./config/axios')
+// const axios = require('axios')
 // const Moment = require('moment-timezone')
 // const { extendMoment } = require('moment-range')
 const moment = require('./config/moment')
@@ -31,7 +31,7 @@ global.bot = new TelegramBot(telegramToken, { polling: true })
 // const maps = `https://maps.googleapis.com/maps/api/geocode/json?${parameters}&key=${process.env.GOOGLE_API_KEY}`
 
 // const places = []
-console.log(axios.defaults)
+console.log(global.axios.defaults)
 
 global.answerCallbacks = {}
 
@@ -118,7 +118,7 @@ global.bot.onText(/^\/role\b/i, msg => {
 
                                       console.log(fullDate.format('DD/MM/YY [às] H[h]mm'))
 
-                                      axios
+                                      global.axios
                                         .post(`/roles/${chatId}`, role)
                                         .then(() => {
                                           global.bot.sendMessage(
@@ -202,7 +202,7 @@ Escolha uma data futura e preste atenção no formato`,
 
                               console.log(fullDate.format('DD/MM/YY [às] H[h]mm'))
 
-                              axios
+                              global.axios
                                 .post(`/roles/${chatId}`, role)
                                 .then(() => {
                                   global.bot.sendMessage(
@@ -239,7 +239,7 @@ Escolha uma data futura e preste atenção no formato`,
 global.bot.onText(/^\/roles\b/i, async msg => {
   const chatId = msg.chat.id
   const msgId = msg.message_id
-  const { data } = await axios.get(`/roles/${chatId}`, config)
+  const { data } = await global.axios.get(`/roles/${chatId}`)
   const roles = data.map(role => ({ ...role, date: moment(role.date) }))
 
   console.log(roles)
@@ -263,7 +263,7 @@ global.bot.onText(/^\/bday\b/i, async msg => {
   const callbackId = `${chatId}:${userId}`
   const userFullName = `${msg.from.first_name} ${msg.from.last_name || ''}`.trim()
   const userName = `[${userFullName}](tg://user?id=${userId})`
-  const { data } = await axios.get(`/tararaus/${chatId}`)
+  const { data } = await global.axios.get(`/tararaus/${chatId}`)
   const tararaus = data
 
   console.log(tararaus)
@@ -278,7 +278,7 @@ global.bot.onText(/^\/bday\b/i, async msg => {
 global.bot.onText(/^\/bdays\b/i, async msg => {
   const chatId = msg.chat.id
   const msgId = msg.message_id
-  const { data } = await axios.get(`/tararaus/${chatId}`)
+  const { data } = await global.axios.get(`/tararaus/${chatId}`)
   const tararaus = data.map(tararau => ({ ...tararau, birthdate: moment(tararau.birthdate) }))
 
   console.log(tararaus)
