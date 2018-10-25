@@ -1,9 +1,9 @@
 process.env.NTBA_FIX_319 = 1
 require('./server')
 require('./config/telegram')
-const { axios } = require('./config/axios')
+// const { axios } = require('./config/axios')
 
-// const axios = require('axios')
+const axios = require('axios')
 // const Moment = require('moment-timezone')
 // const { extendMoment } = require('moment-range')
 const { moment } = require('./config/moment')
