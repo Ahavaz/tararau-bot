@@ -148,7 +148,7 @@ Escolha uma data futura e preste atenção no formato`,
           }
         })
       } else if (answerRoleDate.text === 'Mudei de ideia') {
-        bot.sendMessage(chatId, `Vai ti toma no cu então poha 😒`, defaultKb(answerRoleDateId))
+        bot.sendMessage(chatId, `Então tá 👋`, defaultKb(answerRoleDateId))
       } else if (moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY', 'pt-br', true).isValid()) {
         const date = moment(answerRoleDate.text.split('\n')[1].slice(1, -1), 'D/MMM/YY')
 
