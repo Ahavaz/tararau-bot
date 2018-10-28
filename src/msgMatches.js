@@ -4,21 +4,8 @@ const { outputMsgs } = require('./messages/output')
 const { randomMsg, getRandomInt, buildMsg } = require('./utils')
 const { defaultKb } = require('./msgOptions')
 
-const filterMsg = (userMsg, options) =>
-  options.filter(
-    option =>
-      userMsg === option ||
-      userMsg.startsWith(`${option} `) ||
-      userMsg.startsWith(`${option}.`) ||
-      userMsg.startsWith(`${option},`) ||
-      userMsg.startsWith(`${option}!`) ||
-      userMsg.startsWith(`${option}?`)
-  )
-
 const msgMatches = (chatId, msgId, userMsg, userName) => {
-  const farewellMatches = filterMsg(userMsg, inputMsgs.farewell)
   const swearingsMatches = inputMsgs.swearings.filter(message => userMsg.includes(message))
-  const owMatches = inputMsgs.ow.filter(message => userMsg === message)
   const shitMatches = inputMsgs.shit.filter(message => userMsg.includes(message))
   const goodMorningMatches = inputMsgs.goodMorning.filter(message => userMsg.startsWith(message))
   const goodNightMatches = inputMsgs.goodNight.filter(message => userMsg.startsWith(message))
@@ -47,11 +34,11 @@ const msgMatches = (chatId, msgId, userMsg, userName) => {
     bot.sendMessage(chatId, randomMsg(outputMsgs.amor), defaultKb(msgId))
   } else if (inputMsgs.top.test(userMsg)) {
     bot.sendMessage(chatId, randomMsg(outputMsgs.top), defaultKb(msgId))
-  } else if (owMatches.length !== 0) {
+  } else if (inputMsgs.ow.test(userMsg)) {
     bot.sendMessage(chatId, randomMsg(outputMsgs.ow), defaultKb(msgId))
   } else if (inputMsgs.greeting.test(userMsg)) {
     bot.sendMessage(chatId, randomMsg(outputMsgs.greeting), defaultKb(msgId))
-  } else if (farewellMatches.length !== 0) {
+  } else if (inputMsgs.farewell.test(userMsg)) {
     bot.sendMessage(chatId, randomMsg(outputMsgs.farewell), defaultKb(msgId))
   } else if (shitMatches.length !== 0) {
     bot.sendMessage(chatId, randomMsg(outputMsgs.shit), defaultKb(msgId))
