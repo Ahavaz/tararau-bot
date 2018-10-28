@@ -5,34 +5,9 @@ const inputMsgs = {
   top: /to+p/,
   amor: /\b(a+m(a|o)+r+|ca+sa+(r+|me+n+to+)|re+la+(ci+o+na+me+n+to+|(c|ç)(a|ã)+o+)\s*s(e|é)+ri+(o|a)+|co+m+pro+(mi+ss+o+|me+ti+me+n+to+))\b/,
   greeting: /^\s*(o+i+e*|o+l(a|á)+(r|h)*|h(e|a)+llo+|he+y+o+|ho+la+|sa+lu+t)([\s.,!?]|$)/,
-  farewell: [
-    'tchau',
-    'tchaus',
-    'xau',
-    'xaus',
-    'flw',
-    'flws',
-    'vlw flw',
-    'adios',
-    'adeus',
-    'bye',
-    'goodbye',
-    'good bye',
-    'fuis',
-    'fuiz',
-    'até já',
-    'ateh jah',
-    'ateh ja',
-    'até mais',
-    'ateh mais',
-    'até logo',
-    'ateh logo',
-    'cya',
-    'see ya',
-    'see you',
-    'hasta la vista',
-    'ciao'
-  ],
+  farewell: /^\s*((tch|x)a+u+s*|(vlw+s* )?flw+s*|a+d(e+u+|i+o+)s+|(goo+d)?(by+e+)+|fu+i+(s|z)+|at(e|é)+h* lo+go+|(see|c)\s?y+(a+|o+u+)|ci+a+o+|ha+s+ta+ la+ vi+s+ta+|fa+l(o+re+n+s+|u+ca+s+|(u|ú)+li+o+|(e|é)+li+o+|o+ry+n+|o+ri+n+ha+|o+ri+e+))([\s.,!?]|$)/,
+  ow: /^(o+w+|e+i+|he+y+|y+o+|ps+i+u+|v(e|é)+(i|y)+|ma+no+|ca+ra+|bi+(ch|x)o+|e+n+t(a|ã)+o+)$/,
+  miou: /\bn((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\b|\b(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\b|^\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*$|^\s*(va+(y|i)+|vo+(u|w|y)*)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*$/,
   swearings: [
     ' da puta',
     'duma puta',
@@ -74,21 +49,6 @@ const inputMsgs = {
     'bichona',
     'imbecil',
     'retardado'
-  ],
-  ow: [
-    'ow', //
-    'ei',
-    'hey',
-    'yo',
-    'psiu',
-    'vei',
-    'véi',
-    'vey',
-    'mano',
-    'cara',
-    'bicho',
-    'entao',
-    'então'
   ],
   shit: [
     'tolete',
@@ -147,7 +107,6 @@ const inputMsgs = {
     'buenas noches',
     'buenasnoches'
   ],
-  miou: /\bn((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\b|\b(va+(y|i)+|vo+(u|w|y)*)\s*(da+r+|ro+la+r+|ma+(i|y)*s+|po+de+r+)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\b|^\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*(va+(y|i)+|vo+(u|w|y)*)\s*$|^\s*(va+(y|i)+|vo+(u|w|y)*)\s*n((a|ã)*(o|u)+(m|n)*|e+(i|y)*(m|n)+)?\s*$/,
   love: [
     'te amo', //
     'amo você',
@@ -186,7 +145,8 @@ const inputMsgs = {
     'tá tenso',
     'ta dificil',
     'tá difícil'
-  ]
+  ],
+  puto: /([\s.,!?]|^)(😠|😡|puto|pu+ta+ço+|(o|ó)+di+o+)([\s.,!?]|$)/
 }
 
 module.exports = {

@@ -144,18 +144,14 @@ const outputMsgs = {
     'Nobody yes door',
     'Se fodeu',
     'Tomou no meio',
-    'A PRONTO!',
+    'AH PRONTO!',
     'OLHA AÍ A MADAME!'
   ],
   love: [
-    `Ayn 🖤`, //
-    'FooodaC',
-    'C-A-G-A-Y'
+    `Ayn 💜` //
   ],
   hate: [
-    `💔`, //
-    'FooodaC',
-    'C-A-G-A-Y'
+    `💔` //
   ],
   enfia: [
     'Enfia no teu!', //
