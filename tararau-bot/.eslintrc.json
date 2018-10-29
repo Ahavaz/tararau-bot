@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
+  "rules": {
+    "linebreak-style": 0,
+    "no-param-reassign": 0,
+    "no-console": "off",
+    "no-nested-ternary": "off",
+    "no-use-before-define": 0,
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": false,
+        "singleQuote": true,
+        "trailingComma": "none",
+        "printWidth": "120"
+      }
+    ]
+  },
+  "plugins": [
+    "prettier"
+  ]
+}
