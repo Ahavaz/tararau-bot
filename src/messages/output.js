@@ -43,7 +43,8 @@ const outputMsgs = {
     'TOPológico',
     'TOPa ou não TOPa?',
     'TOPuto',
-    'TOPornô'
+    'TOPornô
+    'TOPei'
     'orTOPedia',
     'cenTOPeia',
     'homoTOPia',
