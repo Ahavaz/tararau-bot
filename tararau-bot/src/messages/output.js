@@ -45,7 +45,8 @@ const outputMsgs = {
     'TOPuto',
     'TOPodendo',
     'TOPassado'
-    'TOPornô','
+    'TOPornô',
+    'TOPerdido'
     'TOPei',
     'orTOPedia',
     'cenTOPeia',
