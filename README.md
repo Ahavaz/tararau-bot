@@ -109,7 +109,6 @@ git push origin master
 
 7. Go to your fork, check if it's not behind the original repository and then click on Pull request
 
-```
 ## Versioning
 _(Under Construction)_
 
