@@ -48,7 +48,9 @@ const inputMsgs = {
     'baitola',
     'bichona',
     'imbecil',
-    'retardado'
+    'retardado',
+    'cuzão',
+    'cuzona'
   ],
   shit: [
     'tolete',
@@ -65,7 +67,10 @@ const inputMsgs = {
     'cagar',
     `💩`,
     'bostinha',
-    'merdinha'
+    'merdinha',
+    'merdão',
+    'titica',
+    
   ],
   goodMorning: [
     'bom dia',
@@ -81,8 +86,16 @@ const inputMsgs = {
     'good morning',
     'morning',
     'bonjour',
-    'buenos dias'
+    'buenos dias',
+
   ],
+  goodAfternoon: [
+    'boa tarde',
+    'boatarde',
+    'boa tardinha',
+    'buenas tardes',
+    'boas tardes'
+  ]
   goodNight: [
     'boa noit',
     'boanoit',
@@ -144,8 +157,11 @@ const inputMsgs = {
     'ta tenso',
     'tá tenso',
     'ta dificil',
-    'tá difícil'
+    'tá difícil',
+    'vai dar não',
+    'trem difícil'
   ],
+
   puto: /([\s.,!?]|^)(😠|😡|puto|pu+ta+ço+|(o|ó)+di+o+)([\s.,!?]|$)/
 }
 
