@@ -1,19 +1,18 @@
 const outputMsgs = {
   tararau: [
-    'Tararau', //
+    'Tararau',
     'TARARAU'
   ],
   ayn: [
-    'ayn', //
+    'ayn',
     'AYN',
     'AyN',
     'AAAAAAYYYYYNNNNN',
     'aaaaaaaayyyyyyynnnnnnnn',
     'aiayn'
-
   ],
   laugh: [
-    'ha', //
+    'ha',
     'ah',
     'kk',
     'uhas',
@@ -22,7 +21,6 @@ const outputMsgs = {
     'hua',
     'kdosap',
     'hu3',
-
   ],
   top: [
     'Top 👌',
@@ -79,7 +77,7 @@ const outputMsgs = {
     'aTOPico'
   ],
   amor: [
-    'Deus me free', //
+    'Deus me free',
     'Tô fora',
     'Nem fodendo',
     'God me livre!',
@@ -130,10 +128,9 @@ const outputMsgs = {
     '👆👉👌',
     'ENFIA NO OLHO DO CU E RODA!!',
     'Bota uma dentadura no cu e sorri pro caralho',
-
   ],
   ow: [
-    'Diga..', //
+    'Diga..',
     'Fale',
     'Vemk e me conta bb',
     'Lá vem 🙄',
@@ -141,7 +138,7 @@ const outputMsgs = {
     'Hablas comigo muchacho'
   ],
   shit: [
-    'Caguei!', //
+    'Caguei!',
     'CAGUEI',
     'K-gay',
     '💩',
@@ -181,23 +178,22 @@ const outputMsgs = {
     'Se fodeu',
     'Tomou no meio',
     'AH PRONTO!',
-    'OLHA AÍ A MADAME!'
+    'OLHA AÍ A MADAME!',
     'Mas agora virou bagunça mesmo',
     'É de foder o cu do palhaço'
   ],
   love: [
-    'Ayn 💜' //
+    'Ayn 💜',
     'Seu lindocas',
     'Seu tararau lindo do robo'
-
   ],
   hate: [
-    '💔' //
+    '💔'
   ],
   enfia: [
-    'Enfia no teu!', //
+    'Enfia no teu!',
     'Me obrigue!',
-    'Por favor, insira no seu boga!'
+    'Por favor, insira no seu boga!',
     'INVALID FUNCTION: Executing EXCEPTION_FUNCTION( EnfiaNoTeuCu())'
   ],
   foda: userName => [
@@ -207,7 +203,7 @@ const outputMsgs = {
     'Lembre-se de quem você é ${userName}, você já lutou tanto para chegar até aqui, tenho certeza que irá sobreviver!',
     '${userName}, você é o resultado de bilhões de ano de evolução, aja como tal!',
     'Respira e vai!',
-    'Fica sussa, relaxa o esfíncter que dá tudo certo 👌'
+    'Fica sussa, relaxa o esfíncter que dá tudo certo 👌',
     'Lembre-se ${userName}, você já nasceu um espermatozóide vencedor na corrida pela vida',
     'Nunca esqueça do seu jeito ninja ${userName}'
   ]
