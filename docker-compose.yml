@@ -1,0 +1,33 @@
+version: '3.6'
+
+services:
+    tararau_api:
+        build:
+            context: .
+        environment:
+            PORT: 8080
+            MONGO_URL: 
+            MONGO_USER:
+            MONGO_PASS:
+            MONGO_DEBUG: "false"
+            LOG_LEVEL: info
+            LOG_FORMAT: text
+        volumes:
+            - .:/usr/src/tararau_api
+            - /usr/src/tararau_api/node_modules
+        command: sh -c "npm install && npm start"
+        healthcheck:
+            test: ["CMD", "wget", "-O-", "127.0.0.1:8080/status"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 10s
+        ports:
+            - 8080:8080
+        depends_on:
+          - mongo
+    mongo:
+      image: mongo
+      ports:
+        - 8080:8080
+        - 27017:27017
