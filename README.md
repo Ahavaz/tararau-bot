@@ -85,7 +85,7 @@ git push origin master
 
 7. Go to **your fork**, check if it's not _behind_ the **original repository** and then click on _Pull request_
 7. Go to **your fork**, check if it's not _behind_ the **original repository** and then click on _Pull request_
-
+```
 ## Versioning
 _(Under Construction)_
 
