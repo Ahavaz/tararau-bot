@@ -22,7 +22,7 @@ const inputMsgs = {
     'seu cu',
     'teu cu',
     'tnc',
-    'má nu cú'
+    'má nu cú',
     'tomanocu',
     'tomanucu',
     'toma no cu',
@@ -97,7 +97,7 @@ const inputMsgs = {
     'boa tardinha',
     'buenas tardes',
     'boas tardes'
-  ]
+  ],
   goodNight: [
     'boa noit',
     'boanoit',
@@ -163,7 +163,6 @@ const inputMsgs = {
     'vai dar não',
     'trem difícil'
   ],
-
   puto: /([\s.,!?]|^)(😠|😡|puto|pu+ta+ço+|(o|ó)+di+o+)([\s.,!?]|$)/
 }
 
