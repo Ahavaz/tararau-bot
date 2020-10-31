@@ -4,7 +4,7 @@ const { congratulate } = require('./utils')
 
 // Call base url every 10min from 6am to 11:50pm to prevent app from sleeping in heroku
 schedule.scheduleJob('*/10 * * * *', async () => {
-  // await axios.get().then(() => console.log(`Call base url`))
+  await axios.get().then(() => console.log(`Call base url`))
 })
 
 // Check for bdays every day at 8am to notify users and groups
