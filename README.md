@@ -96,7 +96,7 @@ _(Under Construction)_
 * **Lucas César** - *Father of the @TararauBot* - [Ahavaz](https://github.com/Ahavaz/)
 
 See also the list of [contributors](https://github.com/Ahavaz/tararau-bot/graphs/contributors) who participated in this project:
-* **Lucian Lorens** - [Lorensov](https://github.com/Ahavaz/)
+* **Lucian Lorens** - [Lorensov](https://github.com/lucianlorens/)
 
 
 ## License
