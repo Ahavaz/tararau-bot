@@ -122,6 +122,8 @@ _(Under Construction)_
 See also the list of [contributors](https://github.com/Ahavaz/tararau-bot/graphs/contributors) who participated in this project:
 * **Lucian Lorens** - [Lorensov](https://github.com/lucianlorens/)
 
+* **Helio Andrade** - [hmajr](https://github.com/hamjr)
+
 
 ## License
 
