@@ -151,10 +151,10 @@ const outputMsgs = {
     'Bundinha seus troxa',
     'Boudia bbs 🔆',
     'Bom dia nenês ☀️',
-    'Bom dia cutetu ${userName}',
-    'Bom dia putetu ${userName}',
-    'Bom dia ${userName} cuzudin',
-    'Bom dia ${userName}-tararau',
+    `Bom dia cutetu ${userName}`,
+    `Bom dia putetu ${userName}`,
+    `Bom dia ${userName} cuzudin`,
+    `Bom dia ${userName}-tararau`,
     'Hello world seus pirocetudos!!!',
     'Bom dia pra quem?'
   ],
@@ -200,12 +200,12 @@ const outputMsgs = {
     'Não tá fácil pra ninguém',
     'Eu acredito em você e acredito em um mundo mais TARARAU!',
     'SEEEGUUUUUUUUUUUUURA PEÃO!',
-    'Lembre-se de quem você é ${userName}, você já lutou tanto para chegar até aqui, tenho certeza que irá sobreviver!',
-    '${userName}, você é o resultado de bilhões de ano de evolução, aja como tal!',
+    `Lembre-se de quem você é ${userName}, você já lutou tanto para chegar até aqui, tenho certeza que irá sobreviver!`,
+    `${userName}, você é o resultado de bilhões de ano de evolução, aja como tal!`,
     'Respira e vai!',
     'Fica sussa, relaxa o esfíncter que dá tudo certo 👌',
-    'Lembre-se ${userName}, você já nasceu um espermatozóide vencedor na corrida pela vida',
-    'Nunca esqueça do seu jeito ninja ${userName}'
+    `Lembre-se ${userName}, você já nasceu um espermatozóide vencedor na corrida pela vida`,
+    `Nunca esqueça do seu jeito ninja ${userName}`
   ]
 }
 
