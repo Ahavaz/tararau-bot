@@ -14,7 +14,7 @@ const buildDayOptions = date => [
   [`${getNext(date)}`, `${getNext(date)}`],
   [`${getNext(date)}`, `${getNext(date)}`],
   [`${getNext(date)}`, 'Outra data'],
-  ['Mudei de ideia']
+  ['Caguei, vai ter rolê mais não!!']
 ]
 
 const buildYesNoOptions = () => [['Sim', 'Não']]
