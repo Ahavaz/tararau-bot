@@ -1,82 +1,24 @@
-# TararauBot
-#### TararauBot is a Telegram Chatbot made to assist in managing your [Rolês](https://www.dicionarioinformal.com.br/rol%C3%AA/) and it's best used in a group of friends.
+# TararauBot 🤖
+TararauBot is a foul mouthed Telegram Chatbot that was created... on a boring day 🙃. So his main purpose is still uncertain but one thing is for sure - he will make you and your friends laugh a couple times with his mocking persona.
 
-## Getting Started
-_(Under Construction)_
+What else can he do? Aside the jokes and jest banters, for now he can assist you and your group of friends in managing your [Rolês](https://www.dicionarioinformal.com.br/rol%C3%AA/) (meetups). I personally find him much more useful when used in groups of friends for this purpose.
 
-You can use `docker-compose up` on the root folder of the project to run it.
+**Bonus**: He won't forget (and *will* remind you) of your and your friends' birthdays 🎉
 
-### Prerequisites
-_(Under Construction)_
-You'll need:
+## Installation 🚀
+You'll need the following applications in your machine in order to run TararauBot locally:
 
+- NodeJS
+- Yarn
+
+You will also need a *telegram chatbot api key* that you can get with [BotFather](https://telegram.me/BotFather)
+
+Once you've cloned the project, rename the `.env-example` file to `.env` and fill it with the *telegram chatbot api key*, the *base url* where you'll deploy the code and the *database url*. That done, you can run the following command to download the dependencies and start the development server:
 ```
-* Docker;
-* Node.JS;
-* An IDE of your choice.
-* Will Power
-```
-
-### Installing
-_(Under Construction)_
-
-:construction: :construction: :construction:
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
+yarn && yarn dev
 ```
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-:construction: :construction: :construction:
-
-## Running the tests
-_(Tests will be implemented)_
-
-:construction: :construction: :construction:
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-:construction: :construction: :construction:
-
-### And coding style tests
-_(Under Construction)_
-
-:construction: :construction: :construction:
-
-## Deployment
-
-You can use the `Procfile` to deploy on your [Heroku](https://www.heroku.com/nodejs) application and in your Telegram Account to sync with it.
-
-Here's a [tutorial](https://medium.com/matheus-rossi/telegram-bot-com-nodejs-9e107153046b) to set a chatbot with Node.JS.
-
-
-## Built With
-_(Under Construction)_
-
-* []() - Description
-* []() - Description
-* []() - Description
-
-## How To Contribute
+## How to contribute ✋
 
 1. Fork this repository to your account by clicking on Fork
 
@@ -109,28 +51,39 @@ git push origin master
 
 7. Go to your fork, check if it's not behind the original repository and then click on Pull request
 
-## Versioning
-_(Under Construction)_
+## Deployment 📦
 
-:construction: :construction: :construction:
+You can use the `Procfile` to deploy on your [Heroku](https://www.heroku.com/nodejs) application and in your Telegram Account to sync with it.
 
-## Authors
+Here's a [tutorial](https://medium.com/matheus-rossi/telegram-bot-com-nodejs-9e107153046b) to set a chatbot with Node.JS.
 
-* **Lucas César** - *Father of the @TararauBot* - [Ahavaz](https://github.com/Ahavaz/)
+## New contributor guide ✨
 
-See also the list of [contributors](https://github.com/Ahavaz/tararau-bot/graphs/contributors) who participated in this project:
-* **Lucian Lorens** - [Lorensov](https://github.com/lucianlorens/)
+Here are some helpful resources to get you comfortable with open source contribution:
 
-* **Helio Andrade** - [hmajr](https://github.com/hmajr)
+- [Finding ways to contribute to open source on GitHub](https://docs.github.com/en/get-started/exploring-projects-on-github/finding-ways-to-contribute-to-open-source-on-github)
+- [Set up Git](https://docs.github.com/en/get-started/quickstart/set-up-git)
+- [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow)
+- [Collaborating with pull requests](https://docs.github.com/en/github/collaborating-with-pull-requests)
 
+### Good First Issues
 
-## License
+Help is always welcome and you can start by adding more inputs/outputs to the bot, or even trying to integrate it with APIs provided by third parties 😉
+
+## Built with 🧰
+
+- TypeScript
+- Express
+- Prisma
+- dayjs
+- PostgreSQL
+
+## Contributors 👥
+
+<a href = "https://github.com/Tanu-N-Prabhu/Python/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo = Ahavaz/tararau-bot"/>
+</a>
+
+### License 📄
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
-
-## Acknowledgments
-_(Under Construction)_
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
