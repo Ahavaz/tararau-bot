@@ -1,4 +1,37 @@
 datasource db {
+  url      = env("DATABASE_URL")
   provider = "postgresql"
-  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  userName     String   @db.VarChar(255)
+  userFullName String   @db.VarChar(255)
+  signName     String   @db.VarChar(255)
+  signSymbol   String   @db.VarChar(255)
+  birthdate    DateTime @db.Date
+  chats        Chat[]   @relation(fields: [chatId], references: [id])
+  chatId       Int
+}
+
+model Chat {
+  id     Int      @id @default(autoincrement())
+  users  User[]   @relation(fields: [userId], references: [id])
+  userId Int
+  Meetup Meetup[]
+}
+
+model Meetup {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  title     String
+  date      DateTime @db.Timestamp(6)
+  location  String   @db.VarChar(255)
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    Int
 }
