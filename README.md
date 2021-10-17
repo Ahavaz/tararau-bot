@@ -55,9 +55,11 @@ git push origin master
 
 ## Deployment 📦
 
+Create the environment variables `BASE_URL` and `DATABASE_URL` in your Heroku application.
+
 You can use the `Procfile` to deploy on your [Heroku](https://www.heroku.com/nodejs) application and in your Telegram Account to sync with it.
 
-Here's a [tutorial](https://medium.com/matheus-rossi/telegram-bot-com-nodejs-9e107153046b) to set a chatbot with Node.JS.
+Here's a [tutorial](https://medium.com/matheus-rossi/telegram-bot-com-nodejs-9e107153046b) to set a chatbot with NodeJS.
 
 ## New contributor guide ✨
 
