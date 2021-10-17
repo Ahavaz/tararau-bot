@@ -1,25 +1,99 @@
 {
+  "env": {
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
   "extends": [
     "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-import-helpers",
     "prettier"
   ],
   "rules": {
+    "camelcase": "off",
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          "module",
+          "/^@shared/",
+          [
+            "parent",
+            "sibling",
+            "index"
+          ]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.spec.js"
+        ]
+      }
+    ],
+    "import/no-unresolved": "error",
+    "import/prefer-default-export": "off",
     "linebreak-style": 0,
-    "no-param-reassign": 0,
-    "no-console": "off",
+    "lines-between-class-members": "off",
+    "no-console": "warn",
+    "no-empty-function": "off",
     "no-nested-ternary": "off",
+    "no-param-reassign": 0,
+    "no-shadow": "off",
     "no-use-before-define": 0,
+    "no-useless-constructor": "off",
     "prettier/prettier": [
       "error",
       {
-        "semi": false,
+        "semi": true,
         "singleQuote": true,
-        "trailingComma": "none",
-        "printWidth": "120"
+        "trailingComma": "all",
+        "tabWidth": 2
+      }
+    ],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": [
+          "PascalCase"
+        ]
       }
     ]
   },
-  "plugins": [
-    "prettier"
-  ]
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
 }

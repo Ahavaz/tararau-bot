@@ -1,27 +1,14 @@
-const outputMsgs = {
-  tararau: [
-    'Tararau',
-    'TARARAU'
-  ],
+export const outputMsgs = {
+  tararau: ['Tararau', 'TARARAU'],
   ayn: [
     'ayn',
     'AYN',
     'AyN',
     'AAAAAAYYYYYNNNNN',
     'aaaaaaaayyyyyyynnnnnnnn',
-    'aiayn'
+    'aiayn',
   ],
-  laugh: [
-    'ha',
-    'ah',
-    'kk',
-    'uhas',
-    'hue',
-    'ahu',
-    'hua',
-    'kdosap',
-    'hu3',
-  ],
+  laugh: ['ha', 'ah', 'kk', 'uhas', 'hue', 'ahu', 'hua', 'kdosap', 'hu3'],
   top: [
     'Top 👌',
     'TOP',
@@ -74,7 +61,7 @@ const outputMsgs = {
     'Tops',
     'Torops',
     'Tororop',
-    'aTOPico'
+    'aTOPico',
   ],
   amor: [
     'Deus me free',
@@ -83,7 +70,7 @@ const outputMsgs = {
     'God me livre!',
     'Nem fudendo',
     'Nem fodendo',
-    'Enfia no cu'
+    'Enfia no cu',
   ],
   greeting: [
     'E ae cutetu',
@@ -98,7 +85,7 @@ const outputMsgs = {
     'Fala, tararau',
     'Manda bala xuxu',
     'Oi nenê <3',
-    'Oi morê'
+    'Oi morê',
   ],
   farewell: [
     'Vlw flw',
@@ -135,17 +122,10 @@ const outputMsgs = {
     'Vemk e me conta bb',
     'Lá vem 🙄',
     'Vemk e fala no meu ouvidinho digital... 😏',
-    'Hablas comigo muchacho'
+    'Hablas comigo muchacho',
   ],
-  shit: [
-    'Caguei!',
-    'CAGUEI',
-    'K-gay',
-    '💩',
-    'F O D A - S E',
-    'To nem aí',
-  ],
-  goodMorning: userName => [
+  shit: ['Caguei!', 'CAGUEI', 'K-gay', '💩', 'F O D A - S E', 'To nem aí'],
+  goodMorning: (userName): string[] => [
     'Bom dia seus poha! 😠',
     'Bom dia é o caralho 🖕',
     'Bundinha seus troxa',
@@ -156,7 +136,7 @@ const outputMsgs = {
     `Bom dia ${userName} cuzudin`,
     `Bom dia ${userName}-tararau`,
     'Hello world seus pirocetudos!!!',
-    'Bom dia pra quem?'
+    'Bom dia pra quem?',
   ],
   goodNight: [
     'Boa noite cutetu',
@@ -166,7 +146,7 @@ const outputMsgs = {
     'Gudnait modafoca',
     'Sonhe com as lhamas',
     'Boa viagem astral',
-    'Beijinhos meu nenê'
+    'Beijinhos meu nenê',
   ],
   miou: [
     'É UM POHA',
@@ -180,23 +160,17 @@ const outputMsgs = {
     'AH PRONTO!',
     'OLHA AÍ A MADAME!',
     'Mas agora virou bagunça mesmo',
-    'É de foder o cu do palhaço'
+    'É de foder o cu do palhaço',
   ],
-  love: [
-    'Ayn 💜',
-    'Seu lindocas',
-    'Seu tararau lindo do robo'
-  ],
-  hate: [
-    '💔'
-  ],
+  love: ['Ayn 💜', 'Seu lindocas', 'Seu tararau lindo do robo'],
+  hate: ['💔'],
   enfia: [
     'Enfia no teu!',
     'Me obrigue!',
     'Por favor, insira no seu boga!',
-    'INVALID FUNCTION: Executing EXCEPTION_FUNCTION( EnfiaNoTeuCu())'
+    'INVALID FUNCTION: Executing EXCEPTION_FUNCTION( EnfiaNoTeuCu())',
   ],
-  foda: userName => [
+  foda: (userName): string[] => [
     'Não tá fácil pra ninguém',
     'Eu acredito em você e acredito em um mundo mais TARARAU!',
     'SEEEGUUUUUUUUUUUUURA PEÃO!',
@@ -205,10 +179,6 @@ const outputMsgs = {
     'Respira e vai!',
     'Fica sussa, relaxa o esfíncter que dá tudo certo 👌',
     `Lembre-se ${userName}, você já nasceu um espermatozóide vencedor na corrida pela vida`,
-    `Nunca esqueça do seu jeito ninja ${userName}`
-  ]
-}
-
-module.exports = {
-  outputMsgs
-}
+    `Nunca esqueça do seu jeito ninja ${userName}`,
+  ],
+};
