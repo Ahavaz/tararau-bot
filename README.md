@@ -10,10 +10,12 @@ You'll need the following applications in your machine in order to run TararauBo
 
 - NodeJS
 - Yarn
+- Docker
 
 You will also need a *telegram chatbot api key* that you can get with [BotFather](https://telegram.me/BotFather)
 
-Once you've cloned the project, rename the `.env-example` file to `.env` and fill it with the *telegram chatbot api key*, the *base url* where you'll deploy the code and the *database url*. That done, you can run the following command to download the dependencies and start the development server:
+Once you've cloned the project, rename the `.env-example` file to `.env` and fill it with the *telegram chatbot api key*. With that done, you can run the following command to download the dependencies and start the development server:
+
 ```
 yarn && yarn dev
 ```
