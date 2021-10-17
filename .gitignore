@@ -2,6 +2,8 @@ node_modules
 npm-debug.log
 .DS_Store
 .vscode
-*.env
+.env*
+!.env-example
 .travis.yml
-yarn.lock
+dist
+TODO
