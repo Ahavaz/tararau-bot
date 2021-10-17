@@ -1,19 +1,21 @@
-FROM node:10.4.0-slim
+FROM node:lts-slim
 
-ENV ENV=${ENV}
-ENV PORT=${PORT}
-ENV MONGO_URL=${MONGO_URL}
+# ENV ENV=${ENV}
+# ENV PORT=${PORT}
+# ENV DB_URL=${DB_URL}
 
-WORKDIR /usr/src/tararau_api
+# RUN apt-get update && apt-get install --no-install-recommends --yes openssl
 
-COPY package.json ./
+WORKDIR /usr/app
 
-RUN npm install --production
+COPY package.json yarn.lock ./
+
+RUN yarn
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3000
 
 RUN echo "ayn"
 
-CMD [ "npm", "start" ] 
+CMD [ "yarn", "dev" ]
