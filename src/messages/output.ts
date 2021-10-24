@@ -7,8 +7,9 @@ export const outputMsgs = {
     'AAAAAAYYYYYNNNNN',
     'aaaaaaaayyyyyyynnnnnnnn',
     'aiayn',
+    'aynhaaaaaa'
   ],
-  laugh: ['ha', 'ah', 'kk', 'uhas', 'hue', 'ahu', 'hua', 'kdosap', 'hu3'],
+  laugh: ['ha', 'ah', 'kk', 'uhas', 'hue', 'ahu', 'hua', 'kdosap', 'hu3', 'kakaka'],
   top: [
     'Top 👌',
     'TOP',
@@ -62,6 +63,7 @@ export const outputMsgs = {
     'Torops',
     'Tororop',
     'aTOPico',
+    'Topenta',
   ],
   amor: [
     'Deus me free',
@@ -86,6 +88,7 @@ export const outputMsgs = {
     'Manda bala xuxu',
     'Oi nenê <3',
     'Oi morê',
+    'Fala minha vida',
   ],
   farewell: [
     'Vlw flw',
@@ -105,6 +108,7 @@ export const outputMsgs = {
     'Falucas',
     'до свидания',
     'Falous',
+    'Ĝis Revido',
   ],
   swearings: [
     'Lava essa boca, tararau',
@@ -115,6 +119,7 @@ export const outputMsgs = {
     '👆👉👌',
     'ENFIA NO OLHO DO CU E RODA!!',
     'Bota uma dentadura no cu e sorri pro caralho',
+    'De boca fechada és poeta.',
   ],
   ow: [
     'Diga..',
@@ -123,6 +128,7 @@ export const outputMsgs = {
     'Lá vem 🙄',
     'Vemk e fala no meu ouvidinho digital... 😏',
     'Hablas comigo muchacho',
+    'Fala que eu te escuto',
   ],
   shit: ['Caguei!', 'CAGUEI', 'K-gay', '💩', 'F O D A - S E', 'To nem aí'],
   goodMorning: (userName): string[] => [
@@ -137,6 +143,7 @@ export const outputMsgs = {
     `Bom dia ${userName}-tararau`,
     'Hello world seus pirocetudos!!!',
     'Bom dia pra quem?',
+    'Acorda porque aqui só tem máquina de vencer!',
   ],
   goodNight: [
     'Boa noite cutetu',
@@ -147,6 +154,7 @@ export const outputMsgs = {
     'Sonhe com as lhamas',
     'Boa viagem astral',
     'Beijinhos meu nenê',
+    'Dá um abraço no Morpheu por mim.',
   ],
   miou: [
     'É UM POHA',
