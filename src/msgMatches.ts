@@ -5,7 +5,12 @@ import { randomMsg, getRandomInt, buildMsg } from './utils';
 
 const { bot } = global;
 
-export const msgMatches = (chatId, msgId, userMsg, userName) => {
+export const msgMatches = (
+  chatId: string | number,
+  msgId: string | number,
+  userMsg: string,
+  userName: string,
+): void => {
   const swearingsMatches = inputMsgs.swearings.filter((message) =>
     userMsg.includes(message),
   );
