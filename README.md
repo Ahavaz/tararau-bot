@@ -79,7 +79,6 @@ Help is always welcome and you can start by adding more inputs/outputs to the bo
 - TypeScript
 - Express
 - Prisma
-- dayjs
 - PostgreSQL
 
 ## Contributors 👥
