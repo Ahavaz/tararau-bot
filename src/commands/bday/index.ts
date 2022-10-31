@@ -7,7 +7,13 @@ import { isValidDate } from '../../utils/date';
 
 const { bot, answerCallbacks } = global;
 
-const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
+const tryAgain = (
+  callbackId: string | number,
+  chatId: string | number,
+  userId: string | number,
+  userFullName: string,
+  userName: string,
+): void => {
   answerCallbacks[callbackId] = async (answerConfirmation) => {
     const answerConfirmationId = answerConfirmation.message_id;
     const answerConfirmationMsg = answerConfirmation.text
@@ -45,13 +51,13 @@ const tryAgain = (callbackId, chatId, userId, userFullName, userName) => {
 };
 
 const confirmedBirthdate = (
-  callbackId,
-  chatId,
-  userId,
-  userFullName,
-  userName,
-  date,
-) => {
+  callbackId: string | number,
+  chatId: string | number,
+  userId: string | number,
+  userFullName: string,
+  userName: string,
+  date: dayjs.Dayjs,
+): void => {
   answerCallbacks[callbackId] = async (answerConfirmation) => {
     const answerConfirmationId = answerConfirmation.message_id;
     const answerConfirmationMsg = answerConfirmation.text
@@ -111,12 +117,12 @@ const confirmedBirthdate = (
 };
 
 const receivedBirthdate = (
-  callbackId,
-  chatId,
-  userId,
-  userFullName,
-  userName,
-) => {
+  callbackId: string | number,
+  chatId: string | number,
+  userId: string | number,
+  userFullName: string,
+  userName: string,
+): void => {
   answerCallbacks[callbackId] = async (answerBirthdate) => {
     const answerBirthdateId = answerBirthdate.message_id;
 
@@ -153,13 +159,13 @@ Gostaria de tentar novamente?`,
 };
 
 export const getBirthdate = async (
-  callbackId,
-  chatId,
-  userId,
-  msgId,
-  userFullName,
-  userName,
-) => {
+  callbackId: string | number,
+  chatId: string | number,
+  userId: string | number,
+  msgId: string | number,
+  userFullName: string,
+  userName: string,
+): Promise<void> => {
   await bot.sendMessage(
     chatId,
     `Por gentileza, insira sua data (DD/MM/AAAA) de nascimento 🙂`,
