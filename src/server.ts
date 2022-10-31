@@ -19,7 +19,6 @@ app.use('/roles', meetupsRoutes);
 
 consign({ cwd: 'src', extensions: ['.ts'] })
   // .then('./routes')
-  // .then('./config/routers.ts')
   .then('./cronJob.ts')
   .into(app);
 
