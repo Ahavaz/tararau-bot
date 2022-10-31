@@ -18,7 +18,6 @@ app.use('/roles', meetupsRoutes);
 // app.use('/tararaus', usersRoutes);
 
 consign({ cwd: 'src', extensions: ['.ts'] })
-  // .include('./config/middlewares.ts')
   // .then('./routes')
   // .then('./config/routers.ts')
   .then('./cronJob.ts')
