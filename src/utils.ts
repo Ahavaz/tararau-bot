@@ -1,21 +1,22 @@
-import axios from './config/axios';
+// import axios from './config/axios';
 import dayjs from './config/dayjs';
 import { outputMsgs } from './messages/output';
 import { Meetup } from './models/Meetup';
+import { User } from './models/User';
 import { notification } from './msgOptions';
 import { capitalize } from './utils/text';
 
 const { bot } = global;
 
 // Random generators
-export const getRandomInt = (min = 2, max = 6) =>
+export const getRandomInt = (min = 2, max = 6): number =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-export const randomMsg = (array) =>
+export const randomMsg = (array: string[]): string =>
   array[Math.floor(Math.random() * array.length)];
 
 // Message builder
-export const buildMsg = (array) => {
+export const buildMsg = (array: string[]): string => {
   const msg = randomMsg(array);
   if (array === outputMsgs.tararau)
     return (
@@ -32,7 +33,7 @@ export const buildMsg = (array) => {
 };
 
 // Meetup functions
-const filterMeetups = (chatId: number, meetups: Meetup[]) => {
+const filterMeetups = (chatId: string | number, meetups: Meetup[]) => {
   const filteredMeetups = meetups.reduce((array, meetup) => {
     const daysLeft = dayjs(meetup.date).diff(dayjs(), 's');
 
@@ -55,7 +56,10 @@ const filterMeetups = (chatId: number, meetups: Meetup[]) => {
   return sortedMeetups;
 };
 
-export const listMeetups = (chatId: number, meetups: Meetup[]): string => {
+export const listMeetups = (
+  chatId: string | number,
+  meetups: Meetup[],
+): string => {
   const filteredMeetups = filterMeetups(chatId, meetups);
 
   const formatedMeetups = filteredMeetups.map(
@@ -82,13 +86,13 @@ const seasons = (isPlural = true) =>
     : ['primavera', 'verão', 'outono', 'inverno'];
 
 // Birthday functions
-const nextBirthday = (birthdate) => {
+const nextBirthday = (birthdate: dayjs.Dayjs) => {
   const date = birthdate.clone().year(dayjs().year());
   if (date.diff(dayjs(), 'days', true) < 0) date.add(1, 'years');
   return date;
 };
 
-const calcBirthday = (tararaus) =>
+const calcBirthday = (tararaus: (User & { birthdate: dayjs.Dayjs })[]) =>
   tararaus
     .map((tararau) => {
       const birthday = nextBirthday(tararau.birthdate);
@@ -96,9 +100,14 @@ const calcBirthday = (tararaus) =>
       const age = dayjs().diff(tararau.birthdate, 'years') + 1;
       return { ...tararau, birthday, daysLeft, age };
     })
-    .sort((a, b) => a.birthday - b.birthday);
+    .sort(
+      (a, b) =>
+        (a.birthday as unknown as number) - (b.birthday as unknown as number),
+    );
 
-export const listBirthdays = (tararaus) =>
+export const listBirthdays = (
+  tararaus: (User & { birthdate: dayjs.Dayjs })[],
+): string[] =>
   calcBirthday(tararaus).map(
     (tararau) => `
 ${tararau.signSymbol} ${tararau.userName} vai completar ${tararau.age} ${
@@ -111,7 +120,7 @@ _${
 `,
   );
 
-export const congratulate = (tararau) => {
+export const congratulate = (tararau: User): void => {
   const age = dayjs().diff(tararau.birthdate, 'years');
   bot.sendMessage(
     tararau.chatId,

@@ -4,6 +4,6 @@ export type User = {
   userFullName: string;
   signName: string;
   signSymbol: string;
-  birthdate: string;
+  birthdate: Date;
   chatId: number;
 };
